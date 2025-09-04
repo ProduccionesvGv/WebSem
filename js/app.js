@@ -88,34 +88,6 @@ const DATA = [
       notas: 'Muy resinosa, perfecta para extracciones.'
     }
   },
-  {
-    id: 'blueberry-auto',
-    title: 'Blueberry Auto',
-    subtitle: 'Autofloreciente · Índica',
-    price_ars: 15499,
-    badge: 'SALE',
-    image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
-        <defs>
-          <linearGradient id="g4" x1="0" x2="1">
-            <stop offset="0" stop-color="#1f1147"/>
-            <stop offset="1" stop-color="#0a0717"/>
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#g4)"/>
-        <text x="50%" y="48%" fill="#cbd5ff" font-family="Inter, Arial" font-size="48" text-anchor="middle">Blueberry</text>
-        <text x="50%" y="56%" fill="#93c5fd" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">AUTO</text>
-      </svg>
-    `),
-    specs: {
-      banco: 'Demo Seeds',
-      genetica: 'Blueberry Auto',
-      floracion: '9 semanas',
-      thc: '18-20%',
-      rendimiento: 'Medio',
-      sabor: 'Frutos del bosque, dulce',
-      notas: 'Coloraciones moradas en climas fríos.'
-    }
   }
 ];
 

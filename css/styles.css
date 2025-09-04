@@ -34,12 +34,14 @@ body{
 }
 
 .site-header{
+  position: static;
+
   padding: clamp(28px, 5vw, 56px) 0 8px;
   border-bottom: 1px solid #1a1a22;
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
   
   
-  backdrop-filter: blur(6px);
+  
   z-index: 20;
 }
 
@@ -144,7 +146,7 @@ body{
   padding: 4px 8px;
   font-size: 12px;
   border-radius: 999px;
-  backdrop-filter: blur(6px);
+  
 }
 
 .card-body{
