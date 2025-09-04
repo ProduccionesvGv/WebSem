@@ -35,7 +35,6 @@ body{
 
 .site-header{
   position: static;
-
   padding: clamp(28px, 5vw, 56px) 0 8px;
   border-bottom: 1px solid #1a1a22;
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
@@ -98,7 +97,7 @@ body{
 .carousel{
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: clamp(230px, 32vw, 280px);
+  S0px, 28vw, 240px);
   gap: 16px;
   padding: 12px 4%;
   overflow-x: auto;
@@ -238,8 +237,7 @@ body{
     -webkit-overflow-scrolling: touch;
   }
 
-  .carousel-item {
-    min-width: 80%;
+  p%;
     margin: 0 10px;
     scroll-snap-align: center;
   }
