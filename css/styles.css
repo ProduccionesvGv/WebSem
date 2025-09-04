@@ -37,8 +37,8 @@ body{
   padding: clamp(28px, 5vw, 56px) 0 8px;
   border-bottom: 1px solid #1a1a22;
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
-  position: sticky;
-  top: 0;
+  
+  
   backdrop-filter: blur(6px);
   z-index: 20;
 }
