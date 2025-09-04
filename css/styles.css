@@ -97,7 +97,7 @@ body{
 .carousel{
   display: grid;
   grid-auto-flow: column;
-  S0px, 28vw, 240px);
+  grid-auto-columns: clamp(230px, 32vw, 280px);
   gap: 16px;
   padding: 12px 4%;
   overflow-x: auto;
@@ -237,7 +237,8 @@ body{
     -webkit-overflow-scrolling: touch;
   }
 
-  p%;
+  .carousel-item {
+    min-width: 80%;
     margin: 0 10px;
     scroll-snap-align: center;
   }
