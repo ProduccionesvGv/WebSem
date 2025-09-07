@@ -385,3 +385,46 @@ body{ overflow-x: hidden; }
 @media (min-width: 769px){
   .inase-logo picture, .inase-logo img{ width: 420px; max-width: 100%; }
 }
+
+
+/* Efecto para el título 'Genética para exterior' */
+.section-title.exterior{
+  display: inline-block;
+  font-weight: 800;
+  background: linear-gradient(90deg, rgba(140,255,122,1), rgba(135,183,255,1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 12px rgba(140,255,122,.18);
+  position: relative;
+  letter-spacing: .2px;
+}
+.section-title.exterior::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -6px;
+  width: 62%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(140,255,122,.9), rgba(135,183,255,.9));
+  box-shadow: 0 0 12px rgba(140,255,122,.35);
+}
+
+
+/* Mobile: 2.5 cards */
+@media (max-width: 768px){
+  .carousel{
+    --gap: 4vw;
+    gap: var(--gap);
+    grid-auto-columns: calc((100vw - var(--gap)) / 2.5);
+    padding: 12px 3vw;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .card-body{ padding: 10px 10px; }
+  .title{ font-size: 14px; }
+  .subtitle{ font-size: 12px; }
+  .price{ font-size: 16px; }
+}
