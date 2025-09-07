@@ -7,7 +7,7 @@ let DATA = [
     price_ars: 18999,
     badge: 'TOP',
     // Imagen de relleno con SVG embebido (puedes reemplazar por tu propia ruta/URL)
-    image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+    image: 'https://ibb.co/svJvGv3R' + encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
         <defs>
           <linearGradient id="g" x1="0" x2="1">
@@ -143,10 +143,22 @@ function renderCards(){
     imgWrap.className = 'card-img-wrap';
     imgWrap.dataset.id = item.id;
     imgWrap.addEventListener('click', () => showSpecs(item.id));
-    imgWrap.innerHTML = `
-      <span class="badge">${item.badge}</span>
-      <img src="${item.image}" alt="${item.title}" loading="lazy" />
-    `;
+    
+imgWrap.innerHTML = `<span class="badge">${item.badge}</span>`;
+
+// Si es Gorilla, usar imagen local como background cover
+if(item.id === 'gorilla-glue-auto'){
+  imgWrap.style.backgroundImage = "url('img/gorilla.jpg')";
+  imgWrap.style.backgroundSize = "cover";
+  imgWrap.style.backgroundPosition = "center";
+} else {
+  const imgTag = document.createElement('img');
+  imgTag.src = item.image;
+  imgTag.alt = item.title;
+  imgTag.loading = 'lazy';
+  imgWrap.appendChild(imgTag);
+}
+
 
     const body = document.createElement('div');
     body.className = 'card-body';
