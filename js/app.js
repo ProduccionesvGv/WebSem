@@ -2,8 +2,8 @@
 let DATA = [
   {
     id: 'gorilla-glue-auto',
-    title: 'Gorilla Glue Auto',
-    subtitle: 'Autofloreciente · Índica dominante',
+    title: 'Phantom Ice',
+    subtitle: 'Feminizada · Hibrida',
     price_ars: 18999,
     badge: 'TOP',
     // Imagen de relleno con SVG embebido (puedes reemplazar por tu propia ruta/URL)
@@ -21,18 +21,18 @@ let DATA = [
       </svg>
     `),
     specs: {
-      banco: 'Demo Seeds',
-      genetica: 'Gorilla Glue x Ruderalis',
-      floracion: '9-10 semanas',
-      thc: '22-25%',
+      banco: 'Mamua Seeds',
+      genetica: 'Phantom Cookies x Jamaican Ice',
+      floracion: '8-10 semanas',
+      thc: '17-20%',
       rendimiento: 'Alto',
-      sabor: 'Terroso, pino, cítrico',
+      sabor: 'Dulce, Incienso, Herbal',
       notas: 'Planta robusta, ideal para principiantes.'
     }
   },
   {
     id: 'lemon-haze-fem',
-    title: 'Lemon Haze Fem',
+    title: 'La Messias ',
     subtitle: 'Feminizada · Sativa',
     price_ars: 20999,
     badge: 'NUEVA',
@@ -50,18 +50,18 @@ let DATA = [
       </svg>
     `),
     specs: {
-      banco: 'Demo Seeds',
-      genetica: 'Lemon Skunk x Haze',
-      floracion: '10-12 semanas',
-      thc: '20-23%',
+      banco: 'Canndi',
+      genetica: 'Red Skunk x Gran Daddy',
+      floracion: '8-10 semanas',
+      thc: '15-18%',
       rendimiento: 'Medio-Alto',
-      sabor: 'Limón, dulce, especias',
+      sabor: 'Dulce, Frutal, Citrico',
       notas: 'Aroma cítrico muy marcado. Efecto energizante.'
     }
   },
   {
     id: 'cookies-kush',
-    title: 'Cookies Kush',
+    title: 'Craig',
     subtitle: 'Feminizada · Índica',
     price_ars: 19999,
     badge: 'HOT',
@@ -79,13 +79,13 @@ let DATA = [
       </svg>
     `),
     specs: {
-      banco: 'Demo Seeds',
-      genetica: 'Girl Scout Cookies x OG Kush',
-      floracion: '8-9 semanas',
-      thc: '19-22%',
+      banco: 'Yeruti Seeds',
+      genetica: 'Destroyer X Skunk ',
+      floracion: '10-12 semanas',
+      thc: '18-20%',
       rendimiento: 'Alto',
-      sabor: 'Dulce, tierra húmeda, vainilla',
-      notas: 'Muy resinosa, perfecta para extracciones.'
+      sabor: 'Dulce, Manzana, Vainilla',
+      notas: 'Resinosa, efecto cerebral energizante, creativo .'
     }
   },
   {
