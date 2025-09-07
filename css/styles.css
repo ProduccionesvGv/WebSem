@@ -170,7 +170,7 @@ body{
 
 /* === Especificaciones === */
 .specs-section{
-  padding: 28px 0 64px;
+  padding: 20px 0 24px;
   border-top: 1px solid #1a1a22;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
 }
@@ -199,7 +199,7 @@ body{
 }
 
 /* === Footer === */
-.site-footer{ padding: 30px 0 60px; color: var(--muted); }
+.site-footer{ padding: 20px 0 28px; color: var(--muted); }
 
 /* ==========================
    ESTILOS RESPONSIVE
@@ -362,3 +362,20 @@ body{
 
 /* Espacio entre la tarjeta de especificaciones y la galería */
 .specs-card + .specs-gallery{ margin-top: 8px; }
+
+
+/* === Logo INASE entre títulos === */
+.inase-logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 0 2px;
+}
+.inase-logo img{
+  width: clamp(160px, 40vw, 420px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,.35));
+}
+
+body{ overflow-x: hidden; }
