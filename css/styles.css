@@ -371,11 +371,17 @@ body{
   align-items: center;
   padding: 6px 0 2px;
 }
-.inase-logo img{
-  width: clamp(160px, 40vw, 420px);
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 3px 10px rgba(0,0,0,.35));
-}
+.inase-logo img{ height:auto; display:block; filter: drop-shadow(0 3px 10px rgba(0,0,0,.35)); }
 
 body{ overflow-x: hidden; }
+
+/* Tamaños responsivos para que se vea perfecto sin ser gigante en móvil */
+@media (max-width: 480px){
+  .inase-logo picture, .inase-logo img{ width: min(52vw, 220px); }
+}
+@media (min-width: 481px) and (max-width: 768px){
+  .inase-logo picture, .inase-logo img{ width: min(34vw, 320px); }
+}
+@media (min-width: 769px){
+  .inase-logo picture, .inase-logo img{ width: 420px; max-width: 100%; }
+}
