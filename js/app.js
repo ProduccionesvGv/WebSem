@@ -204,6 +204,13 @@ function showSpecs(id){
 
   // Scroll suave hasta la sección de especificaciones
   document.getElementById('specs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Update footer title with selected item
+  const footerDynamic = document.getElementById('footerDynamic');
+  if(footerDynamic){
+    footerDynamic.innerHTML = `<h3 style="color: var(--accent); margin:0;">${item.title}</h3>`;
+  }
+
 }
 
 // Navegación con botones
