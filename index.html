@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,39 +19,47 @@
 
   <main>
     <section class="carousel-section">
-      <div class="container row-between">
+      <div class="container">
         <h2 class="section-title">Nuestras Genéticas</h2>
         <div class="controls">
-          <button class="ctrl" id="prevBtn" aria-label="Anterior">‹</button>
-          <button class="ctrl" id="nextBtn" aria-label="Siguiente">›</button>
+          <button id="prevBtn" class="ctrl" aria-label="Anterior">‹</button>
+          <button id="nextBtn" class="ctrl" aria-label="Siguiente">›</button>
         </div>
       </div>
-
       <div class="carousel-wrapper">
-        <div class="carousel" id="carousel" aria-label="Listado de productos" tabindex="0">
-          <!-- Las tarjetas se inyectan desde JS usando la lista DATA -->
+        <div id="carousel" class="carousel" tabindex="0" aria-label="Carrusel de variedades">
+          <!-- Tarjetas generadas por JS -->
         </div>
       </div>
-      <p class="hint container">Desliza con el dedo o con la rueda del mouse, o usa los botones.</p>
+      <div class="container">
+        <p class="hint">Desliza con el dedo o con la rueda del mouse, o usa los botones.</p>
+      </div>
     </section>
 
-    <section class="specs-section" id="specs">
+    
+    <section id="specs" class="specs-section">
       <div class="container">
         <h3 class="specs-title">Especificaciones</h3>
-        <div class="specs-card" id="specsCard">
-          <p class="muted">Haz clic en una imagen del carrusel para ver las especificaciones aquí abajo.</p>
-        </div>
+        <h4 id="specName" class="specs-name">Selecciona una genética</h4>
       </div>
+
+      <div class="container">
+        <article id="specsCard" class="specs-card">
+          <small class="muted">Toca una tarjeta del carrusel para ver sus detalles.</small>
+        </article>
+      </div>
+
+      <!-- Galería vertical borde a borde (debajo del nombre verde) -->
+      <div id="specsGallery" class="specs-gallery edge-to-edge"></div>
     </section>
+
   </main>
 
-  
   <footer class="site-footer">
     <div class="container" id="footerDynamic">
       <small class="muted">Selecciona una genética para ver su título aquí.</small>
     </div>
   </footer>
-
 
   <script src="js/app.js"></script>
   <script src="js/script.js"></script>
