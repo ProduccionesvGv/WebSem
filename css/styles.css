@@ -287,3 +287,15 @@ body{
     margin: 0 10px;
   }
 }
+
+/* === Mobile optimizations (injected) === */
+@media (max-width: 768px){
+  .carousel{ grid-auto-columns: 80%; }
+  .card-body{ padding: 8px 10px; }
+  .title{ font-size: 14px; }
+  .subtitle{ font-size: 12px; }
+  .price{ font-size: 16px; }
+  .ctrl{ height: 44px; width: 44px; font-size: 22px; }
+  .site-footer{ padding: 20px 0 30px; font-size: 12px; text-align: center; }
+}
+
