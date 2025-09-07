@@ -5,7 +5,7 @@ let DATA = [
     title: 'Phantom Ice',
     subtitle: 'Feminizada · Hibrida',
     price_ars: 18999,
-    badge: 'TOP',
+    badge: 'x4',
     // Imagen de relleno con SVG embebido (puedes reemplazar por tu propia ruta/URL)
     image: 'https://ibb.co/svJvGv3R' + encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
@@ -36,7 +36,7 @@ let DATA = [
     title: 'La Messias ',
     subtitle: 'Feminizada · Sativa',
     price_ars: 20999,
-    badge: 'NUEVA',
+    badge: 'x5',
     image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
         <defs>
@@ -65,7 +65,7 @@ let DATA = [
     title: 'Craig',
     subtitle: 'Feminizada · Índica',
     price_ars: 19999,
-    badge: 'HOT',
+    badge: 'x4',
     image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
         <defs>
