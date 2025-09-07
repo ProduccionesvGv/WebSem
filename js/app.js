@@ -1,7 +1,61 @@
+// Auto-generated PRODUCTS config for easier extensibility
+// PRODUCTS moved to products.js
+
+
+// Auto-generated PRODUCTS config for easier extensibility
+
+
+// === Minimal Gallery Bootstrap (id-agnostic) ===
+function renderGalleryFromConfig(containerSelector, products) {
+  const container = document.querySelector(containerSelector);
+  if (!container || !products || !products.length) return;
+  container.innerHTML = products.map(p => `
+    <section class="product" data-id="${p.id}">
+      <h3 class="product-title">${p.title}</h3>
+      <div class="product-images">
+        ${ (p.images||[]).map(src => `<img src="${src}" alt="${p.title}" loading="lazy">`).join('') }
+      </div>
+    </section>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('#gallery')) {
+    renderGalleryFromConfig('#gallery', PRODUCTS);
+  }
+});
+
+
+
+
+
+
+// === Minimal Gallery Bootstrap (id-agnostic) ===
+function renderGalleryFromConfig(containerSelector, products) {
+  const container = document.querySelector(containerSelector);
+  if (!container || !products || !products.length) return;
+  container.innerHTML = products.map(p => `
+    <section class="product" data-id="${p.id}">
+      <h3 class="product-title">${p.title}</h3>
+      <div class="product-images">
+        ${ (p.images||[]).map(src => `<img src="${src}" alt="${p.title}" loading="lazy">`).join('') }
+      </div>
+    </section>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Try to auto-render into a common container if present
+  if (document.querySelector('#gallery')) {
+    renderGalleryFromConfig('#gallery', PRODUCTS);
+  }
+});
+
+
 // Datos de ejemplo. Reemplaza con tus variedades reales.
 let DATA = [
   {
-    id: 'gorilla-glue-auto',
+    id: 'phantom-ice',
     title: 'Phantom Ice',
     subtitle: 'Feminizada · Hibrida',
     price_ars: 18999,
@@ -31,7 +85,7 @@ let DATA = [
     }
   },
   {
-    id: 'lemon-haze-fem',
+    id: 'la-messias',
     title: 'La Messias ',
     subtitle: 'Feminizada · Sativa',
     price_ars: 20999,
@@ -45,7 +99,7 @@ let DATA = [
           </linearGradient>
         </defs>
         <rect width="100%" height="100%" fill="url(#g2)"/>
-        <text x="50%" y="48%" fill="#b7e4c7" font-family="Inter, Arial" font-size="48" text-anchor="middle">Lemon Haze</text>
+        <text x="50%" y="48%" fill="#b7e4c7" font-family="Inter, Arial" font-size="48" text-anchor="middle">La Messias</text>
         <text x="50%" y="56%" fill="#ffd166" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">FEM</text>
       </svg>
     `),
@@ -131,13 +185,13 @@ function ensureGallery(item){
   // Fallback por ID
   let base = null;
   if(item && item.id){
-    if(item.id === 'gorilla-glue-auto') base = 'img/gorilla.jpg';
-    else if(item.id === 'lemon-haze-fem') base = 'img/lemon.jpg';
+    if(item.id === 'phantom-ice') base = 'img/phantom-ice-phantom.jpg';
+    else if(item.id === 'la-messias') base = 'img/lemon.jpg';
     else if(item.id === 'cookies-kush') base = 'img/cookies.jpg';
   }
   if(!base){
     // Como último recurso, si hay un string en item.image, úsalo
-    base = (item && item.image) ? item.image : 'img/gorilla.jpg';
+    base = (item && item.image) ? item.image : 'img/phantom-ice-phantom.jpg';
   }
   return [base, base, base];
 }
@@ -179,11 +233,11 @@ function renderCards(){
 imgWrap.innerHTML = `<span class="badge">${item.badge}</span>`;
 
 // Si es Gorilla, usar imagen local como background cover
-if(item.id === 'gorilla-glue-auto'){
-  imgWrap.style.backgroundImage = "url('img/gorilla.jpg')";
+if(item.id === 'phantom-ice'){
+  imgWrap.style.backgroundImage = "url('img/phantom-ice-phantom.jpg')";
   imgWrap.style.backgroundSize = "cover";
   imgWrap.style.backgroundPosition = "center";
-} else if(item.id === 'lemon-haze-fem'){
+} else if(item.id === 'la-messias'){
   imgWrap.style.backgroundImage = "url('img/lemon.jpg')";
   imgWrap.style.backgroundSize = "cover";
   imgWrap.style.backgroundPosition = "center";
