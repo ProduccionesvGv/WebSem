@@ -155,6 +155,10 @@ if(item.id === 'gorilla-glue-auto'){
   imgWrap.style.backgroundImage = "url('img/lemon.jpg')";
   imgWrap.style.backgroundSize = "cover";
   imgWrap.style.backgroundPosition = "center";
+} else if(item.id === 'cookies-kush'){
+  imgWrap.style.backgroundImage = "url('img/cookies.jpg')";
+  imgWrap.style.backgroundSize = "cover";
+  imgWrap.style.backgroundPosition = "center";
 } else {
   const imgTag = document.createElement('img');
   imgTag.src = item.image;
