@@ -123,6 +123,16 @@ const $carousel = document.getElementById('carousel');
 const $prev = document.getElementById('prevBtn');
 const $next = document.getElementById('nextBtn');
 const $specsCard = document.getElementById('specsCard');
+// Helper para setear mensaje predefinido en WhatsApp
+function setWhatsAppMessage(text){
+  const wa = document.querySelector('.whatsapp-float');
+  if(wa){
+    const url = 'https://wa.me/56998118816?text=' + encodeURIComponent(text);
+    wa.setAttribute('href', url);
+  }
+}
+// Mensaje por defecto al cargar
+setWhatsAppMessage('Hola, vengo de la web. Quiero más información.');
 
 function moneyARS(n){
   try{
@@ -208,7 +218,9 @@ function showSpecs(id){
 
   // Scroll suave hasta la sección de especificaciones
   document.getElementById('specs').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+  // Actualiza el mensaje de WhatsApp con la variedad + subtítulo + precio
+  const msg = `Hola, vengo de la web. Me interesa "${item.title}" (${item.subtitle}) con precio ${moneyARS(item.price_ars)}. ¿Disponibilidad?`;
+  setWhatsAppMessage(msg);
   // Update footer title with selected item
   const footerDynamic = document.getElementById('footerDynamic');
   if(footerDynamic){
