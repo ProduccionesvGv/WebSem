@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,40 +11,39 @@
 <body>
   <header class="site-header">
     <div class="container">
-      <h1 class="site-title">Semillas De Coleccion</h1>
-      <p class="site-subtitle">Catálogo simple con carrusel, títulos, subtítulos y precio</p>
+      <h1 class="site-title">Semillas de Coleccion</h1>
+<p class="site-subtitle">Semillas Registradas - Instituto Nacional de Semillas (INASE)</p>
     </div>
   </header>
 
   <main>
     <section class="carousel-section">
-      <div class="container">
+      <div class="container row-between">
         <h2 class="section-title">Genéticas Para Exterior</h2>
         <div class="controls">
-          <button id="prevBtn" class="ctrl" aria-label="Anterior">‹</button>
-          <button id="nextBtn" class="ctrl" aria-label="Siguiente">›</button>
+          <button class="ctrl" id="prevBtn" aria-label="Anterior">‹</button>
+          <button class="ctrl" id="nextBtn" aria-label="Siguiente">›</button>
         </div>
       </div>
+
       <div class="carousel-wrapper">
-        <div id="carousel" class="carousel" tabindex="0" aria-label="Carrusel de variedades">
-          <!-- Tarjetas generadas por JS -->
+        <div class="carousel" id="carousel" aria-label="Listado de productos" tabindex="0">
+          <!-- Las tarjetas se inyectan desde JS usando la lista DATA -->
         </div>
       </div>
-      <div class="container">
-        <p class="hint">Las semillas se encuentran en Blister Cerrados.</p>
-      </div>
+      <p class="hint container">Las Semillas se encuentran en Blister Cerrados.</p>
     </section>
 
     
-    <section id="specs" class="specs-section">
+    <section class="specs-section" id="specs">
       <div class="container">
         <h3 class="specs-title">Especificaciones</h3>
         <h4 id="specName" class="specs-name">Selecciona una genética</h4>
       </div>
 
       <div class="container">
-        <article id="specsCard" class="specs-card">
-          <small class="muted">Toca Cualquier Genetica para ver sus detalles.</small>
+        <article class="specs-card" id="specsCard">
+          <p class="muted">Selecciona cualquier genética para ver las especificaciones aquí abajo.</p>
         </article>
       </div>
 
@@ -55,11 +53,13 @@
 
   </main>
 
+  
   <footer class="site-footer">
     <div class="container" id="footerDynamic">
-      <small class="muted">Selecciona una genética para ver su título aquí.</small>
+      <small class="muted">Selecciona una genética para ver sus detalles Aqui.</small>
     </div>
   </footer>
+
 
   <script src="js/app.js"></script>
   <script src="js/script.js"></script>

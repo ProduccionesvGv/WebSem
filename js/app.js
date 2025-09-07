@@ -20,7 +20,6 @@ let DATA = [
         <text x="50%" y="56%" fill="#6ee7b7" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">AUTO</text>
       </svg>
     `),
-    gallery: ['img/gorilla-1.jpg','img/gorilla-2.jpg','img/gorilla-3.jpg'],
     specs: {
       banco: 'Mamua Seeds',
       genetica: 'Phantom Cookies x Jamaican Ice',
@@ -124,16 +123,25 @@ const $carousel = document.getElementById('carousel');
 const $prev = document.getElementById('prevBtn');
 const $next = document.getElementById('nextBtn');
 
-// Garantiza 3 imágenes por variedad
+// Devuelve 3 URLs de imagen para la galería vertical
 function ensureGallery(item){
-  if(Array.isArray(item.gallery) && item.gallery.length === 3){ return item.gallery; }
-  let fallback = 'img/gorilla.jpg';
-  if(item.id === 'lemon-haze-fem') fallback = 'img/lemon.jpg';
-  if(item.id === 'cookies-kush') fallback = 'img/cookies.jpg';
-  if(item.id !== 'gorilla-glue-auto' && item.image) fallback = item.image;
-  item.gallery = [fallback, fallback, fallback];
-  return item.gallery;
+  if(Array.isArray(item.gallery) && item.gallery.length >= 3){
+    return item.gallery.slice(0,3);
+  }
+  // Fallback por ID
+  let base = null;
+  if(item && item.id){
+    if(item.id === 'gorilla-glue-auto') base = 'img/gorilla.jpg';
+    else if(item.id === 'lemon-haze-fem') base = 'img/lemon.jpg';
+    else if(item.id === 'cookies-kush') base = 'img/cookies.jpg';
+  }
+  if(!base){
+    // Como último recurso, si hay un string en item.image, úsalo
+    base = (item && item.image) ? item.image : 'img/gorilla.jpg';
+  }
+  return [base, base, base];
 }
+
 const $specsCard = document.getElementById('specsCard');
 const $specsGallery = document.getElementById('specsGallery');
 const $specName = document.getElementById('specName');
@@ -213,12 +221,12 @@ function showSpecs(id){
 
   const { banco, genetica, floracion, thc, rendimiento, sabor, notas } = item.specs;
 
-  // Título verde
+  // Actualiza título (nombre verde) y galería de 3 imágenes
   if($specName){ $specName.textContent = item.title; }
-  // Galería vertical 3 imágenes
   if($specsGallery){
     const imgs = ensureGallery(item).map((src,i)=>`<img src="${src}" alt="${item.title} ${i+1}" loading="lazy">`).join('');
     $specsGallery.innerHTML = imgs;
+    $specsGallery.classList.add('has-images');
   }
 
   $specsCard.innerHTML = `
@@ -273,4 +281,5 @@ renderCards();
 // Enfocar carrusel al cargar para flechas
 window.addEventListener('load', () => {
   $carousel.focus({ preventScroll: true });
+  if($specsGallery){ $specsGallery.classList.remove('has-images'); $specsGallery.innerHTML=''; }
 });
