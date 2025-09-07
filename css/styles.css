@@ -290,12 +290,20 @@ body{
 
 /* === Mobile optimizations (injected) === */
 @media (max-width: 768px){
-  .carousel{ grid-auto-columns: 80%; }
+  /* Mobile: mostrar 2 tarjetas completas y media tarjeta como "peek" del tercero */
+  .carousel{
+    --gap: 4vw;
+    gap: var(--gap);
+    grid-auto-columns: calc((100vw - var(--gap)) / 2.5);
+    padding: 12px 3vw;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
   .card-body{ padding: 8px 10px; }
   .title{ font-size: 14px; }
   .subtitle{ font-size: 12px; }
   .price{ font-size: 16px; }
-  .ctrl{ height: 44px; width: 44px; font-size: 22px; }
+  .ctrl{ height: 44px; width: 44px; font-size: 18px; } font-size: 22px; }
   .site-footer{ padding: 20px 0 30px; font-size: 12px; text-align: center; }
 }
 
