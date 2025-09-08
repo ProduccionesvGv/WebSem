@@ -1252,3 +1252,190 @@ body{ overflow-x: hidden; }
   color: #000 !important;
   text-shadow: none;
 }
+
+/* === TEMP GROUP LABELS — REMOVE THIS BLOCK TO HIDE === */
+.carousel-section{ position: relative; }
+.carousel-section::before{
+  content: "Grupo de elementos del cuadro 1";
+  position: absolute;
+  top: -14px;
+  left: 4%;
+  font: 700 13px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: #ff2d2d;
+  background: rgba(255, 45, 45, 0.08);
+  border: 1px dashed rgba(255, 45, 45, 0.6);
+  border-radius: 6px;
+  padding: 4px 8px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.site-header .container{ position: relative; }
+.site-header .container::before{
+  content: "Grupo de elementos de los títulos";
+  position: absolute;
+  top: -14px;
+  right: 4%;
+  font: 700 13px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: #ff2d2d;
+  background: rgba(255, 45, 45, 0.08);
+  border: 1px dashed rgba(255, 45, 45, 0.6);
+  border-radius: 6px;
+  padding: 4px 8px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Optional toggle: uncomment to hide notes without deleting
+.carousel-section::before,
+.site-header .container::before{ display: none !important; }
+*/
+
+/* === TEMP LABELS TWEAK: smaller, right-aligned, text-only === */
+.carousel-section::before,
+.site-header .container::before{
+  font: 600 11px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial !important;
+  color: #ff2d2d !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  right: 4% !important;
+  left: auto !important;
+  top: -10px !important;
+  text-align: right !important;
+  opacity: 0.9;
+}
+
+/* === HEADER TITLES WHITE + INASE MORE RIGHT === */
+/* Force white for title and subtitle (override previous colors) */
+.site-header .site-title,
+.site-header .site-subtitle{
+  color: #ffffff !important;
+  text-shadow: none;
+}
+
+/* Push the INASE logo further to the right (relative to the centered stack) */
+.site-header .inase-logo{
+  transform: translateX(16vw);
+}
+@media (max-width: 520px){
+  .site-header .inase-logo{ transform: translateX(10vw); }
+}
+@media (min-width: 1024px){
+  .site-header .inase-logo{ transform: translateX(24vw); }
+}
+
+/* === HEADER GROUP: center-right placement (~1/4 from right), items centered === */
+/* Reset previous directional transforms */
+.site-header .container,
+.site-header .inase-logo{
+  transform: none !important;
+}
+
+/* Place the whole trio nearer to the right edge using right padding equal to ~25% viewport */
+.site-header{
+  display: grid;                    /* lets us push the inner container to the right edge */
+  justify-content: end;             /* anchor group toward the right */
+  padding-right: 25vw;              /* ~a quarter of the viewport from the right edge */
+}
+
+/* Keep the trio (title + INASE + subtitle) centered among themselves */
+.site-header .container{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  row-gap: 10px;
+  margin: 0 auto;
+}
+
+/* Responsiveness: soften the offset on very small screens */
+@media (max-width: 520px){
+  .site-header{ padding-right: 18vw; }
+}
+@media (min-width: 1280px){
+  .site-header{ padding-right: 25vw; } /* keep the intent explicit on large screens */
+}
+
+/* === HEADER: Right-half layout (leave left half empty) === */
+/* Reset any previous shifts */
+.site-header .container,
+.site-header .inase-logo{ transform: none !important; }
+
+/* Desktop/tablet: put the content strictly in the right half */
+@media (min-width: 768px){
+  .site-header{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* left half empty, right half hosts the trio */
+  }
+  .site-header .container{
+    grid-column: 2;
+    justify-self: end;
+    /* Align items to the right and keep them stacked */
+    display: grid;
+    justify-items: end;   /* right-align title, INASE and subtitle */
+    align-items: center;
+    row-gap: 10px;
+    /* Occupy the right half */
+    width: 50vw;
+    max-width: 50vw;
+    margin: 0;
+    text-align: right;    /* right-align text */
+  }
+  /* Ensure INASE image hugs the right edge of the group */
+  .site-header .inase-logo img{
+    display: block;
+    margin-left: auto;
+  }
+}
+
+/* On small screens keep previous centered behavior (no half split) */
+@media (max-width: 767.98px){
+  .site-header{
+    display: block; /* fallback to normal flow on mobile */
+  }
+  .site-header .container{
+    width: auto;
+    max-width: none;
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+/* === HEADER ABSOLUTE RIGHT-HALF ANCHOR (strong override) === */
+/* Build a 2-column grid: left column empty, right column holds the trio */
+.site-header{
+  display: grid !important;
+  grid-template-columns: 1fr minmax(320px, 50vw) !important;
+  align-items: center !important;
+}
+
+/* Put the trio (title + INASE + subtitle) in the RIGHT column and right-align it */
+.site-header > .container{
+  grid-column: 2 !important;
+  justify-self: end !important;
+  margin: 0 !important;
+  width: 100% !important;
+
+  display: grid !important;
+  justify-items: end !important;  /* right-align items against the right edge */
+  align-items: center !important;
+  row-gap: 10px !important;
+  text-align: right !important;
+}
+
+/* Ensure individual pieces also align right */
+.site-header .site-title,
+.site-header .site-subtitle{ text-align: right !important; margin: 0 !important; }
+.site-header .inase-logo{ justify-self: end !important; }
+
+/* On very small screens, fall back to centered to avoid crowding */
+@media (max-width: 480px){
+  .site-header{
+    grid-template-columns: 1fr !important;
+  }
+  .site-header > .container{
+    justify-self: center !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+}
