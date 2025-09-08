@@ -1,97 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta name="description" content="Listado de genéticas con especificaciones y galería de imágenes.">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Semillas de colección | Demo</title>
-  <meta name="description" content="Catálogo simple con carrusel, título, subtítulo y precio.">
+  <title>Variedades Campeonas | Demo</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    /* Hero superior con fondo a ancho completo, altura baja */
-    .hero-top{ position:relative; background:url('img/header-bg.png') center/cover no-repeat; height:140px; display:flex; align-items:center; justify-content:center; }
-    .hero-top .title{ margin:0; padding:0 12px; font-size:clamp(1.2rem, 3.5vw, 2.2rem); color:#fff; text-shadow:0 2px 20px rgba(0,0,0,.45); text-align:center; }
-    @media (max-width: 520px){ .hero-top{ height:110px; } }
-    /* Separador visual para la franja INASE */
-    .inase-strip{ background:#0b0b0d; padding:14px 0 6px; text-align:center; }
-    .inase-strip .subtitle{ color:#a6a6b2; margin:8px 0 12px; font-size:.95rem; }
-    .brand-logo{ display:inline-flex; align-items:center; justify-content:center; width:120px; height:120px; border-radius:20px; background:#111318; box-shadow: var(--shadow); margin: 6px auto 10px; }
-    .brand-logo svg{ width:68%; height:68%; }
-    /* Asegurar que el header no flote/pegue */
-    header, .hero-top, .site-header{ position: static; }
-  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="hero-top">
-      <h1 class="title">Semillas de colección</h1>
-    </div>
-    <div class="inase-strip">
-      <!-- LOGO entre los dos títulos, SVG local para evitar hotlink -->
-      <div class="brand-logo" aria-label="Logo marca">
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Semilla minimalista">
-          <defs>
-            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#8cff7a"/><stop offset="1" stop-color="#87b7ff"/>
-            </linearGradient>
-          </defs>
-          <!-- Semilla -->
-          <path d="M32 8c10 4 18 14 18 24 0 11-9 20-18 20S14 43 14 32C14 22 22 12 32 8z" fill="url(#g)" />
-          <!-- Hoja al fondo -->
-          <path d="M10 38c7-2 13-1 22 4-9 1-16 5-21 10 1-6 0-10-1-14z" fill="#1f2937"/>
-        </svg>
+  <header class="site-header" style="background: url('img/header-bg.png') no-repeat center center; background-size: cover; padding: 40px 0; text-align: center;">
+    <div class="container">
+      <h1 class="site-title">Semillas de Coleccion</h1>
+
+      
+      <div class="inase-logo" aria-label="INASE">
+        <picture>
+          <source type="image/webp"
+            srcset="img/inase_hd-220.webp 220w, img/inase_hd-320.webp 320w, img/inase_hd-480.webp 480w"
+            sizes="(max-width:480px) 52vw, (max-width:768px) 34vw, 420px">
+          <img
+            src="img/inase_hd-320.jpg"
+            srcset="img/inase_hd-220.jpg 220w, img/inase_hd-320.jpg 320w, img/inase_hd-480.jpg 480w"
+            sizes="(max-width:480px) 52vw, (max-width:768px) 34vw, 420px"
+            alt="INASE — Instituto Nacional de Semillas"
+            decoding="async" loading="lazy" />
+        </picture>
       </div>
-      <p class="subtitle">Semillas registradas - Instituto Nacional de Semillas (INASE)</p>
-      <picture>
-        <source srcset="img/inase_hd-220.webp 220w, img/inase_hd-320.webp 320w, img/inase_hd-480.webp 480w" type="image/webp">
-        <img src="img/inase_hd.jpg" srcset="img/inase_hd-220.jpg 220w, img/inase_hd-320.jpg 320w, img/inase_hd-480.jpg 480w"
-             alt="INASE - Instituto Nacional de Semillas" style="max-width: 92%; height:auto; border-radius:12px;" loading="lazy">
-      </picture>
+
+<p class="site-subtitle">Semillas Registradas - Instituto Nacional de Semillas (INASE)</p>
     </div>
   </header>
 
   <main>
-    <!-- Carrusel -->
-    <section class="carousel-section" aria-labelledby="catalogoTitle">
-      <div class="container">
-        <h2 id="catalogoTitle" class="section-title">Catálogo</h2>
-        <div class="carousel-wrapper">
-          <button id="prevBtn" class="nav-btn" aria-label="Anterior">‹</button>
-          <ul id="carousel" class="carousel" tabindex="0" aria-live="polite"></ul>
-          <button id="nextBtn" class="nav-btn" aria-label="Siguiente">›</button>
+    <section class="carousel-section">
+      <div class="container row-between">
+        <h2 class="section-title exterior">Genética para exterior</h2>
+        <div class="controls">
+          <button class="ctrl" id="prevBtn" aria-label="Anterior">‹</button>
+          <button class="ctrl" id="nextBtn" aria-label="Siguiente">›</button>
         </div>
       </div>
+
+      <div class="carousel-wrapper">
+        <div class="carousel" id="carousel" aria-label="Listado de productos" role="list">
+          <!-- Las tarjetas se inyectan desde JS usando la lista DATA -->
+        </div>
+      </div>
+      <p class="hint container">Las Semillas se encuentran en Blister Cerrados.</p>
     </section>
 
-    <!-- Panel de especificaciones -->
-    <section id="specs" class="specs">
+    
+    <section class="specs-section" id="specs" role="region" aria-labelledby="specName">
       <div class="container">
-        <button id="specsToggle" class="specs-toggle" aria-expanded="false" aria-controls="specsPanel">
-          <span>Especificaciones</span> <strong id="specName"></strong>
-        </button>
-        <div id="specsPanel" class="specs-panel" hidden>
-          <article id="specsCard" class="specs-card"></article>
-          <div id="specsGallery" class="specs-gallery" aria-label="Galería"></div>
-        </div>
+        <h3 class="specs-title">Especificaciones</h3>
+        <h4 id="specName" class="specs-name">Selecciona una genética</h4>
       </div>
+
+      <div class="container">
+        <article class="specs-card" id="specsCard">
+          <p class="muted">Selecciona cualquier genética para ver las especificaciones aquí abajo.</p>
+        </article>
+      </div>
+
+      <!-- Galería vertical borde a borde (debajo del nombre verde) -->
+      <div id="specsGallery" class="specs-gallery edge-to-edge"></div>
     </section>
+
   </main>
 
+  
   <footer class="site-footer">
     <div class="container" id="footerDynamic">
-      <small class="muted">Selecciona una genética para ver sus detalles aquí.</small>
+      <small class="muted">Selecciona una genética para ver sus detalles Aqui.</small>
     </div>
   </footer>
-
-  <!-- WhatsApp flotante con mensaje predefinido -->
-  <a href="https://wa.me/56998118816?text=%C2%A1Hola%21%20Quiero%20info%20de%20las%20semillas.%20%C2%BFMe%20ayud%C3%A1s%3F" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <img src="img/whatsapp-icon.png" alt="WhatsApp" loading="lazy">
+<script src="js/products.js" defer></script>
+  <a href="https://wa.me/56998118816" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <img src="img/whatsapp-icon.png" alt="WhatsApp" / loading="lazy">
   </a>
-
-  <!-- Data & scripts -->
-  <script src="js/products.js" defer></script>
   <script src="js/data-driver.js" defer></script>
-  <script src="js/script.js" defer></script>
 </body>
 </html>
