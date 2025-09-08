@@ -992,3 +992,54 @@ body{ overflow-x: hidden; }
   .carousel-section{ border-radius: 16px; }
   .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
 }
+
+/* === ALIGN GENETICS TITLE + ARROWS ON ONE CENTERED ROW; SINGLE-LINE HINT === */
+.carousel-section .container.row-between{
+  /* Force a single centered row for: [Title][Arrows] */
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* center the group */
+  gap: 14px;                 /* space between title and arrows */
+  flex-wrap: nowrap;         /* keep on one line */
+  text-align: center;
+}
+
+.carousel-section .section-title.exterior{
+  margin: 0;
+  line-height: 1.1;
+  text-align: center;
+  /* slightly smaller to make the group more compact */
+  font-size: clamp(18px, 3.8vw, 28px);
+}
+
+/* Keep arrows inline and centered next to the title */
+.carousel-section .controls{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Single-line note under the cards, centered */
+.carousel-section .hint.container{
+  white-space: nowrap;               /* keep it in one line */
+  overflow: hidden;                  /* avoid wrapping overflow */
+  text-overflow: ellipsis;           /* if super tiny screens, gracefully clip */
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(12px, 2.6vw, 14px);
+  letter-spacing: 0.2px;
+}
+
+/* Small screens safeguards */
+@media (max-width: 420px){
+  .carousel-section .container.row-between{
+    gap: 10px;
+  }
+  .carousel-section .controls .ctrl{
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    line-height: 30px;
+  }
+}
