@@ -1439,3 +1439,320 @@ body{ overflow-x: hidden; }
     text-align: center !important;
   }
 }
+
+/* === MOBILE-FIRST PATCH: Grupo de elementos del cuadro 1 === */
+/* 1) Encabezado compacto: “Genética para exterior” + flechas, una línea centrada */
+.carousel-section .container.row-between{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  text-align: center;
+}
+.carousel-section .section-title.exterior{
+  margin: 0;
+  font-size: 20px;      /* fallback */
+  font-size: clamp(18px, 5vw, 22px);
+  line-height: 1.1;
+}
+.carousel-section .controls{
+  display: inline-flex;
+  gap: 10px;
+}
+
+/* 2) Carrusel: 2.25 tarjetas visibles con “teaser” (cambiá a 2.5 si querés) */
+:root{ --cards-per-view: 2.25; --cards-gap: 12px; }
+/* Alternativa:
+:root{ --cards-per-view: 2.5; --cards-gap: 12px; }
+*/
+
+#carousel{
+  display: flex;
+  gap: var(--cards-gap);
+  padding: 0 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+#carousel > .card{
+  flex: 0 0 calc((100% - (2 * var(--cards-gap))) / var(--cards-per-view));
+  max-width: calc((100% - (2 * var(--cards-gap))) / var(--cards-per-view));
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+#carousel, #carousel *{ min-width: 0; } /* evita que el texto fuerce el ancho */
+.card-img-wrap{ width: 100%; aspect-ratio: 4/5; overflow: hidden; } /* alturas parejas */
+
+/* 3) Unificar color/fondo del bloque (compat, sin color-mix) */
+.carousel-section{
+  background: var(--panel-bg, #0e1220);
+  color: var(--panel-text, #e6ecff);
+  border: 1px solid var(--panel-border, #24304a);
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+.carousel-section .card{
+  background: transparent !important;
+  border: 1px solid var(--panel-border, #24304a);
+  box-shadow: none;
+}
+.carousel-section .card .title,
+.carousel-section .card .subtitle,
+.carousel-section .card .price{
+  color: var(--panel-text, #e6ecff);
+}
+.carousel-section .card .price{
+  color: var(--panel-accent, #a8ff60);
+  font-weight: 700;
+}
+
+/* 4) Flechas: tamaño/borde/hover (sin tocar su lógica) */
+.carousel-section .controls .ctrl{
+  min-width: 40px; min-height: 40px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+.carousel-section .controls .ctrl:hover{
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+}
+
+/* Nota: una sola línea centrada, con elipsis si el ancho es mínimo */
+.carousel-section .hint.container{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: 13px; /* fallback */
+  font-size: clamp(12px, 3.4vw, 14px);
+}
+
+/* Mejora progresiva en pantallas mayores */
+@media (min-width: 768px){
+  .carousel-section .controls .ctrl{ min-width: 36px; min-height: 36px; }
+  :root{ --cards-per-view: 3; --cards-gap: 14px; } /* ej. 3 cards en desktop */
+}
+
+/* === HEADER: mover el título “Semillas de Colección” ~30% a la derecha (mobile-first) === */
+.site-header .site-title{
+  transform: translateX(10vw);
+}
+/* Si querés otro valor exacto, lo cambio: 20vw / 25vw / 35vw, etc. */
+
+/* === HEADER WIDER & LESS TALL (mobile-first) === */
+/* Compress vertical space and keep a horizontal feel */
+.site-header{
+  background-size: cover !important;
+  background-position: center !important;
+  /* lower vertical footprint */
+  padding-top: clamp(10px, 2.5vw, 18px) !important;
+  padding-bottom: clamp(10px, 2.5vw, 18px) !important;
+  min-height: clamp(120px, 22vw, 240px);
+}
+
+/* Keep trio compact and centered as a stack (respect existing transforms on title) */
+.site-header .container{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  row-gap: 8px;                /* tighter than before */
+  width: min(96%, 1100px);
+  margin: 0 auto;
+}
+
+/* Subtle tightening without changing sizes drastically */
+.site-header .site-title{
+  line-height: 1.05;
+  margin: 0;
+}
+.site-header .inase-logo img{
+  height: clamp(34px, 6.5vw, 56px);
+  width: auto;
+  display: block;
+}
+.site-header .site-subtitle{
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Slightly more compact on large screens too */
+@media (min-width: 1024px){
+  .site-header{
+    min-height: clamp(120px, 18vw, 220px);
+  }
+}
+
+/* === HEADER: more lateral breathing & wider, less vertical (mobile-first) === */
+.site-header{
+  background-size: cover !important;
+  background-position: center center !important;
+  /* More horizontal feel: reduce vertical padding, add lateral padding */
+  padding-top: clamp(8px, 2vw, 14px) !important;
+  padding-bottom: clamp(8px, 2vw, 14px) !important;
+  padding-left: clamp(16px, 5vw, 54px) !important;
+  padding-right: clamp(16px, 5vw, 54px) !important;
+  min-height: clamp(110px, 20vw, 200px);
+}
+
+/* Make the inner group spread comfortably without feeling cramped */
+.site-header .container{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  row-gap: 6px;                          /* slightly tighter vertical spacing */
+  width: min(98%, 1280px);               /* allow wider layout */
+  margin: 0 auto;
+}
+
+/* Keep existing transforms on title if any; only ensure compact line-height */
+.site-header .site-title{ line-height: 1.04; margin: 0; }
+.site-header .inase-logo img{
+  height: clamp(34px, 6vw, 56px);
+  width: auto; display: block;
+}
+.site-header .site-subtitle{ margin: 0; line-height: 1.1; }
+
+/* Desktop/tablet: allow even wider spread and slightly lower min-height */
+@media (min-width: 1024px){
+  .site-header{
+    min-height: clamp(100px, 16vw, 180px);
+    padding-left: clamp(24px, 4vw, 64px) !important;
+    padding-right: clamp(24px, 4vw, 64px) !important;
+  }
+  .site-header .container{
+    width: min(98%, 1400px);
+  }
+}
+
+/* === HEADER 50% FLATTER + MORE LATERAL (mobile-first) === */
+.site-header{
+  background-size: cover !important;
+  background-position: center center !important;
+  /* 50% flatter vs previous pass */
+  padding-top: clamp(4px, 1vw, 7px) !important;
+  padding-bottom: clamp(4px, 1vw, 7px) !important;
+  /* 50% more lateral space vs previous pass */
+  padding-left: clamp(24px, 7.5vw, 81px) !important;
+  padding-right: clamp(24px, 7.5vw, 81px) !important;
+  /* 50% lower min-height ranges */
+  min-height: clamp(55px, 10vw, 100px);
+}
+
+/* Keep the inner group tight and centered as a stack (no transform overrides here) */
+.site-header .container{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  row-gap: 4px;                        /* slightly tighter vertical spacing */
+  width: min(98%, 1280px);
+  margin: 0 auto;
+}
+
+/* Preserve existing title transform shifts; only ensure compact lines */
+.site-header .site-title{ line-height: 1.04; margin: 0; }
+.site-header .inase-logo img{
+  height: clamp(34px, 6vw, 56px);
+  width: auto;
+  display: block;
+}
+.site-header .site-subtitle{ margin: 0; line-height: 1.1; }
+
+@media (min-width: 1024px){
+  .site-header{
+    min-height: clamp(50px, 8vw, 90px);
+    padding-left: clamp(36px, 6vw, 96px) !important;
+    padding-right: clamp(36px, 6vw, 96px) !important;
+  }
+  .site-header .container{
+    width: min(98%, 1400px);
+  }
+}
+
+/* === HEADER TITLES: right-aligned group (mobile-first) === */
+/* Place the trio as a right-aligned stack inside the header */
+.site-header .container{
+  display: grid;
+  justify-items: end;       /* right-align title, logo, subtitle */
+  align-items: center;
+  text-align: right;
+  margin-left: auto;        /* push group to the right within header width */
+  margin-right: 0;
+}
+
+/* Neutralize previous horizontal shifts so alignment is consistent */
+.site-header .site-title{
+  transform: none !important;
+}
+
+/* Make sure the INASE image hugs the right edge of the group */
+.site-header .inase-logo img{
+  display: block;
+  margin-left: auto;
+}
+
+/* Optional: on large screens keep it right-aligned with existing header paddings */
+@media (min-width: 1024px){
+  .site-header .container{
+    justify-items: end;
+    text-align: right;
+  }
+}
+
+/* === HEADER: nudge title a bit further right (wins over previous neutralizations) === */
+.site-header .site-title{
+  transform: translateX(4vw) !important;
+}
+@media (max-width: 480px){
+  .site-header .site-title{ transform: translateX(2vw) !important; }
+}
+@media (min-width: 1024px){
+  .site-header .site-title{ transform: translateX(6vw) !important; }
+}
+
+/* === CUADRO 1: make group flatter (less vertical), images wider === */
+/* Reduce vertical padding of the block */
+.carousel-section{
+  padding-top: clamp(6px, 1.6vw, 10px) !important;
+  padding-bottom: clamp(6px, 1.6vw, 10px) !important;
+}
+
+/* Make card images less tall and more wide to reduce overall card height */
+.card-img-wrap{
+  width: 100%;
+  aspect-ratio: 4 / 3;       /* was ~4/5; switch to 4/3 for a wider feel */
+  overflow: hidden;
+}
+.card-img-wrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;         /* keep image nicely cropped if aspect differs */
+}
+
+/* Keep consistent equal sizing and avoid content expanding height too much */
+#carousel, #carousel *{ min-width: 0; }
+
+/* === CUADRO 1: ~25% more compact vertically (16/9 images) === */
+/* Tighten the block's vertical padding a bit more */
+.carousel-section{
+  padding-top: clamp(4px, 1.2vw, 8px) !important;
+  padding-bottom: clamp(4px, 1.2vw, 8px) !important;
+}
+
+/* Make images 16:9 to reduce card height by ~25% compared to 4:3 */
+.card-img-wrap{
+  width: 100%;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden;
+}
+.card-img-wrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Keep equal sizing and prevent long text from expanding widths */
+#carousel, #carousel *{ min-width: 0; }
