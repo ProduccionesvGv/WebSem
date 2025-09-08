@@ -1071,3 +1071,108 @@ body{ overflow-x: hidden; }
   min-width: 32px;
   min-height: 32px;
 }
+
+/* ===== COMPAT LAYER (old mobile browsers) ===== */
+
+/* --- Color palette fallbacks (avoid color-mix; add var() defaults) --- */
+.carousel-section{
+  background: #0e1220; /* base fallback */
+  background: var(--panel-bg, #0e1220);
+  color: var(--panel-text, #e6ecff);
+  border: 1px solid var(--panel-border, #24304a);
+}
+
+/* Ensure textual elements inherit readable color */
+.carousel-section .section-title,
+.carousel-section .hint,
+.carousel-section .card .title,
+.carousel-section .card .subtitle,
+.carousel-section .card .price{
+  color: var(--panel-text, #e6ecff);
+}
+
+/* Make cards belong visually to block without fancy mixing */
+.carousel-section .card{
+  background: transparent; /* unify over panel bg */
+  border: 1px solid var(--panel-border, #24304a);
+  box-shadow: none;
+}
+
+/* Divider under image with solid fallback */
+.carousel-section .card-img-wrap{
+  border-bottom: 1px solid var(--panel-border, #24304a);
+}
+
+/* Accent for price (fallback-safe) */
+.carousel-section .card .price{
+  color: var(--panel-accent, #a8ff60);
+  font-weight: 700;
+}
+
+/* Arrows: solid fallback background/border */
+.carousel-section .ctrl{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* --- Layout fallbacks: prefer flex; use grid only if supported --- */
+/* Baseline: flex (works on older Android WebView) */
+.carousel-section > .container.row-between{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  text-align: center;
+}
+.carousel-section > .container.row-between .section-title.exterior{
+  margin: 0;
+  white-space: nowrap;
+  line-height: 1.1;
+}
+.carousel-section > .container.row-between .controls{
+  display: inline-flex;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+/* Upgrade to grid when available */
+@supports (display: grid){
+  .carousel-section > .container.row-between{
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    justify-content: center;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 0;
+  }
+  .carousel-section > .container.row-between .controls{
+    display: inline-grid;
+    grid-auto-flow: column;
+    gap: 10px;
+  }
+}
+
+/* --- Mobile smooth scrolling improvement --- */
+.carousel{
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- Hint line: single line, avoid wrap even on tiny screens --- */
+.carousel-section .hint.container{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* --- clamp() fallbacks: provide a base size before clamp() for very old engines --- */
+.carousel-section .section-title.exterior{
+  font-size: 24px; /* fallback */
+  font-size: clamp(18px, 3.8vw, 28px);
+}
+.carousel-section .hint.container{
+  font-size: 13px; /* fallback */
+  font-size: clamp(12px, 2.6vw, 14px);
+}
