@@ -897,3 +897,98 @@ body{ overflow-x: hidden; }
   .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
   .carousel-section .hint.container{ font-size: 0.9rem; }
 }
+
+/* === Unified Block Look (scoped palette) === */
+
+/* Default theme for the current genetics block */
+.carousel-section{
+  /* Block-level palette */
+  --panel-bg: #0e1220;
+  --panel-border: #24304a;
+  --panel-text: #e6ecff;
+  --panel-muted: #9fb0d6;
+  --panel-accent: #a8ff60; /* accent used for price/arrows if desired */
+
+  background: var(--panel-bg) !important;
+  color: var(--panel-text);
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+/* Inner outline to unify edge */
+.carousel-section::before{
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 14px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+}
+
+/* Title, arrows, cards, and note adopt the block palette */
+.carousel-section .section-title,
+.carousel-section .hint,
+.carousel-section .ctrl,
+.carousel-section .card,
+.carousel-section .card .title,
+.carousel-section .card .subtitle,
+.carousel-section .card .price{
+  color: var(--panel-text);
+}
+
+/* Muted text tone for the hint line under the cards */
+.carousel-section .hint{ color: var(--panel-muted); }
+
+/* Make the cards visually belong to the same block (transparent body over panel bg) */
+.carousel-section .card{
+  background: transparent !important;
+  border: 1px solid color-mix(in hsl, var(--panel-border) 88%, transparent);
+  box-shadow: none;
+}
+
+/* Keep image wrapper unchanged; border aligns with block tone */
+.carousel-section .card-img-wrap{
+  border-bottom: 1px solid color-mix(in hsl, var(--panel-border) 80%, transparent);
+}
+
+/* Optional: accent for price to pop but still cohesive */
+.carousel-section .card .price{
+  color: var(--panel-accent);
+  font-weight: 700;
+}
+
+/* Arrows adopt panel palette consistently */
+.carousel-section .ctrl{
+  background: color-mix(in hsl, var(--panel-bg) 70%, white 0%);
+  border: 1px solid color-mix(in hsl, var(--panel-border) 85%, transparent);
+}
+.carousel-section .ctrl:hover{
+  background: color-mix(in hsl, var(--panel-bg) 55%, white 0%);
+}
+
+/* Ensure links (if any) also follow */
+.carousel-section a{ color: var(--panel-text); }
+.carousel-section a:hover{ color: var(--panel-accent); }
+
+/* === Alternative theme prepared for future blocks (apply via class on the section) === */
+.carousel-section.theme-olive{
+  --panel-bg: #0f1511;
+  --panel-border: #2a3a2f;
+  --panel-text: #eef8ef;
+  --panel-muted: #a9c3af;
+  --panel-accent: #b6ff8d;
+}
+.carousel-section.theme-maroon{
+  --panel-bg: #1a0f12;
+  --panel-border: #3b262c;
+  --panel-text: #ffeef2;
+  --panel-muted: #d3a8b0;
+  --panel-accent: #ffb6c1;
+}
+
+/* Mobile tweaks preserve the unified look */
+@media (max-width: 768px){
+  .carousel-section{ border-radius: 16px; }
+  .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
+}
