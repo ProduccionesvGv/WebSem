@@ -1176,3 +1176,79 @@ body{ overflow-x: hidden; }
   font-size: 13px; /* fallback */
   font-size: clamp(12px, 2.6vw, 14px);
 }
+
+/* === HEADER TOP TRIO UPDATE: Title + INASE image + Subtitle (CSS-only) === */
+/* Make header less tall but still responsive */
+.site-header{
+  /* keep cover and center from inline style; only trim vertical padding */
+  padding-top: clamp(16px, 3.5vw, 28px) !important;
+  padding-bottom: clamp(16px, 3.5vw, 28px) !important;
+}
+
+/* Treat the three elements as a compact, centered stack */
+.site-header .container{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  row-gap: 10px;
+  width: min(94%, 1080px);
+  margin: 0 auto;
+}
+
+/* Title sizing and spacing */
+.site-header .site-title{
+  margin: 0;
+  line-height: 1.05;
+  /* fallback + clamp for broader support */
+  font-size: 30px;
+  font-size: clamp(22px, 4.5vw, 46px);
+  text-align: center;
+}
+
+/* INASE image sizing (keep proportions) */
+.site-header .inase-logo img{
+  height: 56px;           /* fallback */
+  height: clamp(38px, 6vw, 72px);
+  width: auto;
+  display: block;
+}
+
+/* Subtitle legibility and single line on narrow screens when possible */
+.site-header .site-subtitle{
+  margin: 0;
+  text-align: center;
+  font-size: 16px;        /* fallback */
+  font-size: clamp(13px, 2.6vw, 18px);
+  line-height: 1.2;
+  /* try to keep on one line; if not, allow natural wrap */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* On very small screens, allow a gentle wrap to avoid truncation */
+@media (max-width: 420px){
+  .site-header .site-subtitle{
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
+/* === HEADER RIGHT-SHIFT + BLACK SUBTITLE === */
+/* Shift the header content group slightly to the right (center-right) */
+.site-header .container{
+  transform: translateX(12vw);
+}
+@media (max-width: 520px){
+  .site-header .container{ transform: translateX(6vw); }
+}
+@media (min-width: 1024px){
+  .site-header .container{ transform: translateX(16vw); }
+}
+
+/* Subtitle in black */
+.site-header .site-subtitle{
+  color: #000 !important;
+  text-shadow: none;
+}
