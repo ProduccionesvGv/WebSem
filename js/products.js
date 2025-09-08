@@ -3,6 +3,8 @@ const PRODUCTS = [
   {
     id: 'phantom-ice',
     title: 'Phantom Ice',
+    subtitle: 'Feminizada Híbrida',
+    price_ars: 18000,
     tags: ['indoor','resistente'],
     stock: 'en-stock',
     notas: 'Planta robusta, ideal para principiantes.',
@@ -21,6 +23,8 @@ const PRODUCTS = [
   {
     id: 'la-messias',
     title: 'La Messias',
+    subtitle: 'Feminizada Híbrida',
+    price_ars: 18000,
     tags: ['indoor','resistente'],
     stock: 'en-stock',
     notas: 'Entrenamiento simple y adaptable.',
@@ -40,6 +44,8 @@ const PRODUCTS = [
   {
     id: 'template-id',              // cambia por tu slug en kebab-case, ej: 'white-widow-auto'
     title: 'Template Title',
+    subtitle: 'Feminizada Híbrida',
+    price_ars: 18000,
     tags: ['auto','rápida'],
     stock: 'en-stock',
     notas: 'Entrenamiento simple y adaptable.',

@@ -537,3 +537,54 @@ body{ overflow-x: hidden; }
 @media (min-width: 768px){
   .card-btn .card-img-wrap{ min-height: 320px; }
 }
+
+
+/* --- Contrast & readability improvements --- */
+.card-body{
+  background: #0b0b0b; /* dark surface for strong contrast */
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  padding: 12px 12px 10px;
+  margin-top: 10px;
+}
+.card-body .title{
+  color: #f9fafb; /* near-white */
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+.card-body .subtitle{
+  color: #cbd5e1; /* slate-300 */
+  font-size: .9rem;
+  margin-top: 4px;
+}
+.card-body .price{
+  color: #e5e7eb;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.card-btn:focus-visible{
+  outline: 2px solid #22c55e;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+/* Ensure image wrapper is non-interactive so only the button is focusable/clickable */
+.card-img-wrap{ pointer-events: none; }
+
+
+/* --- Card content readability --- */
+.card-body{ background:#0b0b0b; border:1px solid #1f2937; border-radius:12px; padding:12px 12px 10px; margin-top:10px; }
+.card-body .title{ color:#f9fafb; font-weight:700; font-size:1.05rem; line-height:1.25; }
+.card-body .genetica{ color:#d1d5db; font-size:.9rem; margin-top:4px; }
+.card-body .subtitle{ color:#cbd5e1; font-size:.9rem; margin-top:2px; }
+.card-body .price{ color:#e5e7eb; font-weight:700; margin-top:8px; }
+.card-body .price-na{ color:#f59e0b; } /* "Consultar" visible */
+
+/* Focus ring for keyboard navigation */
+.card-btn:focus-visible{ outline:2px solid #22c55e; outline-offset:3px; border-radius:12px; }
+
+
+/* Price in green */
+.card-body .price{ color:#16a34a; font-weight:800; margin-top:8px; }
+/* Subtitle style */
+.card-body .subtitle{ color:#d1d5db; font-size:.95rem; margin-top:4px; }

@@ -29,99 +29,77 @@
     });
   }
 
-  function renderCardsFromProducts(){
-    var list = document.getElementById('carousel');
-    if(!list) return;
-    list.setAttribute('role','list');
-    list.setAttribute('aria-label','Listado de productos');
-    list.innerHTML = '';
-    var prods = (window.PRODUCTS || []);
-    var frag = document.createDocumentFragment();
+  
 
-    prods.forEach(function(p){
-      var item = document.createElement('div');
-      item.setAttribute('role','listitem');
-      item.className = 'card';
+function renderCardsFromProducts(){
+  var list = document.getElementById('carousel');
+  if(!list) return;
+  list.setAttribute('role','list');
+  list.setAttribute('aria-label','Listado de productos');
+  list.innerHTML = '';
+  var prods = (window.PRODUCTS || []);
+  var frag = document.createDocumentFragment();
 
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'card-btn';
-      btn.setAttribute('data-id', p.id);
-      btn.setAttribute('aria-label', (p.title || p.id) + ': abrir especificaciones');
-      btn.setAttribute('aria-expanded', 'false');
+  prods.forEach(function(p){
+    var item = document.createElement('div');
+    item.setAttribute('role','listitem');
+    item.className = 'card';
 
-      var imgWrap = document.createElement('div');
-      imgWrap.className = 'card-img-wrap';
-      imgWrap.setAttribute('aria-hidden','true');
-      imgWrap.style.backgroundImage = "url('"+ heroOf(p) +"')";
-      imgWrap.style.backgroundSize = 'cover';
-      imgWrap.style.backgroundPosition = 'center';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-btn';
+    btn.setAttribute('data-id', p.id);
+    btn.setAttribute('aria-label', (p.title || p.id) + ': abrir especificaciones');
+    btn.setAttribute('aria-expanded', 'false');
 
-      var body = document.createElement('div');
-      body.className = 'card-body';
-      body.innerHTML = ''
-        + (p.badge ? '<span class="badge">'+p.badge+'</span>' : '')
-        + '<h3 class="title">'+(p.title||p.id)+'</h3>'
-        + (p.subtitle ? '<p class="subtitle">'+p.subtitle+'</p>' : '')
-        + (p.price_ars ? '<p class="price">'+moneyARS(p.price_ars)+'</p>' : '');
+    var imgWrap = document.createElement('div');
+    imgWrap.className = 'card-img-wrap';
+    imgWrap.setAttribute('aria-hidden','true');
+    imgWrap.style.backgroundImage = "url('"+ heroOf(p) +"')";
+    imgWrap.style.backgroundSize = 'cover';
+    imgWrap.style.backgroundPosition = 'center';
 
-      var badges = document.createElement('div');
-      badges.className = 'badges';
-      if(p.stock){
-        var s = document.createElement('span');
-        s.className = 'badge stock-'+p.stock;
-        s.textContent = (p.stock==='en-stock' ? 'En stock' : p.stock.replace('-', ' '));
-        badges.appendChild(s);
-      }
-      if(Array.isArray(p.tags)){
-        p.tags.slice(0,3).forEach(function(t){
-          var tg = document.createElement('span');
-          tg.className = 'tag';
-          tg.textContent = t;
-          badges.appendChild(tg);
-        });
-      }
+    var body = document.createElement('div');
+    body.className = 'card-body';
+    body.innerHTML = ''  + '<h3 class="title">'+(p.title||p.id)+'</h3>'  + (p.subtitle ? '<p class="subtitle">'+p.subtitle+'</p>' : '')  + (typeof p.price_ars !== 'undefined' && p.price_ars!==null ? '<p class="price">'+moneyARS(p.price_ars)+'</p>' : '<p class="price">Consultar</p>');
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(window.__currentCardBtn){ window.__currentCardBtn.setAttribute('aria-expanded','false'); }
+      window.__currentCardBtn = btn;
+      btn.setAttribute('aria-expanded','true');
+      showSpecsFromProducts(p.id);
+      openSpecsAccordion();
+      scrollToSpecs();
+    }, {passive:false});
 
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        // update aria-expanded on buttons
-        if(__currentCardBtn){ __currentCardBtn.setAttribute('aria-expanded','false'); }
-        __currentCardBtn = btn;
-        btn.setAttribute('aria-expanded','true');
+    btn.appendChild(imgWrap);
+    btn.appendChild(body);
+    item.appendChild(btn);
+    frag.appendChild(item);
+  });
 
-        showSpecsFromProducts(p.id);
-        openSpecsAccordion();
-        scrollToSpecs();
-      }, {passive:false});
+  list.appendChild(frag);
 
-      btn.appendChild(imgWrap);
-      btn.appendChild(body);
-      item.appendChild(btn);
-      body.appendChild(badges);
-      frag.appendChild(item);
-    });
-
-    list.appendChild(frag);
-
-    // Delegation (safety)
-    if(!list._delegated){
-      list.addEventListener('click', function(ev){
-        var el = ev.target;
-        var btn = el.closest ? el.closest('.card-btn') : null;
-        if(!btn) return;
-        var id = btn.getAttribute('data-id');
-        if(!id) return;
-        ev.preventDefault();
-        if(__currentCardBtn){ __currentCardBtn.setAttribute('aria-expanded','false'); }
-        __currentCardBtn = btn;
-        btn.setAttribute('aria-expanded','true');
-        showSpecsFromProducts(id);
-        openSpecsAccordion();
-        scrollToSpecs();
-      }, {passive:false});
-      list._delegated = true;
-    }
+  // Delegation (safety). Attach only once.
+  if(!list._delegated){
+    list.addEventListener('click', function(ev){
+      var el = ev.target;
+      var btn = el.closest ? el.closest('.card-btn') : null;
+      if(!btn) return;
+      var id = btn.getAttribute('data-id');
+      if(!id) return;
+      ev.preventDefault();
+      if(window.__currentCardBtn){ window.__currentCardBtn.setAttribute('aria-expanded','false'); }
+      window.__currentCardBtn = btn;
+      btn.setAttribute('aria-expanded','true');
+      showSpecsFromProducts(id);
+      openSpecsAccordion();
+      scrollToSpecs();
+    }, {passive:false});
+    list._delegated = true;
   }
+}
+
 
   function showSpecsFromProducts(id){
     var p = (window.PRODUCTS || []).find(function(x){ return x.id === id; });
