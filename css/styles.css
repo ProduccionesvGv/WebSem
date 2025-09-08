@@ -602,3 +602,47 @@ body{ overflow-x: hidden; }
     scroll-snap-align: start;
   }
 }
+
+/* === Mobile: fix inconsistent card sizes and show exactly 2 per viewport === */
+@media (max-width: 768px){
+  .carousel{
+    /* Make two full cards fit in the viewport width */
+    gap: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    grid-auto-columns: calc((100% - 12px) / 2);
+  }
+  .card{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .card-img-wrap{
+    aspect-ratio: 4 / 5; /* unify image ratio so card heights match */
+  }
+  .card-body{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+  .card .title{
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.2;
+  }
+  .carousel > *{
+    scroll-snap-align: start;
+  }
+}
+
+/* === Mobile teaser: show ~2.15 cards per viewport (subtle preview of next card) === */
+@media (max-width: 768px){
+  .carousel{
+    gap: 12px;
+    padding-left: 12px;
+    padding-right: 16px; /* a bit more right breathing room for the teaser */
+    grid-auto-columns: calc((100% - 12px) / 2.15);
+  }
+  .carousel > *{ scroll-snap-align: start; }
+}
