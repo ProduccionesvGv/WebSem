@@ -452,7 +452,7 @@ body{ overflow-x: hidden; }
 
 /* Card badges / tags */
 .card-body{ position:relative; }
-.badges{ position:absolute; top:8px; right:8px; display:flex; gap:6px; flex-wrap:wrap; }
+.badges{}
 .badge, .tag{ font-size:11px; line-height:1; padding:5px 8px; border-radius:9999px; border:1px solid #1f2937; background:#0b0b0b; color:#e5e7eb; opacity:.95; }
 .badge.stock-agotado{ background:#3f1b1b; border-color:#7f1d1d; color:#fecaca; }
 .badge.stock-pocas-unidades{ background:#3f2d1b; border-color:#92400e; color:#fde68a; }
@@ -504,3 +504,36 @@ body{ overflow-x: hidden; }
 /* Button focus already defined; ensure hover doesn't remove outline */
 .card-btn:focus{ outline: none; } /* rely on focus-visible */
 .card-btn:focus-visible{ outline: 2px solid #22c55e; outline-offset: 3px; border-radius: 12px; }
+
+
+/* Focus styles are important for a11y */
+.card-btn:focus-visible{
+  outline: 2px solid #22c55e;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+/* Responsive gallery: 1 col mobile, 3 cols >= 768px */
+@media (min-width: 768px){
+  #specsGallery, .specs-gallery{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+
+/* Larger card layout */
+#carousel{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+/* Bigger cards */
+.card-btn .card-img-wrap{
+  aspect-ratio: 4 / 3;
+  min-height: 240px;
+  border-radius: 14px;
+}
+@media (min-width: 768px){
+  .card-btn .card-img-wrap{ min-height: 320px; }
+}

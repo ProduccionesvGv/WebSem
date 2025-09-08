@@ -2,6 +2,9 @@
 (function(){
   "use strict";
 
+  // Module-scoped state
+  var __currentCardBtn = null;
+
   function ready(fn){
     if(document.readyState !== 'loading') fn();
     else document.addEventListener('DOMContentLoaded', fn);
@@ -45,6 +48,7 @@
       btn.className = 'card-btn';
       btn.setAttribute('data-id', p.id);
       btn.setAttribute('aria-label', (p.title || p.id) + ': abrir especificaciones');
+      btn.setAttribute('aria-expanded', 'false');
 
       var imgWrap = document.createElement('div');
       imgWrap.className = 'card-img-wrap';
@@ -80,15 +84,20 @@
 
       btn.addEventListener('click', function(e){
         e.preventDefault();
+        // update aria-expanded on buttons
+        if(__currentCardBtn){ __currentCardBtn.setAttribute('aria-expanded','false'); }
+        __currentCardBtn = btn;
+        btn.setAttribute('aria-expanded','true');
+
         showSpecsFromProducts(p.id);
         openSpecsAccordion();
-        try { location.hash = '#specs'; } catch(_){}
+        scrollToSpecs();
       }, {passive:false});
 
       btn.appendChild(imgWrap);
       btn.appendChild(body);
       item.appendChild(btn);
-      item.appendChild(badges);
+      body.appendChild(badges);
       frag.appendChild(item);
     });
 
@@ -103,8 +112,12 @@
         var id = btn.getAttribute('data-id');
         if(!id) return;
         ev.preventDefault();
+        if(__currentCardBtn){ __currentCardBtn.setAttribute('aria-expanded','false'); }
+        __currentCardBtn = btn;
+        btn.setAttribute('aria-expanded','true');
         showSpecsFromProducts(id);
         openSpecsAccordion();
+        scrollToSpecs();
       }, {passive:false});
       list._delegated = true;
     }
@@ -129,6 +142,8 @@
         + '  <div><div class="label">Sabor</div><div class="value">'+(p.sabor||'-')+'</div></div>'
         + '  <div class="notes full"><div class="label">Notas</div><div class="value">'+(p.notas||'-')+'</div></div>'
         + '</div>';
+      card.setAttribute('aria-live','polite');
+      card.setAttribute('aria-atomic','false');
       card.innerHTML = html;
     }
 
@@ -155,7 +170,6 @@
     panel.hidden = false;
     section.setAttribute('aria-expanded','true');
     if(btn) btn.setAttribute('aria-expanded','true');
-    try{ section.scrollIntoView({behavior:'smooth', block:'start'});}catch(_){}
   }
   function closeSpecsAccordion(){
     var section = document.getElementById('specs');
@@ -170,15 +184,31 @@
   function toggleSpecsAccordion(){
     var section = document.getElementById('specs');
     if(!section) return;
-    if(section.classList.contains('collapsed')) openSpecsAccordion(); else closeSpecsAccordion();
+    if(section.classList.contains('collapsed')) {
+      openSpecsAccordion();
+      scrollToSpecs();
+    } else {
+      closeSpecsAccordion();
+    }
+  }
+
+  function scrollToSpecs(){
+    try{
+      var sec = document.getElementById('specs');
+      if(!sec) return;
+      requestAnimationFrame(function(){
+        try { sec.scrollIntoView({behavior:'smooth', block:'start'}); } catch(_){}
+      });
+      setTimeout(function(){ try{ location.hash = '#specs'; }catch(_){ } }, 200);
+    }catch(_){}
   }
 
   // Toggle button hookup
   document.addEventListener('DOMContentLoaded', function(){
-    var btn = document.getElementById('specsToggle');
-    if(btn && !btn._wired){
-      btn.addEventListener('click', function(e){ e.preventDefault(); toggleSpecsAccordion(); }, {passive:false});
-      btn._wired = true;
+    var tgl = document.getElementById('specsToggle');
+    if(tgl && !tgl._wired){
+      tgl.addEventListener('click', function(e){ e.preventDefault(); toggleSpecsAccordion(); }, {passive:false});
+      tgl._wired = true;
     }
   });
 
@@ -187,9 +217,7 @@
     try {
       renderCardsFromProducts();
       verifyImages(window.PRODUCTS);
-      if(window.PRODUCTS && window.PRODUCTS[0]){
-        showSpecsFromProducts(window.PRODUCTS[0].id);
-      }
+      closeSpecsAccordion(); // Start collapsed; do not auto-open
     } catch (e) {
       try { console.error('data-driver init error:', e); } catch(_){}
     }
