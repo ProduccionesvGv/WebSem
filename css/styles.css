@@ -754,3 +754,71 @@ body{ overflow-x: hidden; }
   /* Make sure long words don't force width */
   #carousel, #carousel *{ min-width: 0; }
 }
+
+/* === HEADER LAYOUT UPDATE (wider, slightly less tall, shift content ~1/4 right) === */
+.site-header{
+  /* Make header visually wider and slightly less tall */
+  background-size: cover !important;
+  background-position: center center !important;
+  /* Control height via min-height instead of large paddings */
+  min-height: clamp(180px, 28vw, 340px);
+  padding-top: clamp(16px, 3vw, 28px) !important;
+  padding-bottom: clamp(16px, 3vw, 28px) !important;
+}
+
+/* Treat the inner header block (title + INASE + subtitle) as a single visual group */
+.site-header .container{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: 8px;
+  /* Keep the group compact and scalable */
+  width: min(92%, 960px);
+  margin: 0 auto;
+  /* Shift group roughly one-quarter of the header width to the right of center.
+     Use a viewport-based translate so it's proportional without editing HTML. */
+  transform: translateX(12.5vw);
+}
+
+/* Limit shift on very small screens so it doesn't push too far */
+@media (max-width: 520px){
+  .site-header .container{
+    transform: translateX(6vw);
+  }
+}
+
+/* Keep typography proportional */
+.site-title{
+  font-size: clamp(22px, 4.2vw, 40px);
+  line-height: 1.05;
+  text-align: center;
+}
+.site-subtitle{
+  font-size: clamp(12px, 2.4vw, 16px);
+  text-align: center;
+}
+
+/* Target the INASE image variants by filename pattern to preserve proportions */
+.site-header img[src*="inase_hd"]{
+  height: clamp(34px, 6vw, 56px);
+  width: auto;
+  display: block;
+}
+
+/* Ensure the three elements stay grouped tightly regardless of screen size */
+.site-header .container > *{
+  max-width: 100%;
+}
+
+/* On large screens, allow a slightly stronger right shift for visual balance */
+@media (min-width: 1024px){
+  .site-header .container{ transform: translateX(16vw); }
+}
+
+
+/* === New header background override === */
+.site-header{
+  background-image: url('../img/header-bg.png') !important;
+  background-size: cover;
+  background-position: center;
+}

@@ -207,3 +207,39 @@ function renderCardsFromProducts(){
   window.closeSpecsAccordion = closeSpecsAccordion;
   window.toggleSpecsAccordion = toggleSpecsAccordion;
 })();
+
+
+// === Carousel Controls (Prev/Next) ===
+(function(){
+  function scrollByCard(dir){
+    try {
+      var list = document.getElementById('carousel');
+      if(!list) return;
+      var item = list.querySelector('.card');
+      var step = list.clientWidth * 0.9; // fallback
+
+      if(item){
+        var rect = item.getBoundingClientRect();
+        step = rect.width;
+        var cs = getComputedStyle(list);
+        var gap = parseFloat(cs.columnGap || cs.gap || '0') || 0;
+        step += gap;
+      }
+      list.scrollBy({ left: dir * step, behavior: 'smooth' });
+    } catch(e){ try { console.error('scrollByCard error', e); } catch(_){} }
+  }
+
+  function bindCarouselArrows(){
+    var prev = document.getElementById('prevBtn');
+    var next = document.getElementById('nextBtn');
+    if(prev){
+      prev.addEventListener('click', function(e){ e.preventDefault(); scrollByCard(-1); });
+    }
+    if(next){
+      next.addEventListener('click', function(e){ e.preventDefault(); scrollByCard(1); });
+    }
+  }
+
+  if(document.readyState !== 'loading') bindCarouselArrows();
+  else document.addEventListener('DOMContentLoaded', bindCarouselArrows);
+})();
