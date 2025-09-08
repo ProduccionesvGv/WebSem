@@ -428,3 +428,79 @@ body{ overflow-x: hidden; }
   .subtitle{ font-size: 12px; }
   .price{ font-size: 16px; }
 }
+
+
+/* === Specs Accordion === */
+.specs{ margin: 20px 0; border-top: 1px solid #1f1f2a; padding-top: 12px; }
+.specs-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.specs-toggle{ background:#111827; color:#e5e7eb; border:1px solid #1f2937; padding:8px 12px; border-radius:10px; cursor:pointer; }
+.specs.collapsed .specs-panel{ max-height:0; overflow:hidden; }
+.specs:not(.collapsed) .specs-panel{ max-height:9999px; }
+.specs-panel{ transition:max-height .28s ease; }
+.specs-panel[hidden]{ display:block; } /* allow transition with JS toggling class */
+.specs-card{ margin-top:8px; }
+
+/* Detailed spec grid */
+.spec-grid{ display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:12px 16px; padding:8px 0 4px; }
+.spec-grid .label{ color:#9ca3af; font-size:13px; }
+.spec-grid .value{ color:#e5e7eb; font-weight:600; font-size:14px; }
+.spec-grid .notes.full{ grid-column:1 / -1; }
+
+/* Gallery of 3 images below the specs */
+
+#specsGallery img, .specs-gallery img{ width:100%; height:auto; border-radius:12px; border:1px solid #1f1f2a; box-shadow: 0 8px 20px rgba(0,0,0,.35); }
+
+/* Card badges / tags */
+.card-body{ position:relative; }
+.badges{ position:absolute; top:8px; right:8px; display:flex; gap:6px; flex-wrap:wrap; }
+.badge, .tag{ font-size:11px; line-height:1; padding:5px 8px; border-radius:9999px; border:1px solid #1f2937; background:#0b0b0b; color:#e5e7eb; opacity:.95; }
+.badge.stock-agotado{ background:#3f1b1b; border-color:#7f1d1d; color:#fecaca; }
+.badge.stock-pocas-unidades{ background:#3f2d1b; border-color:#92400e; color:#fde68a; }
+
+
+/* Force vertical stack for specs gallery */
+#specsGallery, .specs-gallery{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+#specsGallery img, .specs-gallery img{
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid #1f1f2a;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+
+
+/* Click affordance */
+.card-img-wrap{ cursor: pointer; }
+
+
+/* Accessible card button reset */
+.card-btn{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:none;
+  border:none;
+  padding:0;
+  color:inherit;
+}
+.card-btn:focus-visible{
+  outline: 2px solid #22c55e;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+/* Keep previous card layout working */
+.card .card-img-wrap{ display:block; width:100%; aspect-ratio: 4/3; border-radius: 12px; background-size:cover; background-position:center; }
+.card .card-body{ padding:10px 2px 2px; position:relative; }
+
+
+/* Non-interactive media wrapper */
+.card-img-wrap{ pointer-events: none; } /* ensures only the button is focusable/clickable */
+
+/* Button focus already defined; ensure hover doesn't remove outline */
+.card-btn:focus{ outline: none; } /* rely on focus-visible */
+.card-btn:focus-visible{ outline: 2px solid #22c55e; outline-offset: 3px; border-radius: 12px; }

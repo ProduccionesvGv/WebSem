@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta name="description" content="Listado de genéticas con especificaciones y galería de imágenes.">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Variedades Campeonas | Demo</title>
@@ -43,7 +44,7 @@
       </div>
 
       <div class="carousel-wrapper">
-        <div class="carousel" id="carousel" aria-label="Listado de productos" tabindex="0">
+        <div class="carousel" id="carousel" aria-label="Listado de productos" role="list">
           <!-- Las tarjetas se inyectan desde JS usando la lista DATA -->
         </div>
       </div>
@@ -81,5 +82,7 @@
   <a href="https://wa.me/56998118816" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
     <img src="img/whatsapp-icon.png" alt="WhatsApp" / loading="lazy">
   </a>
+  <script src="js/fix-cards.js"></script>
+  <script src="js/data-driver.js"></script>
 </body>
 </html>
