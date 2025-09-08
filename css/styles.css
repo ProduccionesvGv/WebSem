@@ -669,3 +669,88 @@ body{ overflow-x: hidden; }
   .card-img-wrap{ width: 100%; aspect-ratio: 4 / 5; }
   .card-body{ display:flex; flex-direction:column; gap:8px; }
 }
+
+
+/* === Mobile (≤768px): wider cards, centered text, show 2.25 cards === */
+@media (max-width: 768px){
+  #carousel{
+    display: flex !important;
+    gap: 16px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  #carousel > .card{
+    flex: 0 0 calc((100% - (2 * 16px)) / 2.25) !important;
+    max-width: calc((100% - (2 * 16px)) / 2.25) !important;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+  }
+  .card-img-wrap{
+    width: 100%;
+    aspect-ratio: 4 / 5;
+  }
+  .card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    padding: 12px;
+  }
+  .card .title,
+  .card .subtitle,
+  .card .price{
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* === MOBILE OVERRIDE: Wider cards, centered text, 2.25 cards visible === */
+@media (max-width: 768px){
+  /* Use flex to enforce fixed card width and reliable teaser */
+  #carousel{
+    display: flex !important;
+    gap: 12px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  #carousel > .card{
+    flex: 0 0 calc((100% - (2 * 12px)) / 2.25) !important; /* 2 full + 1/4 */
+    max-width: calc((100% - (2 * 12px)) / 2.25) !important;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Keep equal image ratio so heights align */
+  .card-img-wrap{
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  /* Center text block content */
+  .card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* horizontal center */
+    justify-content: center;/* vertical center of its own block */
+    gap: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  /* Typical text elements present in the cards */
+  .card .title{ font-size: clamp(15px, 4.2vw, 17px); line-height: 1.2; }
+  .card .subtitle, .card .genetica, .card .price{ font-size: clamp(13px, 3.6vw, 15px); }
+  /* Make sure long words don't force width */
+  #carousel, #carousel *{ min-width: 0; }
+}
