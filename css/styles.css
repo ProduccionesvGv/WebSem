@@ -2271,3 +2271,58 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
   border: none !important;
   box-shadow: none !important;
 }
+
+/* === SPEC IMAGES: keep shadow, remove only borders === */
+.specs-section img,
+.specs-gallery img,
+.specs .gallery img{
+  border: none !important;
+  outline: none !important;
+  /* restore/drop-in a pleasant shadow in case a previous rule nulled it */
+  box-shadow: 0 8px 24px rgba(0,0,0,.30) !important;
+}
+
+/* If figures/cards in specs had borders, keep them borderless but do not kill shadows on IMG */
+.specs-section figure,
+.specs-gallery figure{
+  border: none !important;
+}
+
+/* === HEADER BACKGROUND: remove black border/line around header-bg === */
+.site-header,
+.site-header .container,
+.site-header .header-bg,
+.site-header .header-bg::before,
+.site-header .header-bg::after{
+  border: none !important;
+  outline: none !important;
+}
+
+/* Ensure header image itself has no border and no baseline gap that can look like a line */
+.site-header img{
+  border: 0 !important;
+  outline: none !important;
+  display: block; /* avoid 1px baseline gap on some browsers */
+}
+
+/* Safety: hide any overlay edges that could appear as borders */
+.site-header::before,
+.site-header::after{
+  border: none !important;
+  outline: none !important;
+}
+
+/* === LIGHT THEMES: Cuadro 1 title in black === */
+html[data-theme="color3"] .carousel-section .section-title.exterior,
+html[data-theme="color4"] .carousel-section .section-title.exterior{
+  color: #000000 !important;
+}
+
+/* === MENU HEIGHT ADJUST: drawer fits content, not full page === */
+.site-menu{
+  bottom: auto !important;       /* stop stretching to page bottom */
+  height: auto !important;       /* grow to content height */
+  max-height: calc(100vh - 32px) !important; /* keep within viewport if content is tall */
+  overflow: auto !important;     /* scroll inside if needed */
+  border-bottom-left-radius: 12px; /* optional soft end */
+}
