@@ -2154,3 +2154,86 @@ html[data-theme="color4"] .carousel-section .card .card-img-wrap::after{
   display: none !important;
   content: none !important;
 }
+
+/* === DARK THEMES: tonal mapping for Cuadro 1 (same hue, less brightness -> strong) === */
+/* Color1 (oscuro): Navy + Lime */
+html[data-theme="color1"]{
+  --acc-weak:#4ecb3e;   /* darkest lime */
+  --acc-mid:#6fe85d;    /* medium lime */
+  --acc-strong:#86ff6b; /* existing accent (strong) */
+}
+/* Color2 (oscuro): Minimal + Sky */
+html[data-theme="color2"]{
+  --acc-weak:#3f8bb7;   /* darkest sky */
+  --acc-mid:#51a8db;    /* medium sky */
+  --acc-strong:#63c5ff; /* existing accent (strong) */
+}
+
+/* Apply hierarchy only inside Cuadro 1 */
+html[data-theme="color1"] .carousel-section .section-title.exterior,
+html[data-theme="color2"] .carousel-section .section-title.exterior{
+  color: var(--acc-weak) !important;         /* Genética para exterior -> más tenue */
+}
+
+html[data-theme="color1"] .carousel-section .card .title,
+html[data-theme="color2"] .carousel-section .card .title{
+  color: var(--acc-mid) !important;          /* Título de la tarjeta (Phantom Ice) -> medio */
+}
+
+html[data-theme="color1"] .carousel-section .card .subtitle,
+html[data-theme="color2"] .carousel-section .card .subtitle{
+  color: var(--acc-strong) !important;       /* Subtítulo -> fuerte */
+}
+
+html[data-theme="color1"] .carousel-section .card .price,
+html[data-theme="color2"] .carousel-section .card .price,
+html[data-theme="color1"] .carousel-section .card [class*="price"],
+html[data-theme="color2"] .carousel-section .card [class*="price"]{
+  color: var(--acc-strong) !important;       /* Precio -> fuerte */
+  font-weight: 800;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Neutralize any conflicting header/footer backgrounds */
+html[data-theme="color1"] .carousel-section .card .card-header,
+html[data-theme="color2"] .carousel-section .card .card-header,
+html[data-theme="color1"] .carousel-section .card .card-footer,
+html[data-theme="color2"] .carousel-section .card .card-footer{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* === DARK THEMES: enhanced analogous palettes for Cuadro 1 (titles under image) === */
+/* Color1 (dark, lime family): title=yellow-lime, subtitle=pure lime, price=spring green */
+html[data-theme="color1"]{
+  --c1-title:#d8ff8a;   /* card title (slightly toward yellow) */
+  --c1-sub:#86ff6b;     /* subtitle (current lime) */
+  --c1-price:#42ff9e;   /* price (toward aqua/green) */
+}
+html[data-theme="color1"] .carousel-section .card .title{ color: var(--c1-title) !important; }
+html[data-theme="color1"] .carousel-section .card .subtitle{ color: var(--c1-sub) !important; }
+html[data-theme="color1"] .carousel-section .card .price,
+html[data-theme="color1"] .carousel-section .card [class*="price"]{ color: var(--c1-price) !important; }
+
+/* Color2 (dark, sky family): title=cornflower, subtitle=sky, price=bright cyan */
+html[data-theme="color2"]{
+  --c2-title:#9fc8ff;   /* card title (a step toward violet) */
+  --c2-sub:#63c5ff;     /* subtitle (current sky) */
+  --c2-price:#33e0ff;   /* price (toward cyan/teal) */
+}
+html[data-theme="color2"] .carousel-section .card .title{ color: var(--c2-title) !important; }
+html[data-theme="color2"] .carousel-section .card .subtitle{ color: var(--c2-sub) !important; }
+html[data-theme="color2"] .carousel-section .card .price,
+html[data-theme="color2"] .carousel-section .card [class*="price"]{ color: var(--c2-price) !important; }
+
+/* Ensure no background blocks under titles in dark themes either */
+html[data-theme="color1"] .carousel-section .card .card-img-wrap + *,
+html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
