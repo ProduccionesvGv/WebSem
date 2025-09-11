@@ -1757,31 +1757,81 @@ body{ overflow-x: hidden; }
 /* Keep equal sizing and prevent long text from expanding widths */
 #carousel, #carousel *{ min-width: 0; }
 
-/* === THEME: Soft-UI (neumorphism), mobile-first === */
-.carousel-section{
-  --panel-bg:#11151e; --panel-text:#ecf2ff; --panel-muted:#b9c6dd;
-  --panel-accent:#88f779;
-  background:var(--panel-bg);
-  color:var(--panel-text);
-  border-radius:22px;
-  box-shadow: 8px 8px 18px rgba(0,0,0,.55), -6px -6px 14px rgba(255,255,255,.03);
-  padding:14px 12px 12px;
-  border: 1px solid rgba(255,255,255,.04);
+
+/* === Theme selector (hamburguesa) === */
+.menu-toggle{
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 1000;
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(15,15,20,.65);
+  color: #fff; font-size: 22px; line-height: 0;
+  display: grid; place-items: center;
+  backdrop-filter: saturate(120%) blur(4px);
 }
-.carousel-section .section-title.exterior{ color:var(--panel-text); margin:0; text-shadow: none; }
-.carousel-section .controls .ctrl{
-  display:grid;place-items:center;min-width:44px;min-height:44px;
-  background:#121927; border:1px solid rgba(255,255,255,.06);
-  border-radius:14px; box-shadow: inset 1px 1px 2px rgba(255,255,255,.06), inset -2px -2px 4px rgba(0,0,0,.35);
-  transition: transform .15s ease;
+.site-menu{
+  position: fixed; inset: 0 0 auto auto; /* top-right overlay */
+  top: 0; right: 0;
+  width: min(88vw, 320px);
+  height: 100vh;
+  background: rgba(10,12,16,.96);
+  color: #fff;
+  border-left: 1px solid rgba(255,255,255,.12);
+  box-shadow: -12px 0 30px rgba(0,0,0,.45);
+  z-index: 999;
+  padding: 16px 14px;
 }
-.carousel-section .controls .ctrl:active{ transform: translateY(1px); }
-#carousel{ padding:10px; gap:12px; }
-.carousel-section .card{
-  background:#121826; border:1px solid rgba(255,255,255,.06);
-  border-radius:18px; box-shadow: 6px 6px 14px rgba(0,0,0,.45), -4px -4px 10px rgba(255,255,255,.02);
+.site-menu[hidden]{ display: none !important; }
+.menu-inner{ display: grid; gap: 18px; }
+.menu-group h3{ margin: 6px 0 8px; font-size: 14px; opacity: .9; letter-spacing: .02em; }
+.menu-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.theme-btn, .menu-link{
+  width: 100%; text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.06);
+  color: inherit;
+  font: 500 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
-.carousel-section .card-img-wrap{ border-bottom:1px solid rgba(255,255,255,.06); border-radius:18px 18px 0 0; overflow:hidden;}
-.carousel-section .card .title,.carousel-section .card .subtitle{ color:var(--panel-text); }
-.carousel-section .card .price{ color:var(--panel-accent); font-weight: 700; }
-.carousel-section .hint.container{ color:var(--panel-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center; }
+.theme-btn:hover, .menu-link:hover{ background: rgba(255,255,255,.12); }
+
+/* === Base themes via [data-theme] — 2 oscuros y 2 claros === */
+:root{
+  --bg: #0b0b0d; --card:#15151a; --soft:#1e1e25; --text:#e9e9ef;
+  --muted:#a6a6b2; --accent:#8cff7a; --accent-2:#87b7ff; --ring: rgba(140,255,122,.3);
+}
+
+/* Color1 (oscuro): Navy + Lime */
+html[data-theme="color1"]{
+  --bg:#0f1423; --card:#0e1420; --soft:#182135; --text:#e6ecff;
+  --muted:#9fb0d6; --accent:#86ff6b; --accent-2:#6fb7ff; --ring: rgba(134,255,107,.3);
+}
+
+/* Color2 (oscuro): Minimal + Sky */
+html[data-theme="color2"]{
+  --bg:#0f1318; --card:#121820; --soft:#192330; --text:#dff1ff;
+  --muted:#a7bfcd; --accent:#63c5ff; --accent-2:#a1e3ff; --ring: rgba(99,197,255,.35);
+}
+
+/* Color3 (claro): Gris cálido + Ámbar */
+html[data-theme="color3"]{
+  --bg:#faf7f2; --card:#ffffff; --soft:#f2efe9; --text:#1e2328;
+  --muted:#666f78; --accent:#ffb347; --accent-2:#ffcf80; --ring: rgba(255,179,71,.35);
+}
+
+/* Color4 (claro): Blanco frío + Sky */
+html[data-theme="color4"]{
+  --bg:#f5f9ff; --card:#ffffff; --soft:#eef4fb; --text:#17202a;
+  --muted:#667a8a; --accent:#5cc6ff; --accent-2:#9adfff; --ring: rgba(92,198,255,.35);
+}
+
+/* Aplicar variables a fondo general si están definidas en el proyecto */
+body{ background: var(--bg); color: var(--text); }
+
+/* === Quitar líneas/blancos internos en tarjetas del CUADRO 1 === */
+.carousel-section .card{ border-color: transparent !important; box-shadow: var(--shadow); }
+.carousel-section .card-img-wrap{ border: none !important; }
+.carousel-section .title, .carousel-section .subtitle, .carousel-section .price{ border: none !important; box-shadow: none !important; }

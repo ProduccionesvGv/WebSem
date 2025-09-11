@@ -10,6 +10,28 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+
+  <button class="menu-toggle" aria-expanded="false" aria-controls="siteMenu" aria-label="Abrir menú">☰</button>
+  <nav id="siteMenu" class="site-menu" hidden>
+    <div class="menu-inner">
+      <div class="menu-group">
+        <h3>Estilo</h3>
+        <ul class="menu-list">
+          <li><button class="theme-btn" data-theme="color1">Color1 (oscuro)</button></li>
+          <li><button class="theme-btn" data-theme="color2">Color2 (oscuro)</button></li>
+          <li><button class="theme-btn" data-theme="color3">Color3 (claro)</button></li>
+          <li><button class="theme-btn" data-theme="color4">Color4 (claro)</button></li>
+        </ul>
+      </div>
+      <div class="menu-group">
+        <h3>Feminizadas</h3>
+        <ul class="menu-list">
+          <li><a href="#cuadro1" class="menu-link">Ir al grupo</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <header class="site-header" style="background: url('img/header-bg.png') no-repeat center center; background-size: cover; padding: 40px 0; text-align: center;">
     <div class="container">
       <h1 class="site-title">Semillas de Coleccion</h1>
@@ -34,7 +56,7 @@
   </header>
 
   <main>
-    <section class="carousel-section">
+    <section id="cuadro1" class="carousel-section">
       <div class="container row-between">
         <h2 class="section-title exterior">Genética para exterior</h2>
         <div class="controls">
@@ -81,5 +103,7 @@
     <img src="img/whatsapp-icon.png" alt="WhatsApp" / loading="lazy">
   </a>
   <script src="js/data-driver.js" defer></script>
+
+  <script src="js/theme-selector.js" defer></script>
 </body>
 </html>
