@@ -2237,3 +2237,37 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
   box-shadow: none !important;
   border: none !important;
 }
+
+/* === BORDER REMOVALS: header titles group + specs images (mobile-first) === */
+
+/* Grupo de elementos de los títulos (header): sin borde ni sombra */
+.site-header,
+.site-header .container{
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Evitar decoraciones/pseudoelementos de subrayado en el título del header */
+.site-header .site-title::before,
+.site-header .site-title::after{
+  display: none !important;
+  content: none !important;
+}
+
+/* Especificaciones: quitar borde de las 3 imágenes y contenedores cercanos */
+.specs-section img,
+.specs-gallery img,
+.specs .gallery img{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Por si las imágenes están envueltas en figure o cards dentro de Especificaciones */
+.specs-section figure,
+.specs-gallery figure,
+.specs-section .card,
+.specs-section .card-img-wrap{
+  border: none !important;
+  box-shadow: none !important;
+}
