@@ -55,3 +55,33 @@
     }
   });
 })();
+
+/* === Accordion for menu sections (compat) === */
+(function(){
+  var groups = document.querySelectorAll('.site-menu .menu-group');
+  for (var i = 0; i < groups.length; i++){
+    (function(group){
+      group.setAttribute('aria-expanded', 'false');
+      var header = group.querySelector('h3');
+      if (!header) return;
+      header.setAttribute('role','button');
+      header.setAttribute('tabindex','0');
+      var toggle = function(){
+        var isOpen = group.getAttribute('aria-expanded') === 'true';
+        // close all
+        for (var j = 0; j < groups.length; j++){
+          groups[j].setAttribute('aria-expanded','false');
+        }
+        // open this if it was closed
+        group.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      };
+      header.addEventListener('click', toggle);
+      header.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggle();
+        }
+      });
+    })(groups[i]);
+  }
+})();
