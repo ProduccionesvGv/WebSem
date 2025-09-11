@@ -1955,3 +1955,17 @@ body{ background: var(--bg); color: var(--text); }
   border: none !important;
   box-shadow: none !important;
 }
+
+
+/* === MENU ACCORDION (ensure rules present) === */
+.site-menu .menu-group{ border-top: 1px solid rgba(255,255,255,.08); padding-top: 8px; margin-top: 4px; }
+.site-menu .menu-group:first-child{ border-top: none; padding-top: 0; margin-top: 0; }
+.site-menu .menu-group h3{
+  margin: 6px 0; font-size: 14px; letter-spacing: .02em; opacity: .95;
+  cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+}
+.site-menu .menu-group h3::after{ content:"▸"; font-size:16px; opacity:.8; transform: rotate(0deg); transition: transform .2s ease; }
+.site-menu .menu-group[aria-expanded="true"] h3::after{ transform: rotate(90deg); }
+/* collapsed by default */
+.site-menu .menu-group .menu-list{ display: none; }
+.site-menu .menu-group[aria-expanded="true"] .menu-list{ display: grid; }
