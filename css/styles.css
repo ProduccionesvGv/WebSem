@@ -1985,3 +1985,98 @@ body{ background: var(--bg); color: var(--text); }
 .carousel-section .card .price{
   color: var(--panel-accent) !important;
 }
+
+/* === LIGHT THEMES FIX for CUADRO 1 (Color3/Color4) === */
+/* Ensure Cuadro 1 (carousel-section) presents as light (white) in light themes */
+html[data-theme="color3"] .carousel-section,
+html[data-theme="color4"] .carousel-section{
+  --panel-bg: #ffffff;
+  --panel-text: #1e2328;
+  --panel-muted: #666f78;
+  /* keep accent from each theme's variables */
+  background: #ffffff !important;
+  color: #1e2328 !important;
+  box-shadow: none !important;   /* borderless as requested */
+  border: none !important;
+}
+
+/* Cards inside Cuadro 1 should be white in light themes */
+html[data-theme="color3"] .carousel-section .card,
+html[data-theme="color4"] .carousel-section .card{
+  background: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Images wrapper stays clean (no separators) */
+html[data-theme="color3"] .carousel-section .card-img-wrap,
+html[data-theme="color4"] .carousel-section .card-img-wrap{
+  border: none !important;
+  box-shadow: none !important;
+  background-color: #ffffff !important;
+}
+
+/* "Especificaciones" and general body text inside the card: dark text on white */
+html[data-theme="color3"] .carousel-section .card .card-body,
+html[data-theme="color4"] .carousel-section .card .card-body{
+  color: #111111 !important;
+}
+html[data-theme="color3"] .carousel-section .card .card-body p,
+html[data-theme="color4"] .carousel-section .card .card-body p,
+html[data-theme="color3"] .carousel-section .card .card-body li,
+html[data-theme="color4"] .carousel-section .card .card-body li,
+html[data-theme="color3"] .carousel-section .card .card-body span,
+html[data-theme="color4"] .carousel-section .card .card-body span,
+html[data-theme="color3"] .carousel-section .card .card-body small,
+html[data-theme="color4"] .carousel-section .card .card-body small{
+  color: inherit !important;
+}
+
+/* Keep themed accent for the key labels (title/subtitle/price) already linked */
+
+/* === LIGHT THEMES: force specifications text to BLACK === */
+/* Scope to Cuadro 1 card body only, for Color3 and Color4 */
+html[data-theme="color3"] .carousel-section .card .card-body,
+html[data-theme="color4"] .carousel-section .card .card-body{
+  color: #000000 !important;
+}
+html[data-theme="color3"] .carousel-section .card .card-body p,
+html[data-theme="color3"] .carousel-section .card .card-body li,
+html[data-theme="color3"] .carousel-section .card .card-body span,
+html[data-theme="color3"] .carousel-section .card .card-body small,
+html[data-theme="color3"] .carousel-section .card .card-body strong,
+html[data-theme="color3"] .carousel-section .card .card-body em,
+html[data-theme="color3"] .carousel-section .card .card-body dt,
+html[data-theme="color3"] .carousel-section .card .card-body dd,
+html[data-theme="color3"] .carousel-section .card .card-body a,
+html[data-theme="color4"] .carousel-section .card .card-body p,
+html[data-theme="color4"] .carousel-section .card .card-body li,
+html[data-theme="color4"] .carousel-section .card .card-body span,
+html[data-theme="color4"] .carousel-section .card .card-body small,
+html[data-theme="color4"] .carousel-section .card .card-body strong,
+html[data-theme="color4"] .carousel-section .card .card-body em,
+html[data-theme="color4"] .carousel-section .card .card-body dt,
+html[data-theme="color4"] .carousel-section .card .card-body dd,
+html[data-theme="color4"] .carousel-section .card .card-body a{
+  color: #000000 !important;
+}
+
+
+/* === Light themes: make cards pure white, kill gradients === */
+html[data-theme="color3"] .carousel-section .card,
+html[data-theme="color4"] .carousel-section .card{
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+/* === Especificaciones: white card + black text in light themes === */
+html[data-theme="color3"] .specs-section .specs-card,
+html[data-theme="color4"] .specs-section .specs-card{
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #e5e7eb !important;
+}
+html[data-theme="color3"] .specs-section .specs-card *,
+html[data-theme="color4"] .specs-section .specs-card *{
+  color: #000000 !important;
+}
