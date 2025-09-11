@@ -1914,3 +1914,44 @@ body{ background: var(--bg); color: var(--text); }
 /* collapsed by default */
 .site-menu .menu-group .menu-list{ display: none; }
 .site-menu .menu-group[aria-expanded="true"] .menu-list{ display: grid; }
+
+/* === CUADRO 1 (carousel-section): Borderless panel & cards === */
+/* Eliminar líneas del panel externo */
+.carousel-section{
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Si algún tema agrega subrayado decorativo al título, ocultarlo en Cuadro 1 */
+.carousel-section .section-title.exterior::after{
+  display: none !important;
+}
+
+/* Eliminar líneas de tarjetas e imágenes */
+.carousel-section .card{
+  border: none !important;
+  box-shadow: none !important;
+  background-clip: padding-box;
+}
+.carousel-section .card-img-wrap{
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Eliminar líneas/separadores en los textos internos (nombre, genética, precio) */
+.carousel-section .card .title,
+.carousel-section .card .subtitle,
+.carousel-section .card .price,
+.carousel-section .card .card-body,
+.carousel-section .card .card-header,
+.carousel-section .card .card-footer{
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Quitar posibles utilidades/clases de borde dentro de las cards que generen líneas */
+.carousel-section .card [class*="border"],
+.carousel-section .card [class*="divider"]{
+  border: none !important;
+  box-shadow: none !important;
+}
