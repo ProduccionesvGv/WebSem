@@ -2080,3 +2080,77 @@ html[data-theme="color3"] .specs-section .specs-card *,
 html[data-theme="color4"] .specs-section .specs-card *{
   color: #000000 !important;
 }
+
+/* === LIGHT THEMES: fix subtitle & price boxes in Cuadro 1 === */
+html[data-theme="color3"] .carousel-section .card .subtitle,
+html[data-theme="color4"] .carousel-section .card .subtitle,
+html[data-theme="color3"] .carousel-section .card .card-subtitle,
+html[data-theme="color4"] .carousel-section .card .card-subtitle{
+  color: var(--accent, #5cc6ff) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Target common price classnames and any element containing "price" */
+html[data-theme="color3"] .carousel-section .card .price,
+html[data-theme="color4"] .carousel-section .card .price,
+html[data-theme="color3"] .carousel-section .card .card-price,
+html[data-theme="color4"] .carousel-section .card .card-price,
+html[data-theme="color3"] .carousel-section .card [class*="price"],
+html[data-theme="color4"] .carousel-section .card [class*="price"]{
+  color: var(--accent, #5cc6ff) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ensure inner spans/strong inherit accent too */
+html[data-theme="color3"] .carousel-section .card [class*="price"] *,
+html[data-theme="color4"] .carousel-section .card [class*="price"] *{
+  color: inherit !important;
+}
+
+/* Neutralize dark backgrounds in headers/footers inside cards */
+html[data-theme="color3"] .carousel-section .card .card-header,
+html[data-theme="color4"] .carousel-section .card .card-header,
+html[data-theme="color3"] .carousel-section .card .card-footer,
+html[data-theme="color4"] .carousel-section .card .card-footer{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* === LIGHT THEMES: remove black box under images (Cuadro 1) === */
+/* 1) Ensure the block immediately after the image is white (common title container) */
+html[data-theme="color3"] .carousel-section .card .card-img-wrap + *,
+html[data-theme="color4"] .carousel-section .card .card-img-wrap + *{
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 2) Typical content wrappers under image -> white background */
+html[data-theme="color3"] .carousel-section .card .card-body,
+html[data-theme="color4"] .carousel-section .card .card-body,
+html[data-theme="color3"] .carousel-section .card .card-content,
+html[data-theme="color4"] .carousel-section .card .card-content,
+html[data-theme="color3"] .carousel-section .card .content,
+html[data-theme="color4"] .carousel-section .card .content,
+html[data-theme="color3"] .carousel-section .card .info,
+html[data-theme="color4"] .carousel-section .card .info{
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 3) Kill potential dark overlays from the image wrapper */
+html[data-theme="color3"] .carousel-section .card .card-img-wrap::before,
+html[data-theme="color3"] .carousel-section .card .card-img-wrap::after,
+html[data-theme="color4"] .carousel-section .card .card-img-wrap::before,
+html[data-theme="color4"] .carousel-section .card .card-img-wrap::after{
+  display: none !important;
+  content: none !important;
+}
