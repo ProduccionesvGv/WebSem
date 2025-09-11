@@ -1969,3 +1969,19 @@ body{ background: var(--bg); color: var(--text); }
 /* collapsed by default */
 .site-menu .menu-group .menu-list{ display: none; }
 .site-menu .menu-group[aria-expanded="true"] .menu-list{ display: grid; }
+
+/* === THEME LINK: Bind Cuadro 1 headings to theme accent === */
+/* Map panel variables to global theme vars so colors follow selected theme */
+.carousel-section{
+  --panel-text: var(--text, #e6ecff);
+  --panel-muted: var(--muted, #a7bfcd);
+  --panel-accent: var(--accent, #63c5ff);
+}
+
+/* Apply accent color to requested labels in Cuadro 1 */
+.carousel-section .section-title.exterior,
+.carousel-section .card .title,
+.carousel-section .card .subtitle,
+.carousel-section .card .price{
+  color: var(--panel-accent) !important;
+}
