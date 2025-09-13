@@ -2312,17 +2312,93 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
   outline: none !important;
 }
 
-/* === LIGHT THEMES: Cuadro 1 title in black === */
-html[data-theme="color3"] .carousel-section .section-title.exterior,
-html[data-theme="color4"] .carousel-section .section-title.exterior{
-  color: #000000 !important;
+
+/* ===============================================
+   MOBILE OPTIMIZATION PACK — v1 (solo CSS) [REBUILD b]
+   Objetivo: en móviles, tarjetas más 'bajas' (menos altura) sin tocar HTML/JS.
+   =============================================== */
+
+/* Ajustes generales para <= 768px */
+@media (max-width: 768px){
+  /* Menos altura de imagen: de 4/5 (vertical) a 4/3 (más apaisado) */
+  .card-img-wrap{
+    aspect-ratio: 4/3 !important;
+  }
+  /* Compactar tipografías y espaciados internos */
+  .card-body{ padding: 10px 12px !important; }
+  .title{ font-size: 15px !important; line-height: 1.15 !important; margin: 6px 0 2px !important; }
+  .subtitle{ font-size: 13px !important; margin: 0 0 6px !important; }
+  .price{ font-size: 16px !important; margin-top: 6px !important; }
+  /* Ajuste de separación horizontal del carrusel */
+  .carousel{ gap: 12px !important; padding-left: 3%; padding-right: 3%; }
 }
 
-/* === MENU HEIGHT ADJUST: drawer fits content, not full page === */
-.site-menu{
-  bottom: auto !important;       /* stop stretching to page bottom */
-  height: auto !important;       /* grow to content height */
-  max-height: calc(100vh - 32px) !important; /* keep within viewport if content is tall */
-  overflow: auto !important;     /* scroll inside if needed */
-  border-bottom-left-radius: 12px; /* optional soft end */
+/* Afinado extra para smartphones estrechos <= 480px */
+@media (max-width: 480px){
+  /* Aún más ancho que alto para reducir la altura total de cada card */
+  .card-img-wrap{
+    aspect-ratio: 3/2 !important;
+  }
+  /* Ligero ajuste de columnas del carrusel para mejor cabida */
+  .carousel{
+    grid-auto-columns: clamp(220px, 58vw, 260px) !important;
+  }
+}
+
+
+/* ===============================================
+   MOBILE OPTIMIZATION PACK — v2 (solo CSS)
+   Objetivo: aún más 'chato' en smartphone. Mantiene v1 y agrega:
+   - Imagen 16/9 en móvil
+   - Títulos/subtítulos con line-clamp
+   - Cards con layout flexible para alturas consistentes
+   =============================================== */
+
+/* Smartphones y tablets chicas */
+@media (max-width: 768px){
+  /* Imagen más apaisada para bajar altura total */
+  .card-img-wrap{
+    aspect-ratio: 16/9 !important;
+  }
+
+  /* Cards con layout flexible: imagen arriba + body que se adapta */
+  .card{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .card-body{
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 10px 12px !important;
+  }
+
+  /* Tipografías aún más compactas */
+  .title{ font-size: 14px !important; line-height: 1.15 !important; margin: 6px 0 2px !important; }
+  .subtitle{ font-size: 12px !important; line-height: 1.15 !important; margin: 0 0 6px !important; }
+  .price{ font-size: 15px !important; line-height: 1.1 !important; margin-top: 6px !important; }
+
+  /* Truncado (line-clamp) para uniformar altura del texto */
+  .title, .subtitle{
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    word-break: break-word !important;
+  }
+  .title{ -webkit-line-clamp: 1 !important; }      /* 1 línea para título */
+  .subtitle{ -webkit-line-clamp: 1 !important; }   /* 1 línea para subtítulo */
+}
+
+/* Smartphones muy estrechos */
+@media (max-width: 480px){
+  /* Mantener 16/9, y ajustar las columnas para caber mejor */
+  .carousel{
+    gap: 10px !important;
+    grid-auto-columns: clamp(210px, 56vw, 250px) !important;
+  }
+  .title{ font-size: 13.5px !important; }
+  .subtitle{ font-size: 11.5px !important; }
+  .price{ font-size: 14.5px !important; }
 }
