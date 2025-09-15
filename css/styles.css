@@ -2566,3 +2566,91 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
   border: none !important;
   outline: none !important;
 }
+
+
+/* =====================================================
+   MOBILE HEIGHT OPTIMIZER — Cuadro 1 vC
+   Objetivo: que Cuadro 1 ocupe menos altura en smartphone.
+   Sin tocar HTML/JS.
+   ===================================================== */
+@media (max-width: 768px){
+  /* Compactar bloque global de Cuadro 1 */
+  .carousel-section{
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+  /* Menos separación entre tarjetas */
+  .carousel{ gap: 8px !important; padding-left: 3%; padding-right: 3%; }
+
+  /* Tarjetas: evitar crecimientos por contenido */
+  .carousel-section .card{
+    overflow: hidden !important;
+    border: none !important; /* sin marcos que sumen altura visual */
+  }
+
+  /* Imagen más apaisada para reducir altura total */
+  .carousel-section .card-img-wrap{
+    aspect-ratio: 2/1 !important; /* más chata que 16:9 */
+  }
+  .carousel-section .card-img-wrap img{
+    width: 100% !important; height: 100% !important;
+    object-fit: cover !important; display: block !important;
+  }
+
+  /* Texto compacto y truncado para no “estirar” la card */
+  .carousel-section .card .card-body{ padding: 8px 10px !important; }
+  .carousel-section .card .title{ font-size: 14px !important; line-height: 1.12 !important; margin: 4px 0 2px !important; }
+  .carousel-section .card .subtitle{ font-size: 12px !important; line-height: 1.1 !important; margin: 0 0 4px !important; }
+  .carousel-section .card .price{ font-size: 14.5px !important; line-height: 1.1 !important; margin-top: 4px !important; }
+
+  .carousel-section .card .title,
+  .carousel-section .card .subtitle{
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 1 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    word-break: break-word !important;
+  }
+
+  /* El título del bloque, con menos margen inferior */
+  .carousel-section .section-title.exterior{ margin-bottom: 6px !important; }
+}
+
+/* Smartphones estrechos */
+@media (max-width: 480px){
+  /* Aún más chato, para que Cuadro 1 ocupe claramente menos de la mitad */
+  .carousel-section .card-img-wrap{ aspect-ratio: 21/9 !important; } /* aprox 2.33:1 */
+  .carousel{ gap: 6px !important; grid-auto-columns: clamp(198px, 52vw, 232px) !important; }
+
+  /* Opcional: si aún ocupa mucho, activar esto (dejar comentado por ahora)
+  .carousel-section .card .subtitle{ display: none !important; }
+  */
+}
+
+/* Nota del bloque: una sola línea en móvil para no agregar altura */
+@media (max-width: 768px){
+  .carousel-section .hint,
+  .carousel-section .hint.container{
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin-top: 6px !important;
+  }
+}
+
+/* Refuerzo: sin línea/borde fantasma del bloque */
+#cuadro1, .carousel-section{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-clip: padding-box !important;
+}
+#cuadro1::before, #cuadro1::after,
+.carousel-section::before, .carousel-section::after{
+  content: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
