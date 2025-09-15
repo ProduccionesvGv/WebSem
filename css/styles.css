@@ -2504,3 +2504,65 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* 4) Seguridad: evitar que img generen línea de baseline */
 .site-header img{ display:block; }
+
+
+/* =====================================================
+   HEADER HEIGHT/WIDTH FIX — vB
+   - Menos alto y visualmente más "ancho" (cover + crop)
+   - Soporta header como fondo CSS o <img> dentro
+   ===================================================== */
+
+/* Móvil primero: reducir altura del header */
+@media (max-width: 768px){
+  .site-header{
+    min-height: clamp(140px, 26vh, 260px) !important; /* más bajo que antes */
+  }
+  /* Si el header usa un div con BG */
+  .site-header .header-bg{
+    height: 100% !important;
+    background-size: cover !important;    /* llenar ancho, recortar alto */
+    background-position: center center !important;
+  }
+  /* Si el header es una IMG (o lleva IMG dentro) */
+  .site-header .header-bg img,
+  .site-header > img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;         /* recorta alto, prioriza ancho */
+    object-position: center center !important;
+    display: block;
+  }
+  /* Compactar paddings y tipografías del header para bajar la altura visual */
+  .site-header .header-inner,
+  .site-header .container{ padding-top: 10px !important; padding-bottom: 10px !important; }
+  .site-header .site-title{ font-size: clamp(18px, 5vw, 26px) !important; line-height: 1.08 !important; }
+  .site-header .site-subtitle{ font-size: clamp(11px, 3.5vw, 15px) !important; line-height: 1.18 !important; }
+  .site-header .inase-logo{ max-height: 32px !important; }
+}
+
+/* Desktop/Tablet: también un poco menos alto para coherencia */
+@media (min-width: 769px){
+  .site-header{
+    min-height: clamp(220px, 32vh, 380px) !important; /* reducir altura máxima */
+  }
+  .site-header .header-bg{
+    background-size: cover !important;
+    background-position: center 48% !important; /* levísimo shift para composición */
+  }
+  .site-header .header-bg img,
+  .site-header > img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 48% !important;
+    display: block;
+  }
+}
+
+/* Seguridad: sin bordes/lineas en el contorno del header */
+.site-header,
+.site-header .container,
+.site-header .header-bg{
+  border: none !important;
+  outline: none !important;
+}
