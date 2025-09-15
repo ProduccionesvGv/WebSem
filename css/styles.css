@@ -2430,3 +2430,77 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
   .card-body{ padding: 7px 10px !important; }
   .price{ font-size: 13.5px !important; }
 }
+
+
+/* =====================================================
+   MOBILE HEIGHT OPTIMIZER (Cuadro 1 + Header) — vA
+   - Reduce altura en smartphone sin tocar HTML/JS
+   - Elimina línea guía en Cuadro 1
+   ===================================================== */
+
+/* 1) Cuadro 1: imágenes menos altas y textos compactos */
+@media (max-width: 768px){
+  /* Imagen más apaisada */
+  .carousel-section .card-img-wrap{ aspect-ratio: 16/9 !important; }
+  .carousel-section .card-img-wrap img{ width:100%; height:100%; object-fit: cover; display:block; }
+  /* Compactación de textos */
+  .carousel-section .card .card-body{ padding: 10px 12px !important; }
+  .carousel-section .card .title{ font-size: 14.5px !important; line-height: 1.15 !important; margin: 6px 0 2px !important; }
+  .carousel-section .card .subtitle{ font-size: 12.5px !important; line-height: 1.15 !important; margin: 0 0 6px !important; }
+  .carousel-section .card .price{ font-size: 15px !important; line-height: 1.1 !important; margin-top: 6px !important; }
+  /* Truncado para evitar alturas variables por texto largo */
+  .carousel-section .card .title,
+  .carousel-section .card .subtitle{
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 1 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    word-break: break-word !important;
+  }
+  /* Carrusel más apretado */
+  .carousel{ gap: 10px !important; padding-left: 3%; padding-right: 3%; }
+}
+
+@media (max-width: 480px){
+  .carousel-section .card-img-wrap{ aspect-ratio: 18/9 !important; } /* aún más chato */
+  .carousel{ gap: 8px !important; grid-auto-columns: clamp(200px, 54vw, 240px) !important; }
+}
+
+/* 2) Eliminar línea/borde fantasma del bloque Cuadro 1 */
+#cuadro1, .carousel-section{
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  background-clip: padding-box !important;
+}
+#cuadro1::before, #cuadro1::after,
+.carousel-section::before, .carousel-section::after{
+  content: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+/* Subrayado decorativo del título del bloque: off en móvil */
+@media (max-width: 768px){
+  .carousel-section .section-title.exterior::after{ display: none !important; }
+}
+
+/* 3) Header (Grupo de elementos de los títulos): menos alto en móvil */
+@media (max-width: 768px){
+  .site-header{ min-height: clamp(180px, 34vh, 320px) !important; }
+  .site-header .header-bg{
+    background-size: cover !important;
+    background-position: 70% center !important; /* desplaza un poco hacia la derecha */
+    height: 100% !important;
+  }
+  .site-header .header-inner,
+  .site-header .container{ padding-top: 12px !important; padding-bottom: 12px !important; }
+  .site-header .site-title{ font-size: clamp(20px, 5.5vw, 28px) !important; line-height: 1.1 !important; }
+  .site-header .site-subtitle{ font-size: clamp(12px, 3.8vw, 16px) !important; line-height: 1.2 !important; }
+  .site-header .inase-logo{ max-height: 36px !important; }
+}
+
+/* 4) Seguridad: evitar que img generen línea de baseline */
+.site-header img{ display:block; }
