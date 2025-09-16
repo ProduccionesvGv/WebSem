@@ -32,12 +32,16 @@
   
 
 function renderCardsFromProducts(){
-  var list = document.getElementById('carousel');
+  renderCards('carousel', (window.PRODUCTS||[]));
+}
+
+function renderCards(listId, products){
+  var list = document.getElementById(listId);
   if(!list) return;
   list.setAttribute('role','list');
   list.setAttribute('aria-label','Listado de productos');
   list.innerHTML = '';
-  var prods = (window.PRODUCTS || []);
+  var prods = (products || []);
   var frag = document.createDocumentFragment();
 
   prods.forEach(function(p){
@@ -194,6 +198,7 @@ function renderCardsFromProducts(){
   ready(function(){
     try {
       renderCardsFromProducts();
+      try{ renderCards('carousel2', (window.PRODUCTS_INDOOR||[])); }catch(_){ }
       verifyImages(window.PRODUCTS);
       closeSpecsAccordion(); // Start collapsed; do not auto-open
     } catch (e) {
@@ -211,13 +216,12 @@ function renderCardsFromProducts(){
 
 // === Carousel Controls (Prev/Next) ===
 (function(){
-  function scrollByCard(dir){
+  
+  function scrollByCard(list, dir){
     try {
-      var list = document.getElementById('carousel');
       if(!list) return;
       var item = list.querySelector('.card');
       var step = list.clientWidth * 0.9; // fallback
-
       if(item){
         var rect = item.getBoundingClientRect();
         step = rect.width;
@@ -230,13 +234,17 @@ function renderCardsFromProducts(){
   }
 
   function bindCarouselArrows(){
-    var prev = document.getElementById('prevBtn');
-    var next = document.getElementById('nextBtn');
-    if(prev){
-      prev.addEventListener('click', function(e){ e.preventDefault(); scrollByCard(-1); });
-    }
-    if(next){
-      next.addEventListener('click', function(e){ e.preventDefault(); scrollByCard(1); });
+    var sections = document.querySelectorAll('.carousel-section');
+    for(var i=0;i<sections.length;i++){
+      (function(section){
+        if(section._arrowsWired) return;
+        section._arrowsWired = true;
+        var list = section.querySelector('.carousel');
+        var prev = section.querySelector('#prevBtn, #prevBtn2, .prevBtn');
+        var next = section.querySelector('#nextBtn, #nextBtn2, .nextBtn');
+        if(prev){ prev.addEventListener('click', function(e){ e.preventDefault(); scrollByCard(list, -1); }); }
+        if(next){ next.addEventListener('click', function(e){ e.preventDefault(); scrollByCard(list, 1); }); }
+      })(sections[i]);
     }
   }
 

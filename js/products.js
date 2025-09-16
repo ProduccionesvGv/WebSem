@@ -66,3 +66,58 @@ const PRODUCTS = [
 
 // Exponer global para el bootstrap
 window.PRODUCTS = PRODUCTS;
+
+
+
+// Productos de interior (placeholders, cámbialos luego)
+const PRODUCTS_INDOOR = [
+  {
+    id: 'indo-alpha',
+    title: 'Indoor Alpha',
+    subtitle: 'Feminizada Íntegra',
+    price_ars: 19500,
+    tags: ['indoor','compacta'],
+    stock: 'en-stock',
+    notas: 'Corto ciclo, ideal para espacios reducidos.',
+    sabor: 'Cítrico, Terroso',
+    rendimiento: 'Medio-Alto',
+    thc: '18-21%',
+    floracion: '7-9 semanas',
+    genetica: 'Híbrido Índica/Sativa',
+    banco: 'Mamua Seeds',
+    images: ['img/template-hero.jpg','img/template-1.jpg','img/template-2.jpg']
+  },
+  {
+    id: 'indo-beta',
+    title: 'Indoor Beta',
+    subtitle: 'Feminizada Selecta',
+    price_ars: 20500,
+    tags: ['indoor','resina'],
+    stock: 'en-stock',
+    notas: 'Alta producción de resina, aromas intensos.',
+    sabor: 'Floral, Pino',
+    rendimiento: 'Alto',
+    thc: '19-22%',
+    floracion: '8-10 semanas',
+    genetica: 'Cruce Selecto',
+    banco: 'Mamua Seeds',
+    images: ['img/template-1.jpg','img/template-2.jpg','img/template-hero.jpg']
+  },
+  {
+    id: 'indo-gamma',
+    title: 'Indoor Gamma',
+    subtitle: 'Feminizada Híbrida',
+    price_ars: 21500,
+    tags: ['indoor','rápida'],
+    stock: 'en-stock',
+    notas: 'Ciclo rápido con estructura compacta.',
+    sabor: 'Dulce, Caramelo',
+    rendimiento: 'Medio',
+    thc: '17-20%',
+    floracion: '7-8 semanas',
+    genetica: 'Híbrido',
+    banco: 'Mamua Seeds',
+    images: ['img/template-2.jpg','img/template-hero.jpg','img/template-1.jpg']
+  }
+];
+window.PRODUCTS_INDOOR = PRODUCTS_INDOOR;
