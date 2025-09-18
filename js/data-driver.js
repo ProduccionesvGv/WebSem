@@ -105,8 +105,64 @@ function renderCards(listId, products){
 }
 
 
-  function showSpecsFromProducts(id){
-    var p = (window.PRODUCTS || []).find(function(x){ return x.id === id; });
+  
+
+function renderVariantsSpecs(p){
+  if(!p || !Array.isArray(p.variants) || !p.variants.length) return '';
+  var isPack = (Array.isArray(p.tags) && p.tags.indexOf('pack') !== -1);
+  function esc(s){ return (s==null || s==='') ? '-' : String(s); }
+  function rend(v){
+    var a = [];
+    if (v.produccion_int) a.push('INT: ' + v.produccion_int);
+    if (v.produccion_ext) a.push('EXT: ' + v.produccion_ext);
+    return a.length ? a.join(' / ') : (p.rendimiento || '-');
+  }
+  function block(v){
+    var banco = esc(v.banco || p.banco);
+    var genetica = esc(v.genetica);
+    var flor = esc(v.ciclo_completo || p.floracion);
+    var thc = esc(v.thc);
+    var rendimiento = esc(rend(v));
+    var sabor = esc(v.sabor || p.sabor);
+    var notas = esc(v.notas || p.notas || (isPack ? 'Pack con cuatro genéticas destacadas.' : ''));
+    return '' +
+      '<article class="spec-card">' +
+      '  <header class="spec-card__head"><h5>'+ esc(v.name||'-') +'</h5></header>' +
+      '  <div class="spec-card__grid">' +
+      '    <div><div class="label">Banco</div><div class="value">'+ banco +'</div></div>' +
+      '    <div><div class="label">Genética</div><div class="value">'+ genetica +'</div></div>' +
+      '    <div><div class="label">Floración</div><div class="value">'+ flor +'</div></div>' +
+      '    <div><div class="label">THC</div><div class="value">'+ thc +'</div></div>' +
+      '    <div><div class="label">Rendimiento</div><div class="value">'+ rendimiento +'</div></div>' +
+      '    <div><div class="label">Sabor</div><div class="value">'+ sabor +'</div></div>' +
+      '    <div class="full"><div class="label">Notas</div><div class="value">'+ notas +'</div></div>' +
+      '  </div>' +
+      '</article>';
+  }
+  return (p.variants||[]).map(block).join('');
+}
+
+function showSpecsFromProducts(id){
+  function updateVariantSpecsView(target, v){
+    if(!target || !v) return;
+    var rows = [
+      ['Genética', v.genetica || '-'],
+      ['Satividad', v.satividad || '-'],
+      ['THC', v.thc || '-'],
+      ['Producción INT', v.produccion_int || '-'],
+      ['Producción EXT', v.produccion_ext || '-'],
+      ['Ciclo Completo', v.ciclo_completo || '-'],
+      ['Efecto', v.efecto || '-'],
+      ['Sabor', v.sabor || '-']
+    ];
+    target.innerHTML = '<div class="spec-grid">'
+      + rows.map(function(r){ return '<div><div class="label">'+r[0]+'</div><div class="value">'+r[1]+'</div></div>'; }).join('')
+      + '</div>';
+  }
+
+
+    var _all = (window.PRODUCTS||[]).concat(window.PRODUCTS_INDOOR||[]);
+    var p = _all.find(function(x){ return x.id === id; });
     if(!p) return;
 
     var name = document.getElementById('specName');
@@ -127,19 +183,61 @@ function renderCards(listId, products){
       card.setAttribute('aria-live','polite');
       card.setAttribute('aria-atomic','false');
       card.innerHTML = html;
+    var vwrap = document.getElementById('specsVariants');
+    if(vwrap){
+      if(Array.isArray(p.variants) && p.variants.length){
+        var pills = p.variants.map(function(v, i){
+          var lab = (v.name || v.genetica || ('Var '+(i+1)));
+          return '<button class="variant-pill'+(i===0?' active':'')+'" data-vi="'+i+'">'+lab+'</button>';
+        }).join('');
+        vwrap.innerHTML = '<div class="variant-pills">'+pills+'</div><div id="variantSpecsContainer" class="variant-specs"></div>';
+        if(typeof updateVariantSpecsView==='function'){
+          updateVariantSpecsView(document.getElementById('variantSpecsContainer'), p.variants[0]);
+        }
+        vwrap.addEventListener('click', function(ev){
+          var b = ev.target && ev.target.closest('.variant-pill');
+          if(!b) return;
+          var idx = parseInt(b.getAttribute('data-vi')||'0',10);
+          selectVariant(idx);
+        }, {passive:true});
+      } else {
+        vwrap.innerHTML = '';
+      }
+    }
     }
 
     var gal = document.getElementById('specsGallery');
     if(gal){
-      var imgs = (p.images && p.images.slice(0,3)) || [];
-      if(imgs.length < 3){
+      var arr = (p.images||[]);
+      var want = (arr.length >= 5) ? 4 : 3;
+      var imgs = (arr.length >= 5) ? arr.slice(1, 1+want) : arr.slice(0, want);
+      if(imgs.length < want){
         var ph = (window.PLACEHOLDER || 'img/placeholder.svg');
-        while(imgs.length < 3) imgs.push(ph);
+        while(imgs.length < want) imgs.push(ph);
       }
       gal.innerHTML = imgs.map(function(src, i){
-        var alt = (p.title||p.id) + ' ' + (i+1);
-        return '<img src="'+src+'" alt="'+alt+'" loading="lazy">';
-      }).join('');
+      var alt = (p.title||p.id) + ' ' + (i+1);
+      var cls = 'gal-variant';
+      var dv = ' data-vi="'+i+'"';
+      return '<button class="'+cls+'"'+dv+'><img src="'+src+'" alt="'+alt+'" loading="lazy"></button>';
+    }).join('');
+    
+    if(window.SPECS_VIEW_MODE === 'all'){
+      // highlight none; stacked view doesn't need per-image selection
+      [].forEach.call(gal.querySelectorAll('.gal-variant'), function(el){ el.classList.remove('active'); });
+      // reset mode to default for next interactions
+      window.SPECS_VIEW_MODE = null;
+    }
+/*__GAL_VARIANT_BIND__*/
+    if(Array.isArray(p.variants) && p.variants.length){
+      gal.addEventListener('click', function(ev){
+        var b = ev.target && ev.target.closest('.gal-variant');
+        if(!b) return;
+        var idx = parseInt(b.getAttribute('data-vi')||'0',10);
+        selectVariant(idx);
+      }, {passive:true});
+    }
+
     }
   }
 
@@ -179,7 +277,31 @@ function renderCards(listId, products){
       var sec = document.getElementById('specs');
       if(!sec) return;
       requestAnimationFrame(function(){
-        try { sec.scrollIntoView({behavior:'smooth', block:'start'}); } catch(_){}
+        try { sec.scrollIntoView({behavior:'smooth', block:'start'});
+    /*__SELECT_VARIANT__*/
+    var selectVariant = function(idx){
+      try{
+        // pills
+        var vwrap = document.getElementById('specsVariants');
+        if(vwrap){
+          var pills = vwrap.querySelectorAll('.variant-pill');
+          [].forEach.call(pills, function(el){ el.classList.remove('active'); });
+          if(pills[idx]) pills[idx].classList.add('active');
+          // update specs view
+          if(Array.isArray(p.variants) && p.variants[idx]){
+            var cont = document.getElementById('variantSpecsContainer');
+            if(cont && typeof updateVariantSpecsView==='function'){
+              updateVariantSpecsView(cont, p.variants[idx]);
+            }
+          }
+        }
+        // gallery highlight
+        [].forEach.call(gal.querySelectorAll('.gal-variant'), function(el){ el.classList.remove('active'); });
+        var target = gal.querySelector('.gal-variant[data-vi="'+idx+'"]');
+        if(target) target.classList.add('active');
+      }catch(e){}
+    };
+ } catch(_){}
       });
       setTimeout(function(){ try{ location.hash = '#specs'; }catch(_){ } }, 200);
     }catch(_){}
@@ -251,3 +373,51 @@ function renderCards(listId, products){
   if(document.readyState !== 'loading') bindCarouselArrows();
   else document.addEventListener('DOMContentLoaded', bindCarouselArrows);
 })();
+
+
+/* === Render all variants stacked (one below another) === */
+function renderAllVariantsStacked(target, p){
+  if(!target || !p || !Array.isArray(p.variants) || !p.variants.length) return false;
+  var blocks = p.variants.map(function(v, i){
+    var rows = [
+      ['Genética', v.genetica || '-'],
+      ['Satividad', v.satividad || '-'],
+      ['THC', v.thc || '-'],
+      ['Producción INT', v.produccion_int || '-'],
+      ['Producción EXT', v.produccion_ext || '-'],
+      ['Ciclo Completo', v.ciclo_completo || '-'],
+      ['Efecto', v.efecto || '-'],
+      ['Sabor', v.sabor || '-']
+    ];
+    return '<div class="variant-block">'
+      + '<div class="variant-title">'+(v.name||v.genetica||('Var '+(i+1)))+'</div>'
+      + '<div class="spec-grid">'
+      + rows.map(function(r){ return '<div><div class="label">'+r[0]+'</div><div class="value">'+r[1]+'</div></div>'; }).join('')
+      + '</div></div>';
+  }).join('');
+  target.innerHTML = '<div class="variant-stack">'+blocks+'</div>';
+  return true;
+}
+
+
+
+
+
+// Hero area click (capture) -> stacked variants for Cuadro 2
+document.addEventListener('click', function(ev){
+  try{
+    var thumb = ev.target && ev.target.closest('.card-img-wrap');
+    if(!thumb) return;
+    var section = thumb.closest('.carousel-section');
+    if(!section) return;
+    var isCuadro2 = !!section.querySelector('#carousel2');
+    if(!isCuadro2) return;
+    var card = thumb.closest('.card');
+    var btn = card && card.querySelector('.card-btn');
+    var pid = btn && btn.getAttribute('data-id');
+    if(!pid) return;
+    // set mode BEFORE the card-btn handler runs
+    window.SPECS_VIEW_MODE = 'all';
+  }catch(e){}
+}, true); // capture = true, runs before bubbling handlers
+

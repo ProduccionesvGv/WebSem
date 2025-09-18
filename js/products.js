@@ -72,21 +72,67 @@ window.PRODUCTS = PRODUCTS;
 // Productos de interior (placeholders, cámbialos luego)
 const PRODUCTS_INDOOR = [
   {
-    id: 'indo-alpha',
-    title: 'Indoor Alpha',
-    subtitle: 'Feminizada Íntegra',
-    price_ars: 19500,
-    tags: ['indoor','compacta'],
-    stock: 'en-stock',
-    notas: 'Corto ciclo, ideal para espacios reducidos.',
-    sabor: 'Cítrico, Terroso',
-    rendimiento: 'Medio-Alto',
-    thc: '18-21%',
-    floracion: '7-9 semanas',
-    genetica: 'Híbrido Índica/Sativa',
-    banco: 'Mamua Seeds',
-    images: ['img/template-hero.jpg','img/template-1.jpg','img/template-2.jpg']
-  },
+  id: 'dealer-deal-xxl',
+  title: 'Dealer Deal XXL',
+  subtitle: 'Autoflorecientes',
+  price_ars: 19500,
+  tags: ['pack','indoor'],
+  stock: 'en-stock',
+  notas: 'Pack con cuatro genéticas destacadas.',
+  sabor: '',
+  rendimiento: '',
+  thc: '',
+  floracion: '',
+  genetica: '',
+  banco: '',
+  images: ['img/dealer.jpg','img/FOTO1.png','img/FOTO2.png','img/FOTO3.jpg','img/FOTO4.png'],
+  variants: [
+    {
+      name: 'Critical + 2',
+      genetica: 'CRITICAL +2',
+      satividad: '40%',
+      thc: '20%',
+      produccion_int: '300-450 gr × m²',
+      produccion_ext: '100-300 gr × planta',
+      ciclo_completo: '55 días',
+      efecto: 'Relajante, potente de larga duración',
+      sabor: 'Dulce, Limón, Cítricos'
+    },
+    {
+      name: 'Black Dom',
+      genetica: 'BLACK DOM',
+      satividad: '20%',
+      thc: '18%',
+      produccion_int: '200-400 gr × m²',
+      produccion_ext: '50-450 gr × planta',
+      ciclo_completo: '50-55 días',
+      efecto: 'Relajante, fuerte',
+      sabor: 'Hachís, Afgano, Dulce, Pino'
+    },
+    {
+      name: 'Moby - D',
+      genetica: 'MOBY-D',
+      satividad: '80%',
+      thc: '18%',
+      produccion_int: '300-500 gr × m²',
+      produccion_ext: '60-250 gr × planta',
+      ciclo_completo: '75 días',
+      efecto: 'Euforia, psicodelia, energizante',
+      sabor: 'Cítrico, Pino, Haze, Madera'
+    },
+    {
+      name: 'Northern',
+      genetica: 'NORTHERN',
+      satividad: '20%',
+      thc: '18%',
+      produccion_int: '250-450 gr × m²',
+      produccion_ext: '60-350 gr × planta',
+      ciclo_completo: '50-55 días',
+      efecto: 'Narcótico, sedante',
+      sabor: 'Dulce, Tierra'
+    }
+  ]
+},
   {
     id: 'indo-beta',
     title: 'Indoor Beta',
