@@ -200,7 +200,9 @@ function showSpecsFromProducts(id){
             ['Genética', (v && v.genetica) || (p && p.genetica) || '—'],
             ['Floración', (v && v.ciclo_completo) || (p && p.floracion) || '—'],
             ['THC', (v && v.thc) || (p && p.thc) || '—'],
-            ['Rendimiento', (v && ( (v.produccion_int?('INT: '+v.produccion_int):'') + (v.produccion_ext?(' / EXT: '+v.produccion_ext):'') ).trim() ) || (p && p.rendimiento) || '—'],
+            ['Satividad', (v && v.satividad) || (p && p.satividad) || '—'],
+            ['Rendimiento', (v && ( ((v.produccion_int?('INT: '+v.produccion_int):'') + (v.produccion_ext?(' / EXT: '+v.produccion_ext):'') ).trim() )) || (p && p.rendimiento) || '—'],
+            ['Efecto', (v && v.efecto) || (p && p.efecto) || '—'],
             ['Sabor', (v && v.sabor) || (p && p.sabor) || '—'],
             ['Notas', (p && p.notas) ? p.notas : '—']
           ];
