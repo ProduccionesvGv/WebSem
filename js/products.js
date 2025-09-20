@@ -78,60 +78,60 @@ const PRODUCTS_INDOOR = [
   price_ars: 19500,
   tags: ['pack','indoor'],
   stock: 'en-stock',
-  notas: 'Pack con cuatro genéticas destacadas.',
-  sabor: '',
-  rendimiento: '',
-  thc: '',
-  floracion: '',
-  genetica: '',
-  banco: '',
+notas: "Cuatro variantes disponibles en este pack.",
+sabor: "Dulce, limón, cítricos",
+rendimiento: "INT: 300–450 gr × m² / EXT: 100–300 gr × planta",
+thc: "20%",
+floracion: "55 días",
+genetica: "CRITICAL +2",
+banco: "—",
   images: ['img/dealer.jpg','img/FOTO1.png','img/FOTO2.png','img/FOTO3.jpg','img/FOTO4.png'],
   variants: [
-    {
-      name: 'Critical + 2',
-      genetica: 'CRITICAL +2',
-      satividad: '40%',
-      thc: '20%',
-      produccion_int: '300-450 gr × m²',
-      produccion_ext: '100-300 gr × planta',
-      ciclo_completo: '55 días',
-      efecto: 'Relajante, potente de larga duración',
-      sabor: 'Dulce, Limón, Cítricos'
-    },
-    {
-      name: 'Black Dom',
-      genetica: 'BLACK DOM',
-      satividad: '20%',
-      thc: '18%',
-      produccion_int: '200-400 gr × m²',
-      produccion_ext: '50-450 gr × planta',
-      ciclo_completo: '50-55 días',
-      efecto: 'Relajante, fuerte',
-      sabor: 'Hachís, Afgano, Dulce, Pino'
-    },
-    {
-      name: 'Moby - D',
-      genetica: 'MOBY-D',
-      satividad: '80%',
-      thc: '18%',
-      produccion_int: '300-500 gr × m²',
-      produccion_ext: '60-250 gr × planta',
-      ciclo_completo: '75 días',
-      efecto: 'Euforia, psicodelia, energizante',
-      sabor: 'Cítrico, Pino, Haze, Madera'
-    },
-    {
-      name: 'Northern',
-      genetica: 'NORTHERN',
-      satividad: '20%',
-      thc: '18%',
-      produccion_int: '250-450 gr × m²',
-      produccion_ext: '60-350 gr × planta',
-      ciclo_completo: '50-55 días',
-      efecto: 'Narcótico, sedante',
-      sabor: 'Dulce, Tierra'
-    }
-  ]
+      {
+        name: "Critical +2",
+        genetica: "CRITICAL +2",
+        satividad: "40%",
+        thc: "20%",
+        produccion_int: "300-450 gr × m²",
+        produccion_ext: "100-300 gr × planta",
+        ciclo_completo: "55 días",
+        efecto: "Relajante, potente de larga duración",
+        sabor: "Dulce, limón, cítricos"
+      },
+      {
+        name: "Black Dom",
+        genetica: "BLACK DOM",
+        satividad: "20%",
+        thc: "18%",
+        produccion_int: "200-400 gr × m²",
+        produccion_ext: "50-450 gr × planta",
+        ciclo_completo: "50-55 días",
+        efecto: "Relajante, fuerte",
+        sabor: "Hachís, afgano, dulce, pino"
+      },
+      {
+        name: "Moby D",
+        genetica: "MOBY-D",
+        satividad: "80%",
+        thc: "18%",
+        produccion_int: "300-500 gr × m²",
+        produccion_ext: "60-250 gr × planta",
+        ciclo_completo: "75 días",
+        efecto: "Euforia, psicodelia, energizante",
+        sabor: "Cítrico, pino, haze, madera"
+      },
+      {
+        name: "Northeren",
+        genetica: "NORTHERN",
+        satividad: "20%",
+        thc: "18%",
+        produccion_int: "250-450 gr × m²",
+        produccion_ext: "60-350 gr × planta",
+        ciclo_completo: "50-55 días",
+        efecto: "Narcótico, sedante",
+        sabor: "Dulce, tierra"
+      }
+    ]
 },
   {
     id: 'indo-beta',

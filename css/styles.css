@@ -2531,3 +2531,67 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 @media (prefers-color-scheme: dark){
   .variant-block{ background:rgba(255,255,255,0.06); }
 }
+
+
+/* === GUIDE LABEL OVERRIDES (scoped) === */
+#cuadro1.carousel-section::before { content: "Cuadro 1"; }
+#cuadro2.carousel-section::before { content: "Cuadro 2"; }
+/* Header guide label (titles group) */
+.site-header .container::before { content: "Grupo de elementos de los títulos"; }
+
+
+
+/* ======================================================================
+   GUIDE LABELS (DEBUG OVERLAYS)
+   - Estos títulos en rojo son etiquetas de guía para ubicar secciones.
+   - No afectan la funcionalidad ni el layout real.
+   - Se dibujan con pseudo-elementos ::before sobre contenedores existentes.
+   - Puedes ocultarlas en producción comentando este bloque o usando un flag.
+   
+   Sugerencia para ocultarlas en producción:
+   (Descomenta estas líneas si quieres que SOLO aparezcan cuando el <body> tenga la clase .debug)
+
+   /*
+   body:not(.debug) .carousel-section::before,
+   body:not(.debug) .site-header .container::before { 
+     display: none !important; 
+   }
+   */
+====================================================================== */
+
+/* Etiqueta para Cuadro 1 (Genética para exterior): */
+#cuadro1.carousel-section::before { content: "Cuadro 1"; }
+
+/* Etiqueta para Cuadro 2 (Genética para interior): */
+#cuadro2.carousel-section::before { 
+  content: "Cuadro 2"; 
+}
+
+/* Etiqueta para el grupo de títulos (HEADER): */
+.site-header .container::before { content: "Grupo de elementos de los títulos"; }
+
+/* Stacked extra spec card (displayed when SPECS_VIEW_MODE === 'all') */
+.spec-card.extra{}
+
+/* Visual banner-like separator between spec cards */
+.spec-separator{
+  margin: 12px 0;
+  height: 10px;
+  border-radius: 8px;
+  background: var(--line, #ddd);
+  opacity: .7;
+}
+@media (prefers-color-scheme: dark){
+  .spec-separator{ background: var(--line, #333); opacity: .6; }
+}
+
+/* Subtle spec title per ficha */
+.spec-title{
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  opacity: .9;
+}
+@media (prefers-color-scheme: dark){
+  .spec-title{ opacity: .95; }
+}

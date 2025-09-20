@@ -183,7 +183,75 @@ function showSpecsFromProducts(id){
       card.setAttribute('aria-live','polite');
       card.setAttribute('aria-atomic','false');
       card.innerHTML = html;
-    var vwrap = document.getElementById('specsVariants');
+    
+    
+    
+    
+    
+    
+    /* STACKED EXTRA SPECS v7: 4 fichas con título y mismo estilo, SOLO para Cuadro 2 → Card 1 (id: dealer-deal-xxl) */
+    try{
+      if(p && p.id === "dealer-deal-xxl"){
+
+        // Helper to build rows from a variant or from product fields
+        function rowsFrom(v, p){
+          return [
+            ['Banco', (p && p.banco) ? p.banco : '—'],
+            ['Genética', (v && v.genetica) || (p && p.genetica) || '—'],
+            ['Floración', (v && v.ciclo_completo) || (p && p.floracion) || '—'],
+            ['THC', (v && v.thc) || (p && p.thc) || '—'],
+            ['Rendimiento', (v && ( (v.produccion_int?('INT: '+v.produccion_int):'') + (v.produccion_ext?(' / EXT: '+v.produccion_ext):'') ).trim() ) || (p && p.rendimiento) || '—'],
+            ['Sabor', (v && v.sabor) || (p && p.sabor) || '—'],
+            ['Notas', (p && p.notas) ? p.notas : '—']
+          ];
+        }
+
+        function articleHTML(title, rows){
+          return ''
+            + '<article class="spec-card">'
+            + '  <header class="spec-card__head"><h5>'+title+'</h5></header>'
+            + '  <div class="spec-grid">'
+            + rows.map(function(r){ return '<div><div class="label">'+r[0]+'</div><div class="value">'+r[1]+'</div></div>'; }).join('')
+            + '  </div>'
+            + '</article>';
+        }
+
+        // Ensure FIRST card is wrapped and titled "Critical +2"
+        (function(){
+          var firstGrid = card.querySelector('.spec-grid');
+          var alreadyArticle = card.querySelector('.spec-card');
+          if(firstGrid && !alreadyArticle){
+            var firstTitle = (p.variants && p.variants[0] && p.variants[0].name) ? p.variants[0].name : 'Critical +2';
+            var htmlWrapped = articleHTML(firstTitle, rowsFrom(p.variants && p.variants[0], p));
+            // Replace inner with wrapped HTML instead of plain grid
+            card.innerHTML = htmlWrapped;
+          } else if (alreadyArticle){
+            // If an article exists but no <h5>, add it
+            var hasTitle = alreadyArticle.querySelector('h5');
+            if(!hasTitle){
+              var h = document.createElement('header');
+              h.className = 'spec-card__head';
+              var t = document.createElement('h5');
+              t.textContent = (p.variants && p.variants[0] && p.variants[0].name) ? p.variants[0].name : 'Critical +2';
+              h.appendChild(t);
+              alreadyArticle.insertBefore(h, alreadyArticle.firstChild);
+            }
+          }
+        })();
+
+        // Append fichas 2..4 with separators
+        function appendSep(){ var sep = document.createElement('div'); sep.className='spec-separator'; sep.setAttribute('aria-hidden','true'); card.appendChild(sep); }
+
+        var v1 = (p.variants && p.variants[1]) || null; // Black Dom
+        var v2 = (p.variants && p.variants[2]) || null; // Moby D
+        var v3 = (p.variants && p.variants[3]) || null; // Northeren
+
+        appendSep(); card.insertAdjacentHTML('beforeend', articleHTML( (v1 && v1.name) || 'Black Dom', rowsFrom(v1,p) ));
+        appendSep(); card.insertAdjacentHTML('beforeend', articleHTML( (v2 && v2.name) || 'Moby D', rowsFrom(v2,p) ));
+        appendSep(); card.insertAdjacentHTML('beforeend', articleHTML( (v3 && v3.name) || 'Northeren', rowsFrom(v3,p) ));
+      }
+    }catch(e){ /* swallow */ }
+var vwrap = document.getElementById('specsVariants');
     if(vwrap){
       if(Array.isArray(p.variants) && p.variants.length){
         var pills = p.variants.map(function(v, i){
