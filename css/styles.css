@@ -206,11 +206,14 @@ body{
    ========================== */
 
 /* Ajustes generales para pantallas pequeñas */
-@media (max-width: 768px) {
-  body {
-    font-size: 16px;
-    line-height: 1.4;
+@media (max-width: 768px){
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
 
   .site-header .container {
     padding: 1rem;
@@ -290,7 +293,13 @@ body{
 
 /* === Mobile optimizations (injected) === */
 @media (max-width: 768px){
-  .carousel{ grid-auto-columns: 80%; }
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
+  }
+}
+
   .card-body{ padding: 8px 10px; }
   .title{ font-size: 14px; }
   .subtitle{ font-size: 12px; }
@@ -415,14 +424,13 @@ body{ overflow-x: hidden; }
 
 /* Mobile: 2.5 cards */
 @media (max-width: 768px){
-  .carousel{
-    --gap: 4vw;
-    gap: var(--gap);
-    grid-auto-columns: calc((100vw - var(--gap)) / 2.5);
-    padding: 12px 3vw;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   .card-body{ padding: 10px 10px; }
   .title{ font-size: 14px; }
   .subtitle{ font-size: 12px; }
@@ -591,13 +599,13 @@ body{ overflow-x: hidden; }
 
 /* === Mobile tweak: show ~2.5 cards in carousel without changing HTML/JS === */
 @media (max-width: 768px){
-  .carousel{
-    /* Each auto column width = (~40% of viewport) so 2.5 items fit */
-    grid-auto-columns: calc((100% - (2 * 12px)) / 2.5);
-    gap: 12px;
-    padding-left: 12px;
-    padding-right: 12px;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   .carousel > *{
     scroll-snap-align: start;
   }
@@ -605,13 +613,13 @@ body{ overflow-x: hidden; }
 
 /* === Mobile: fix inconsistent card sizes and show exactly 2 per viewport === */
 @media (max-width: 768px){
-  .carousel{
-    /* Make two full cards fit in the viewport width */
-    gap: 12px;
-    padding-left: 12px;
-    padding-right: 12px;
-    grid-auto-columns: calc((100% - 12px) / 2);
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   .card{
     box-sizing: border-box;
     display: flex;
@@ -638,26 +646,26 @@ body{ overflow-x: hidden; }
 
 /* === Mobile teaser: show ~2.15 cards per viewport (subtle preview of next card) === */
 @media (max-width: 768px){
-  .carousel{
-    gap: 12px;
-    padding-left: 12px;
-    padding-right: 16px; /* a bit more right breathing room for the teaser */
-    grid-auto-columns: calc((100% - 12px) / 2.15);
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   .carousel > *{ scroll-snap-align: start; }
 }
 
 
 /* === MOBILE FIX (≤768px): force equal-size cards and 2.5 visible using flexbox on #carousel === */
 @media (max-width: 768px){
-  #carousel{
-    display: flex !important;
-    gap: 12px !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   #carousel > .card{
     flex: 0 0 calc((100% - (2 * 12px)) / 2.5) !important;
     max-width: calc((100% - (2 * 12px)) / 2.5) !important;
@@ -673,14 +681,13 @@ body{ overflow-x: hidden; }
 
 /* === Mobile (≤768px): wider cards, centered text, show 2.25 cards === */
 @media (max-width: 768px){
-  #carousel{
-    display: flex !important;
-    gap: 16px !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   #carousel > .card{
     flex: 0 0 calc((100% - (2 * 16px)) / 2.25) !important;
     max-width: calc((100% - (2 * 16px)) / 2.25) !important;
@@ -715,15 +722,13 @@ body{ overflow-x: hidden; }
 
 /* === MOBILE OVERRIDE: Wider cards, centered text, 2.25 cards visible === */
 @media (max-width: 768px){
-  /* Use flex to enforce fixed card width and reliable teaser */
-  #carousel{
-    display: flex !important;
-    gap: 12px !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   #carousel > .card{
     flex: 0 0 calc((100% - (2 * 12px)) / 2.25) !important; /* 2 full + 1/4 */
     max-width: calc((100% - (2 * 12px)) / 2.25) !important;
@@ -890,10 +895,13 @@ body{ overflow-x: hidden; }
 
 /* Respect mobile: keep everything cohesive without changing card dimensions */
 @media (max-width: 768px){
-  .carousel-section{
-    border-radius: 16px;
-    padding: 12px 0 10px;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
   .carousel-section .hint.container{ font-size: 0.9rem; }
 }
@@ -989,7 +997,13 @@ body{ overflow-x: hidden; }
 
 /* Mobile tweaks preserve the unified look */
 @media (max-width: 768px){
-  .carousel-section{ border-radius: 16px; }
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
+  }
+}
+
   .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
 }
 
@@ -2320,10 +2334,13 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* Ajustes generales para <= 768px */
 @media (max-width: 768px){
-  /* Menos altura de imagen: de 4/5 (vertical) a 4/3 (más apaisado) */
-  .card-img-wrap{
-    aspect-ratio: 4/3 !important;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   /* Compactar tipografías y espaciados internos */
   .card-body{ padding: 10px 12px !important; }
   .title{ font-size: 15px !important; line-height: 1.15 !important; margin: 6px 0 2px !important; }
@@ -2356,10 +2373,13 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* Smartphones y tablets chicas */
 @media (max-width: 768px){
-  /* Imagen más apaisada para bajar altura total */
-  .card-img-wrap{
-    aspect-ratio: 16/9 !important;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
 
   /* Cards con layout flexible: imagen arriba + body que se adapta */
   .card{
@@ -2671,13 +2691,13 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* Tighten vertical footprint on mobile */
 @media (max-width: 768px){
-  #cuadro1 .product-card,
-  #cuadro1 .card,
-  #cuadro1 .card-item,
-  #cuadro1 .product__card{
-    padding: 8px;
-    gap: 6px;
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
   }
+}
+
   #cuadro1 .product-card .card-media,
   #cuadro1 .card .card-media,
   #cuadro1 .card-item .card-media,
@@ -2687,17 +2707,28 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 }
 
 
-/* Injected: header logo (replaces header-bg.png) */
-.site-logo-wrap{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 0;
+
+
+/* Header uses only background logo (no inline <img>) */
+header.logo-bg-only{
+  background: url('img/logo.png') no-repeat center center;
+  background-size: contain;
+  min-height: 320px; /* increased to avoid cropping */
+  padding: 24px 0 32px; /* extra bottom padding */
+  margin-bottom: clamp(20px, 5vw, 56px); /* space before carousel */
 }
-.site-logo{
-  max-height: 72px;
-  width: auto;
-  display: block;
-  object-fit: contain;
+@media (max-width: 768px){
+  header.logo-bg-only{
+    min-height: 240px;
+    padding: 16px 0 24px;
+    margin-bottom: clamp(16px, 6vw, 40px);
+  }
+}
+
+}
+
+/* Ensure first carousel doesn't overlap header */
+#cuadro1, #carousel, .carousel{
+  margin-top: clamp(12px, 4vw, 40px);
+  padding-top: 0;
 }
