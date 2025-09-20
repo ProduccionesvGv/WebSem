@@ -191,7 +191,7 @@ function showSpecsFromProducts(id){
     
     /* STACKED EXTRA SPECS v7: 4 fichas con título y mismo estilo, SOLO para Cuadro 2 → Card 1 (id: dealer-deal-xxl) */
     try{
-      if(p && p.id === "dealer-deal-xxl"){
+      if (p && Array.isArray(p.variants) && p.variants.length >= 1 && (window.SPECS_VIEW_MODE === 'all' || (Array.isArray(p.tags) && p.tags.indexOf('pack') !== -1))){
 
         // Helper to build rows from a variant or from product fields
         function rowsFrom(v, p){
@@ -309,7 +309,80 @@ var vwrap = document.getElementById('specsVariants');
     }
 
     }
-  }
+  
+  // === Post-render fix: enforce 4 stacked fichas for indo-beta ===
+
+  // === Post-render fix: enforce ONLY 1 example ficha for indo-gamma (third card) ===
+  try{
+    if(p && p.id === 'indo-gamma'){
+      var card = document.getElementById('specsCard');
+      if(card){
+        function rowsFrom(v, p){
+          return [
+            ['Banco', (p && p.banco) ? p.banco : '—'],
+            ['Genética', (v && v.genetica) || (p && p.genetica) || '—'],
+            ['Floración', (v && v.ciclo_completo) || (p && p.floracion) || '—'],
+            ['THC', (v && v.thc) || (p && p.thc) || '—'],
+            ['Satividad', (v && v.satividad) || (p && p.satividad) || '—'],
+            ['Rendimiento', (v && ((v.produccion_int?('INT: '+v.produccion_int):'') + (v.produccion_ext?(' | EXT: '+v.produccion_ext):'')).trim()) || (p && p.rendimiento) || '—'],
+            ['Efecto', (v && v.efecto) || (p && p.efecto) || '—'],
+            ['Sabor', (v && v.sabor) || (p && p.sabor) || '—'],
+            ['Cantidad', (v && v.cantidad) || (p && p.cantidad) || ((p && p.notas) ? p.notas : '—')]
+          ];
+        }
+        function articleHTML(title, rows){
+          return '<article class="spec-card">'
+            + '  <header class="spec-card__head"><h5>'+title+'</h5></header>'
+            + '  <div class="spec-grid">'
+            + rows.map(function(r){ return '<div><div class="label">'+r[0]+'</div><div class="value">'+r[1]+'</div></div>'; }).join('')
+            + '  </div>'
+            + '</article>';
+        }
+        var title = (p && p.title) ? p.title : 'Ficha técnica';
+        // Render a SINGLE article using product-level fields (not variants)
+        card.innerHTML = articleHTML(title, rowsFrom(null, p));
+      }
+    }
+  }catch(e){}
+
+  try{
+    if(p && p.id === 'indo-beta' && Array.isArray(p.variants) && p.variants.length >= 1){
+      var card = document.getElementById('specsCard');
+      if(card){
+        function rowsFrom(v, p){
+          return [
+            ['Banco', (p && p.banco) ? p.banco : '—'],
+            ['Genética', (v && v.genetica) || (p && p.genetica) || '—'],
+            ['Floración', (v && v.ciclo_completo) || (p && p.floracion) || '—'],
+            ['THC', (v && v.thc) || (p && p.thc) || '—'],
+            ['Satividad', (v && v.satividad) || (p && p.satividad) || '—'],
+            ['Rendimiento', (v && ((v.produccion_int?('INT: '+v.produccion_int):'') + (v.produccion_ext?(' | EXT: '+v.produccion_ext):'')).trim()) || (p && p.rendimiento) || '—'],
+            ['Efecto', (v && v.efecto) || (p && p.efecto) || '—'],
+            ['Sabor', (v && v.sabor) || (p && p.sabor) || '—'],
+            ['Cantidad', (v && v.cantidad) || (p && p.cantidad) || ((p && p.notas) ? p.notas : '—')]
+          ];
+        }
+        function articleHTML(title, rows){
+          return '<article class="spec-card">'
+            + '  <header class="spec-card__head"><h5>'+title+'</h5></header>'
+            + '  <div class="spec-grid">'
+            + rows.map(function(r){ return '<div><div class="label">'+r[0]+'</div><div class="value">'+r[1]+'</div></div>'; }).join('')
+            + '  </div>'
+            + '</article>';
+        }
+        function appendSep(){ var sep = document.createElement('div'); sep.className = 'spec-sep'; sep.setAttribute('aria-hidden','true'); card.appendChild(sep); }
+        // Build from up to 4 variants
+        var v0 = p.variants[0], v1 = p.variants[1], v2 = p.variants[2], v3 = p.variants[3];
+        // Reset content to ensure deterministic output
+        card.innerHTML = articleHTML((v0 && v0.name) || 'Var 1', rowsFrom(v0, p));
+        if(v1){ appendSep(); card.insertAdjacentHTML('beforeend', articleHTML((v1.name||'Var 2'), rowsFrom(v1,p))); }
+        if(v2){ appendSep(); card.insertAdjacentHTML('beforeend', articleHTML((v2.name||'Var 3'), rowsFrom(v2,p))); }
+        if(v3){ appendSep(); card.insertAdjacentHTML('beforeend', articleHTML((v3.name||'Var 4'), rowsFrom(v3,p))); }
+      }
+    }
+  }catch(e){}
+
+}
 
   function openSpecsAccordion(){
     var section = document.getElementById('specs');
@@ -490,4 +563,18 @@ document.addEventListener('click', function(ev){
     window.SPECS_VIEW_MODE = 'all';
   }catch(e){}
 }, true); // capture = true, runs before bubbling handlers
+
+// === Ensure stacked mode also when clicking the button or any card inside CUADRO 2 ===
+document.addEventListener('click', function(ev){
+  try{
+    var section = ev.target && ev.target.closest('#cuadro2');
+    if(!section) return;
+    var card = ev.target.closest('.card');
+    if(!card) return;
+    // set mode BEFORE the card-btn handler runs
+    window.SPECS_VIEW_MODE = 'all';
+  }catch(e){}
+}, true);
+
+
 

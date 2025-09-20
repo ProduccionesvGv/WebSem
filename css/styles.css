@@ -818,7 +818,7 @@ body{ overflow-x: hidden; }
 
 /* === New header background override === */
 .site-header{
-  background-image: url('../img/header-bg.png') !important;
+  background-image: url('../img/logo.png') !important;
   background-size: cover;
   background-position: center;
 }
@@ -2684,4 +2684,20 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
   #cuadro1 .product__card .card-media{
     aspect-ratio: 5/4;
   }
+}
+
+
+/* Injected: header logo (replaces header-bg.png) */
+.site-logo-wrap{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+}
+.site-logo{
+  max-height: 72px;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }

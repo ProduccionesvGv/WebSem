@@ -143,8 +143,8 @@ sabor: "Dulce, Limón, Cítrico"
 },
   {
     id: 'indo-beta',
-    title: 'Indoor Beta',
-    subtitle: 'Feminizada Selecta',
+    title: 'Psycho XXL',
+    subtitle: 'Autoflorecientes',
     price_ars: 20500,
     tags: ['indoor','resina'],
     stock: 'en-stock',
@@ -154,9 +154,60 @@ sabor: "Dulce, Limón, Cítrico"
     thc: '19-22%',
     floracion: '8-10 semanas',
     genetica: 'Cruce Selecto',
-    banco: 'Mamua Seeds',
+    banco: 'BSF',
     images: ['img/Psycho.jpeg','img/1amnesia.png','img/2ak.png','img/03LemonHaze.png','img/04chesse.png','img/Psycho2.jpg']
+  ,
+  variants: [
+  {
+    name: "Amnesia XXL",
+    genetica: "Amnesia Auto",
+    satividad: "70% Sativa",
+    thc: "20-22%",
+    produccion_int: "450-550 gr × m²",
+    produccion_ext: "80-200 gr × planta",
+    ciclo_completo: "70-80 días",
+    efecto: "Eufórico, enérgico, creativo",
+    sabor: "Cítrico, incienso",
+    cantidad: "x3 Semillas"
   },
+  {
+    name: "AK XXL",
+    genetica: "AK Auto",
+    satividad: "60% Sativa",
+    thc: "18-21%",
+    produccion_int: "400-500 gr × m²",
+    produccion_ext: "70-180 gr × planta",
+    ciclo_completo: "65-75 días",
+    efecto: "Estímulo y claridad mental",
+    sabor: "Especiado, terroso",
+    cantidad: "x3 Semillas"
+  },
+  {
+    name: "Lemon Haze XXL",
+    genetica: "Lemon Haze Auto",
+    satividad: "80% Sativa",
+    thc: "19-22%",
+    produccion_int: "450-600 gr × m²",
+    produccion_ext: "90-220 gr × planta",
+    ciclo_completo: "70-80 días",
+    efecto: "Energético y social",
+    sabor: "Limón, cítrico",
+    cantidad: "x3 Semillas"
+  },
+  {
+    name: "Cheese XXL",
+    genetica: "Cheese Auto",
+    satividad: "50% Sativa",
+    thc: "17-20%",
+    produccion_int: "400-500 gr × m²",
+    produccion_ext: "70-180 gr × planta",
+    ciclo_completo: "65-75 días",
+    efecto: "Relajante, feliz",
+    sabor: "Queso, terroso",
+    cantidad: "x3 Semillas"
+  }
+]
+},
   {
     id: 'indo-gamma',
     title: 'Indoor Gamma',
