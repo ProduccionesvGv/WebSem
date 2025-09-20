@@ -204,7 +204,7 @@ function showSpecsFromProducts(id){
             ['Rendimiento', (v && ( ((v.produccion_int?('INT: '+v.produccion_int):'') + (v.produccion_ext?(' / EXT: '+v.produccion_ext):'') ).trim() )) || (p && p.rendimiento) || '—'],
             ['Efecto', (v && v.efecto) || (p && p.efecto) || '—'],
             ['Sabor', (v && v.sabor) || (p && p.sabor) || '—'],
-            ['Notas', (p && p.notas) ? p.notas : '—']
+            ['Cantidad', (v && v.cantidad) || (p && p.cantidad) || ((p && p.notas) ? p.notas : '—')]
           ];
         }
 

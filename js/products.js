@@ -97,7 +97,9 @@ produccion_ext: "100-300 Gr × Planta",
 ciclo_completo: "55 Días",
 efecto: "Relajante, Potente de larga Duración",
 sabor: "Dulce, Limón, Cítrico"
-      },
+      ,
+      cantidad: "x3 Semillas"
+    },
       {
         name: "Black Dom",
         genetica: "BLACK DOM",
@@ -108,7 +110,9 @@ sabor: "Dulce, Limón, Cítrico"
         ciclo_completo: "50-55 días",
         efecto: "Relajante, fuerte",
         sabor: "Hachís, afgano, dulce, pino"
-      },
+      ,
+      cantidad: "x3 Semillas"
+    },
       {
         name: "Moby D",
         genetica: "MOBY-D",
@@ -119,7 +123,9 @@ sabor: "Dulce, Limón, Cítrico"
         ciclo_completo: "75 días",
         efecto: "Euforia, psicodelia, energizante",
         sabor: "Cítrico, pino, haze, madera"
-      },
+      ,
+      cantidad: "x3 Semillas"
+    },
       {
         name: "Northeren",
         genetica: "NORTHERN",
@@ -130,7 +136,9 @@ sabor: "Dulce, Limón, Cítrico"
         ciclo_completo: "50-55 días",
         efecto: "Narcótico, sedante",
         sabor: "Dulce, tierra"
-      }
+      ,
+      cantidad: "x3 Semillas"
+    }
     ]
 },
   {
@@ -147,7 +155,7 @@ sabor: "Dulce, Limón, Cítrico"
     floracion: '8-10 semanas',
     genetica: 'Cruce Selecto',
     banco: 'Mamua Seeds',
-    images: ['img/template-1.jpg','img/template-2.jpg','img/template-hero.jpg']
+    images: ['img/Psycho.jpeg','img/1amnesia.png','img/2ak.png','img/03LemonHaze.png','img/04chesse.png','img/Psycho2.jpg']
   },
   {
     id: 'indo-gamma',
