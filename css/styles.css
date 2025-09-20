@@ -207,11 +207,7 @@ body{
 
 /* Ajustes generales para pantallas pequeñas */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
 
@@ -293,11 +289,7 @@ body{
 
 /* === Mobile optimizations (injected) === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .card-body{ padding: 8px 10px; }
@@ -424,11 +416,7 @@ body{ overflow-x: hidden; }
 
 /* Mobile: 2.5 cards */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .card-body{ padding: 10px 10px; }
@@ -599,11 +587,7 @@ body{ overflow-x: hidden; }
 
 /* === Mobile tweak: show ~2.5 cards in carousel without changing HTML/JS === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .carousel > *{
@@ -613,11 +597,7 @@ body{ overflow-x: hidden; }
 
 /* === Mobile: fix inconsistent card sizes and show exactly 2 per viewport === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .card{
@@ -646,11 +626,7 @@ body{ overflow-x: hidden; }
 
 /* === Mobile teaser: show ~2.15 cards per viewport (subtle preview of next card) === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .carousel > *{ scroll-snap-align: start; }
@@ -659,11 +635,7 @@ body{ overflow-x: hidden; }
 
 /* === MOBILE FIX (≤768px): force equal-size cards and 2.5 visible using flexbox on #carousel === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   #carousel > .card{
@@ -681,11 +653,7 @@ body{ overflow-x: hidden; }
 
 /* === Mobile (≤768px): wider cards, centered text, show 2.25 cards === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   #carousel > .card{
@@ -722,11 +690,7 @@ body{ overflow-x: hidden; }
 
 /* === MOBILE OVERRIDE: Wider cards, centered text, 2.25 cards visible === */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   #carousel > .card{
@@ -895,11 +859,7 @@ body{ overflow-x: hidden; }
 
 /* Respect mobile: keep everything cohesive without changing card dimensions */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
@@ -997,11 +957,7 @@ body{ overflow-x: hidden; }
 
 /* Mobile tweaks preserve the unified look */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   .carousel-section .ctrl{ width: 34px; height: 34px; font-size: 18px; }
@@ -2334,11 +2290,7 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* Ajustes generales para <= 768px */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   /* Compactar tipografías y espaciados internos */
@@ -2373,11 +2325,7 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* Smartphones y tablets chicas */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
 
@@ -2691,11 +2639,7 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 /* Tighten vertical footprint on mobile */
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
   #cuadro1 .product-card .card-media,
@@ -2710,19 +2654,9 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 
 
 /* Header uses only background logo (no inline <img>) */
-header.logo-bg-only{
-  background: url('img/logo.png') no-repeat center center;
-  background-size: contain;
-  min-height: 320px; /* increased to avoid cropping */
-  padding: 24px 0 32px; /* extra bottom padding */
-  margin-bottom: clamp(20px, 5vw, 56px); /* space before carousel */
-}
+
 @media (max-width: 768px){
-  header.logo-bg-only{
-    min-height: 240px;
-    padding: 16px 0 24px;
-    margin-bottom: clamp(16px, 6vw, 40px);
-  }
+  
 }
 
 }
@@ -2732,3 +2666,59 @@ header.logo-bg-only{
   margin-top: clamp(12px, 4vw, 40px);
   padding-top: 0;
 }
+
+
+/* === Ratio-based header logo (no crop) === */
+header.logo-bg-only {
+  background: url('img/logo.png') no-repeat center center / contain;
+  height: min(calc(0.666667 * 100vw), 480px);
+  margin: 0 auto;
+  padding: 0;
+  overflow: visible !important; /* avoid clipping */
+  border: 0;
+}
+@media (max-width: 768px) {
+  header.logo-bg-only {
+    height: min(calc(0.666667 * 100vw), 320px);
+    margin-bottom: clamp(16px, 5vw, 40px);
+  }
+}
+
+/* Space before first carousel to avoid overlap */
+#cuadro1, #carousel, .carousel {
+  margin-top: clamp(16px, 5vw, 56px) !important;
+}
+
+
+/* WhatsApp floating button (normalized) */
+.whatsapp-float, a[href*="wa.me"], a[href*="api.whatsapp"], a[href*="whatsapp.com"]{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+  z-index: 9999;
+  text-decoration: none !important;
+}
+.whatsapp-float img.whatsapp-icon{
+  width: 36px;
+  height: 36px;
+  display: block;
+  object-fit: contain;
+}
+/* If markup doesn't have wrapper class, still keep the icon sized */
+a[href*="wa.me"] img.whatsapp-icon,
+a[href*="api.whatsapp"] img.whatsapp-icon,
+a[href*="whatsapp.com"] img.whatsapp-icon{
+  width: 36px;
+  height: 36px;
+  display: block;
+  object-fit: contain;
+}
+
