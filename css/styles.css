@@ -2595,3 +2595,93 @@ html[data-theme="color2"] .carousel-section .card .card-img-wrap + *{
 @media (prefers-color-scheme: dark){
   .spec-title{ opacity: .95; }
 }
+
+
+
+/* === STEP13: Equalize Cuadro 2 cards to look like Cuadro 1 (CSS-only) === */
+/* Scope: #cuadro1 */
+
+#cuadro1 .product-card,
+#cuadro1 .card,
+#cuadro1 .card-item,
+#cuadro1 .product__card{
+  background: var(--card-bg, rgba(255,255,255,0.06));
+  border: 1px solid var(--line, rgba(0,0,0,0.08));
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#cuadro1 .product-card .card-media,
+#cuadro1 .card .card-media,
+#cuadro1 .card-item .card-media,
+#cuadro1 .product__card .card-media{
+  aspect-ratio: 4/3;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#cuadro1 .product-card .card-media img,
+#cuadro1 .card .card-media img,
+#cuadro1 .card-item .card-media img,
+#cuadro1 .product__card .card-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#cuadro1 .product-card .card-body,
+#cuadro1 .card .card-body,
+#cuadro1 .card-item .card-body,
+#cuadro1 .product__card .card-body{
+  display: grid;
+  gap: 6px;
+  text-align: center;
+}
+
+#cuadro1 .product-card .card-title,
+#cuadro1 .card .card-title,
+#cuadro1 .card-item .card-title,
+#cuadro1 .product__card .card-title{
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+#cuadro1 .product-card .card-subtitle,
+#cuadro1 .card .card-subtitle,
+#cuadro1 .card-item .card-subtitle,
+#cuadro1 .product__card .card-subtitle{
+  opacity: .9;
+  font-weight: 500;
+}
+
+#cuadro1 .product-card .card-price,
+#cuadro1 .card .card-price,
+#cuadro1 .card-item .card-price,
+#cuadro1 .product__card .card-price{
+  font-weight: 700;
+  letter-spacing: .2px;
+  margin-top: 2px;
+}
+
+/* Tighten vertical footprint on mobile */
+@media (max-width: 768px){
+  #cuadro1 .product-card,
+  #cuadro1 .card,
+  #cuadro1 .card-item,
+  #cuadro1 .product__card{
+    padding: 8px;
+    gap: 6px;
+  }
+  #cuadro1 .product-card .card-media,
+  #cuadro1 .card .card-media,
+  #cuadro1 .card-item .card-media,
+  #cuadro1 .product__card .card-media{
+    aspect-ratio: 5/4;
+  }
+}
