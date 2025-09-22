@@ -2,6 +2,8 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 :root{
+  --card-width-desktop: 300px;
+  --card-width-mobile: 40vw;
   --bg: #0b0b0d;
   --card: #15151a;
   --soft: #1e1e25;
@@ -366,25 +368,20 @@ body{
 
 
 /* === Logo INASE entre títulos === */
-.inase-logo{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6px 0 2px;
-}
-.inase-logo img{ height:auto; display:block; filter: drop-shadow(0 3px 10px rgba(0,0,0,.35)); }
+
+
 
 body{ overflow-x: hidden; }
 
 /* Tamaños responsivos para que se vea perfecto sin ser gigante en móvil */
 @media (max-width: 480px){
-  .inase-logo picture, .inase-logo img{ width: min(52vw, 220px); }
+  
 }
 @media (min-width: 481px) and (max-width: 768px){
-  .inase-logo picture, .inase-logo img{ width: min(34vw, 320px); }
+  
 }
 @media (min-width: 769px){
-  .inase-logo picture, .inase-logo img{ width: 420px; max-width: 100%; }
+  
 }
 
 
@@ -518,11 +515,8 @@ body{ overflow-x: hidden; }
 
 
 /* Larger card layout */
-#carousel{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 18px;
-}
+#carousel,
+#carousel2{}
 
 /* Bigger cards */
 .card-btn .card-img-wrap{
@@ -638,14 +632,9 @@ body{ overflow-x: hidden; }
   
 }
 
-  #carousel > .card{
-    flex: 0 0 calc((100% - (2 * 12px)) / 2.5) !important;
-    max-width: calc((100% - (2 * 12px)) / 2.5) !important;
-    box-sizing: border-box;
-    scroll-snap-align: start;
-  }
+  
   /* Prevent content from forcing width */
-  #carousel, #carousel *{ min-width: 0; }
+  #carousel, #carousel2, #carousel, #carousel2 *{ min-width: 0; }
   .card-img-wrap{ width: 100%; aspect-ratio: 4 / 5; }
   .card-body{ display:flex; flex-direction:column; gap:8px; }
 }
@@ -656,17 +645,7 @@ body{ overflow-x: hidden; }
   
 }
 
-  #carousel > .card{
-    flex: 0 0 calc((100% - (2 * 16px)) / 2.25) !important;
-    max-width: calc((100% - (2 * 16px)) / 2.25) !important;
-    box-sizing: border-box;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-  }
+  
   .card-img-wrap{
     width: 100%;
     aspect-ratio: 4 / 5;
@@ -693,14 +672,7 @@ body{ overflow-x: hidden; }
   
 }
 
-  #carousel > .card{
-    flex: 0 0 calc((100% - (2 * 12px)) / 2.25) !important; /* 2 full + 1/4 */
-    max-width: calc((100% - (2 * 12px)) / 2.25) !important;
-    box-sizing: border-box;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-  }
+  
   /* Keep equal image ratio so heights align */
   .card-img-wrap{
     width: 100%;
@@ -721,7 +693,7 @@ body{ overflow-x: hidden; }
   .card .title{ font-size: clamp(15px, 4.2vw, 17px); line-height: 1.2; }
   .card .subtitle, .card .genetica, .card .price{ font-size: clamp(13px, 3.6vw, 15px); }
   /* Make sure long words don't force width */
-  #carousel, #carousel *{ min-width: 0; }
+  #carousel, #carousel2, #carousel, #carousel2 *{ min-width: 0; }
 }
 
 /* === HEADER LAYOUT UPDATE (wider, slightly less tall, shift content ~1/4 right) === */
@@ -1176,12 +1148,7 @@ body{ overflow-x: hidden; }
 }
 
 /* INASE image sizing (keep proportions) */
-.site-header .inase-logo img{
-  height: 56px;           /* fallback */
-  height: clamp(38px, 6vw, 72px);
-  width: auto;
-  display: block;
-}
+.site-header 
 
 /* Subtitle legibility and single line on narrow screens when possible */
 .site-header .site-subtitle{
@@ -1285,22 +1252,18 @@ body{ overflow-x: hidden; }
 }
 
 /* Push the INASE logo further to the right (relative to the centered stack) */
-.site-header .inase-logo{
-  transform: translateX(16vw);
-}
+.site-header 
 @media (max-width: 520px){
-  .site-header .inase-logo{ transform: translateX(10vw); }
+  .site-header 
 }
 @media (min-width: 1024px){
-  .site-header .inase-logo{ transform: translateX(24vw); }
+  .site-header 
 }
 
 /* === HEADER GROUP: center-right placement (~1/4 from right), items centered === */
 /* Reset previous directional transforms */
 .site-header .container,
-.site-header .inase-logo{
-  transform: none !important;
-}
+.site-header 
 
 /* Place the whole trio nearer to the right edge using right padding equal to ~25% viewport */
 .site-header{
@@ -1329,7 +1292,7 @@ body{ overflow-x: hidden; }
 /* === HEADER: Right-half layout (leave left half empty) === */
 /* Reset any previous shifts */
 .site-header .container,
-.site-header .inase-logo{ transform: none !important; }
+.site-header 
 
 /* Desktop/tablet: put the content strictly in the right half */
 @media (min-width: 768px){
@@ -1352,10 +1315,7 @@ body{ overflow-x: hidden; }
     text-align: right;    /* right-align text */
   }
   /* Ensure INASE image hugs the right edge of the group */
-  .site-header .inase-logo img{
-    display: block;
-    margin-left: auto;
-  }
+  .site-header 
 }
 
 /* On small screens keep previous centered behavior (no half split) */
@@ -1396,7 +1356,7 @@ body{ overflow-x: hidden; }
 /* Ensure individual pieces also align right */
 .site-header .site-title,
 .site-header .site-subtitle{ text-align: right !important; margin: 0 !important; }
-.site-header .inase-logo{ justify-self: end !important; }
+.site-header 
 
 /* On very small screens, fall back to centered to avoid crowding */
 @media (max-width: 480px){
@@ -1437,7 +1397,8 @@ body{ overflow-x: hidden; }
 :root{ --cards-per-view: 2.5; --cards-gap: 12px; }
 */
 
-#carousel{
+#carousel,
+#carousel2{
   display: flex;
   gap: var(--cards-gap);
   padding: 0 12px;
@@ -1445,13 +1406,8 @@ body{ overflow-x: hidden; }
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
-#carousel > .card{
-  flex: 0 0 calc((100% - (2 * var(--cards-gap))) / var(--cards-per-view));
-  max-width: calc((100% - (2 * var(--cards-gap))) / var(--cards-per-view));
-  scroll-snap-align: start;
-  box-sizing: border-box;
-}
-#carousel, #carousel *{ min-width: 0; } /* evita que el texto fuerce el ancho */
+
+#carousel, #carousel2, #carousel, #carousel2 *{ min-width: 0; } /* evita que el texto fuerce el ancho */
 .card-img-wrap{ width: 100%; aspect-ratio: 4/5; overflow: hidden; } /* alturas parejas */
 
 /* 3) Unificar color/fondo del bloque (compat, sin color-mix) */
@@ -1539,11 +1495,7 @@ body{ overflow-x: hidden; }
   line-height: 1.05;
   margin: 0;
 }
-.site-header .inase-logo img{
-  height: clamp(34px, 6.5vw, 56px);
-  width: auto;
-  display: block;
-}
+.site-header 
 .site-header .site-subtitle{
   margin: 0;
   line-height: 1.1;
@@ -1580,10 +1532,7 @@ body{ overflow-x: hidden; }
 
 /* Keep existing transforms on title if any; only ensure compact line-height */
 .site-header .site-title{ line-height: 1.04; margin: 0; }
-.site-header .inase-logo img{
-  height: clamp(34px, 6vw, 56px);
-  width: auto; display: block;
-}
+.site-header 
 .site-header .site-subtitle{ margin: 0; line-height: 1.1; }
 
 /* Desktop/tablet: allow even wider spread and slightly lower min-height */
@@ -1624,11 +1573,7 @@ body{ overflow-x: hidden; }
 
 /* Preserve existing title transform shifts; only ensure compact lines */
 .site-header .site-title{ line-height: 1.04; margin: 0; }
-.site-header .inase-logo img{
-  height: clamp(34px, 6vw, 56px);
-  width: auto;
-  display: block;
-}
+.site-header 
 .site-header .site-subtitle{ margin: 0; line-height: 1.1; }
 
 @media (min-width: 1024px){
@@ -1659,10 +1604,7 @@ body{ overflow-x: hidden; }
 }
 
 /* Make sure the INASE image hugs the right edge of the group */
-.site-header .inase-logo img{
-  display: block;
-  margin-left: auto;
-}
+.site-header 
 
 /* Optional: on large screens keep it right-aligned with existing header paddings */
 @media (min-width: 1024px){
@@ -1703,7 +1645,7 @@ body{ overflow-x: hidden; }
 }
 
 /* Keep consistent equal sizing and avoid content expanding height too much */
-#carousel, #carousel *{ min-width: 0; }
+#carousel, #carousel2, #carousel, #carousel2 *{ min-width: 0; }
 
 /* === CUADRO 1: ~25% more compact vertically (16/9 images) === */
 /* Tighten the block's vertical padding a bit more */
@@ -1725,7 +1667,7 @@ body{ overflow-x: hidden; }
 }
 
 /* Keep equal sizing and prevent long text from expanding widths */
-#carousel, #carousel *{ min-width: 0; }
+#carousel, #carousel2, #carousel, #carousel2 *{ min-width: 0; }
 
 
 /* === Theme selector (hamburguesa) === */
@@ -2722,3 +2664,359 @@ a[href*="whatsapp.com"] img.whatsapp-icon{
   object-fit: contain;
 }
 
+
+
+/* === MIGRATION styles for specs === */
+.specs{display:grid;gap:.5rem;margin:.75rem 0}
+.spec-row{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.spec-key{font-weight:600;opacity:.75}
+.spec-val{text-align:right}
+.tech-card{background:rgba(0,0,0,.03);border-radius:12px;padding:12px}
+.tech-card .price{font-weight:700;margin-top:.5rem}
+
+
+/* Header logo background */
+.site-header{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.site-header .container{ display:flex; align-items:center; justify-content:center; min-height:120px; }
+@media (max-width: 480px){
+  .site-header .container{ min-height: 100px; }
+}
+/* Avoid overlap with first carousel */
+.section-title.exterior{ margin-top: 12px; }
+
+/* Mobile horizontal scroll: 2.5 cards */
+@media (max-width: 768px){
+  #carousel,
+#carousel2{
+    display:flex;
+    overflow-x:auto;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+  #carousel .card,
+
+}
+
+/* Equal card heights */
+.card{ display:flex; flex-direction:column; }
+.card-btn{ display:flex; flex-direction:column; width:100%; }
+.card-img-wrap{ aspect-ratio: 4/3; border-radius:14px; }
+.card-body{ flex:1; display:flex; flex-direction:column; }
+
+/* Thumbnails in tech card */
+.tech-card .thumbs{ display:flex; gap:8px; flex-wrap:wrap; margin:8px 0; }
+.tech-card .thumb{ border:1px solid #2a2a36; background:transparent; border-radius:8px; padding:2px; cursor:pointer; }
+.tech-card .thumb img{ display:block; width:64px; height:64px; object-fit:cover; border-radius:6px; }
+.tech-card .wa{ display:inline-block; margin-top:8px; padding:8px 12px; border-radius:10px; background:#25D366; color:#000; text-decoration:none; font-weight:700; }
+
+
+@media (max-width: 768px){
+  #carousel, #carousel2{
+    display:flex;
+    overflow-x:auto;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+  #carousel .card, 
+}
+
+
+#carousel{
+    display:flex;
+    overflow-x:auto;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 12px;
+}
+
+
+/* === FINAL OVERRIDES: unify carousels as horizontal flex === */
+#carousel, #carousel2{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 14px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+}
+#carousel .card, 
+@media (min-width: 1024px){
+  #carousel .card, 
+}
+
+
+/* === CORRECCIÓN SELECTORES EQUIVOCADOS QUE AFECTARON #carousel === */
+/* Asegura que el CONTENEDOR no herede reglas de .card */
+#carousel{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 14px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+  flex: initial !important;
+  max-width: none !important;
+  width: auto !important;
+}
+
+/* Reglas SOLO para las TARJETAS dentro del carrusel 1 */
+
+
+/* Imagen de tarjeta consistente */
+#carousel .card .card-img-wrap{
+  aspect-ratio: 4/3 !important;
+  min-height: 240px !important;
+  border-radius: 14px !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+@media (min-width: 768px){
+  #carousel .card .card-img-wrap{ min-height: 320px !important; }
+}
+
+
+/* mirrored from #carousel2 */
+#carousel{}
+
+/* mirrored from #carousel2 */
+#carousel{
+  display: flex;
+  gap: var(--cards-gap);
+  padding: 0 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* mirrored from #carousel2 */
+#carousel{
+    display:flex;
+    overflow-x:auto;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+
+/* mirrored from #carousel2 */
+#carousel{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 14px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+}
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored from #carousel2 descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* mirrored card size */
+#carousel descendant */
+
+
+/* === FIX: Carrusel 1 tarjetas en vertical → forzar horizontal en #cuadro1 === */
+#cuadro1 #carousel{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 14px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+}
+#cuadro1 
+@media (min-width: 1024px){
+  #cuadro1 
+}
+
+
+/* === AUTHORITATIVE LAYOUT FOR CAROUSELS === */
+#carousel, #carousel2{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 14px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+}
+#carousel .card, 
+@media (min-width: 1024px){
+  #carousel .card, 
+}
+
+
+/* Mirror exact card width from #carousel2 to #carousel */
+
+
+
+/* === UNIFIED CARD WIDTHS BY VARIABLES === */
+#carousel, #carousel2{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: var(--cards-gap) !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+}
+#carousel .card, #carousel2 .card{
+  flex: 0 0 var(--card-width-mobile) !important;
+  max-width: var(--card-width-mobile) !important;
+  scroll-snap-align: start !important;
+  box-sizing: border-box !important;
+}
+@media (min-width: 1024px){
+  #carousel .card, #carousel2 .card{
+    flex: 0 0 var(--card-width-desktop) !important;
+    max-width: var(--card-width-desktop) !important;
+  }
+}
+
+
+/* === BEGIN MIRROR OF #carousel2 RULES TO #cuadro1 #carousel === */
+/* mirrored from #carousel2 for cuadro1 */
+#cuadro1 #carousel{}
+
+/* mirrored from #carousel2 for cuadro1 */
+#cuadro1 #carousel{
+  display: flex;
+  gap: var(--cards-gap);
+  padding: 0 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* mirrored from #carousel2 for cuadro1 */
+#cuadro1 #carousel{
+    display:flex;
+    overflow-x:auto;
+    gap: 14px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+/* === END MIRROR === */
+
+/* Authoritative containers to prevent vertical stacking */
+#cuadro1 #carousel, #cuadro2 #carousel2{
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 14px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0 12px !important;
+}
+
+
+/* Header logo containment for mobile */
+.site-header{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.site-header .container{
+  min-height: 140px;
+  display:flex; align-items:center; justify-content:center;
+}
+@media (max-width: 480px){
+  .site-header .container{ min-height: 110px; padding: 8px 0; }
+}
+@media (min-width: 481px) and (max-width: 768px){
+  .site-header .container{ min-height: 140px; padding: 12px 0; }
+}
+@media (min-width: 769px){
+  .site-header .container{ min-height: 180px; padding: 16px 0; }
+}
+
+
+/* === MATCH CARRUSEL 2: container === */
+#carousel{
+  display:flex !important;
+  overflow-x:auto !important;
+  gap:14px !important;
+  scroll-snap-type:x mandatory !important;
+  -webkit-overflow-scrolling:touch !important;
+  padding:0 12px !important;
+}
+
+
+/* === MATCH CARRUSEL 2: card widths === */
+#carousel .card{
+  flex:0 0 40vw !important;
+  max-width:40vw !important;
+  scroll-snap-align:start !important;
+  box-sizing:border-box !important;
+}
+@media (min-width:1024px){
+  #carousel .card{
+    flex:0 0 300px !important;
+    max-width:300px !important;
+  }
+}
+
+
+/* === CARD IMAGE SHARED RULES === */
+#carousel .card .card-img-wrap{
+  aspect-ratio:4/3 !important;
+  min-height:240px !important;
+  border-radius:14px !important;
+  background-size:cover !important;
+  background-position:center !important;
+}
+@media (min-width:768px){
+  #carousel .card .card-img-wrap{ min-height:320px !important; }
+}

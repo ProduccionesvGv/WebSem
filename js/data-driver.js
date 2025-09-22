@@ -1,4 +1,48 @@
 
+// === MIGRATION UTILS: specs/ui aware rendering ===
+function getUI(p){
+  const ui = (p && p.ui) || {};
+  return {
+    showPrice: ui.showPrice !== false,
+    showSpecs: Array.isArray(ui.showSpecs) && ui.showSpecs.length ? ui.showSpecs
+               : ['banco','genetica','floracion','thc','rendimiento','sabor','notas'],
+    cardVariant: ui.cardVariant || 'detail'
+  };
+}
+function getSpecs(p){
+  return p && p.specs ? p.specs : {
+    banco: p && p.banco ? p.banco : 'BSF',
+    genetica: p && p.genetica ? p.genetica : '',
+    floracion: p && p.floracion ? p.floracion : '',
+    thc: p && p.thc ? p.thc : '',
+    rendimiento: p && p.rendimiento ? p.rendimiento : {int:'',ext:''},
+    sabor: p && p.sabor ? p.sabor : '',
+    notas: p && p.notas ? p.notas : ''
+  };
+}
+function renderSpecsList(p){
+  const specs = getSpecs(p);
+  const ui = getUI(p);
+  const map = {
+    banco: specs.banco,
+    genetica: specs.genetica,
+    floracion: specs.floracion,
+    thc: specs.thc,
+    rendimiento: (specs.rendimiento && (specs.rendimiento.int || specs.rendimiento.ext))
+      ? `INT: ${specs.rendimiento.int || ''} · EXT: ${specs.rendimiento.ext || ''}`
+      : '',
+    sabor: specs.sabor,
+    notas: specs.notas
+  };
+  const blocks = ui.showSpecs
+    .map(key => ({key, val: map[key]}))
+    .filter(x => x.val && String(x.val).trim().length > 0)
+    .map(x => `<div class="spec-row"><span class="spec-key">${x.key.toUpperCase()}</span><span class="spec-val">${x.val}</span></div>`)
+    .join('');
+  return `<div class="specs">${blocks}</div>`;
+}
+
+
 (function(){
   "use strict";
 
@@ -16,8 +60,10 @@
   }
 
   function heroOf(p){
-    return (p && Array.isArray(p.images) && p.images[0]) || (window.PLACEHOLDER || 'img/placeholder.svg');
-  }
+  var src = (p && Array.isArray(p.images) && p.images[0]) || (window.PLACEHOLDER || 'img/placeholder.svg');
+  var ver = (window.__VER || '') ? ('?v='+window.__VER) : '';
+  return src + ver;
+}
 
   function verifyImages(products){
     (products||[]).forEach(function(p){
@@ -33,6 +79,7 @@
 
 function renderCardsFromProducts(){
   renderCards('carousel', (window.PRODUCTS||[]));
+  renderCards('carousel2', (window.PRODUCTS||[]));
 }
 
 function renderCards(listId, products){
@@ -578,3 +625,28 @@ document.addEventListener('click', function(ev){
 
 
 
+
+
+// === MIGRATION WRAP: extend showSpecsFromProducts to hydrate #techSheet ===
+(function(){
+  if (typeof showSpecsFromProducts !== 'function') return;
+  var __origShow = showSpecsFromProducts;
+  showSpecsFromProducts = function(id){
+    try{ __origShow.call(this, id); }catch(e){}
+    try{
+      var tech = document.getElementById('techSheet');
+      if(!tech) return;
+      var p = (window.PRODUCTS || []).find(function(x){ return x && x.id === id; });
+      if(!p) return;
+      var ui = getUI(p);
+      var priceHtml = (ui.showPrice && typeof p.price_ars !== 'undefined')
+        ? '<div class="price">$'+ Number(p.price_ars || 0).toLocaleString('es-AR') +'</div>' : '';
+      tech.innerHTML = ''
+        + '<article class="tech-card variant-'+ ui.cardVariant +'">'
+        +   '<header><h3>'+ (p.title || '') +'</h3></header>'
+        +   renderSpecsList(p)
+        +   priceHtml
+        + '</article>';
+    }catch(e){}
+  };
+})();
