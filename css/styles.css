@@ -3020,3 +3020,48 @@ a[href*="whatsapp.com"] img.whatsapp-icon{
 @media (min-width:768px){
   #carousel .card .card-img-wrap{ min-height:320px !important; }
 }
+
+
+/* === OPTION 1 PLUS: centered, expanded, mobile-optimized logo === */
+:root{
+  --header-h-desktop: 140px;
+  --header-h-mobile: 96px;
+}
+.site-header{
+  background:#000 !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+.site-header .header-inner{
+  width:100%;
+  min-height: var(--header-h-desktop);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+/* Robust resets for header image */
+.site-header img{
+  max-width:100% !important;
+  height:auto !important;
+  display:block !important;
+  float:none !important;
+  position:static !important;
+  margin:0 auto !important;
+}
+.site-logo{
+  /* Keep it big but constrained by header height and viewport */
+  height: min(60vw, var(--header-h-desktop));
+  max-height: var(--header-h-desktop);
+  width:auto;
+  object-fit:contain;
+}
+@media (max-width: 768px){
+  .site-header .header-inner{ min-height: var(--header-h-mobile); }
+  .site-logo{
+    height: min(70vw, var(--header-h-mobile));
+    max-height: var(--header-h-mobile);
+  }
+}
+/* Small separation from the first section */
+.site-header + *{ margin-top: 10px; }
+
