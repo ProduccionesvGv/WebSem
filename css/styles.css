@@ -265,3 +265,28 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 
 /* Evita bloqueos de scroll de estilos previos */
 .lb-inner *{ overscroll-behavior: contain; }
+
+
+/* Disable background scroll when lightbox is open */
+body.no-scroll{
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+  touch-action: none;
+}
+/* Ensure lightbox captures interactions */
+.lightbox{ pointer-events: auto; }
+
+
+/* === Static ficha técnica section === */
+.specs-section{ padding:22px 0 28px; border-top:1px solid var(--border); }
+.specs-section h2{ margin:0 0 10px; font-size:1.1rem; color:var(--text); }
+.specs-box{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px; }
+.specs-header{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+.specs-title{ font-weight:800; color:var(--text); }
+.specs-name{ font-weight:800; color:#22c55e; } /* green selected card name */
+.specs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; }
+.specs-grid .kv{ background:var(--surface-2); border:1px dashed var(--border); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:4px; }
+.specs-grid .k{ color:var(--muted); font-size:.9rem; }
+.specs-grid .v{ color:var(--text); font-weight:600; }
+@media(max-width:768px){ .specs-grid{ grid-template-columns:1fr; } }

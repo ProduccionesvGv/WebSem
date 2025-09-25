@@ -79,14 +79,14 @@ async function buildCard(folder, id){
 
   card.appendChild(heroDiv);
   card.appendChild(body);
-  card.addEventListener('click', async ()=> { updateSpecs(meta); renderFicha(folder, id);
+  card.addEventListener('click', async ()=> { updateSpecs(meta); renderFichaStatic(folder, id, meta); renderFicha(folder, id);
     const names = ['foto1','foto2','foto3','foto4','Front2'];
     const resolved = [];
     for(const n of names){
       const r = await resolveFirst(folderPath, n);
       if(r) resolved.push(r);
     }
-    openGallery(resolved); renderFichaLB(folder, id, meta);
+    openGallery(resolved); 
   });
   return card;
 }
@@ -125,8 +125,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   await buildCarousel('carousel2','02Genext');
   document.getElementById('lb-close').addEventListener('click', ()=>{
     const lb = document.getElementById('lightbox');
-    lb.classList.remove('active');
-    lb.setAttribute('aria-hidden','true');
+    closeLightbox();
   });
 });
 
@@ -229,7 +228,80 @@ document.addEventListener('click', (e)=>{
   if(!lb || !lb.classList.contains('active')) return;
   const inner = document.querySelector('.lb-inner');
   if(inner && !inner.contains(e.target) || e.target.id==='lb-close'){
-    lb.classList.remove('active');
-    lb.setAttribute('aria-hidden','true');
+    closeLightbox();
   }
 });
+
+
+/* === Scroll lock when lightbox is open === */
+let __scrollY = 0;
+function lockScroll(){
+  __scrollY = window.scrollY || window.pageYOffset || 0;
+  const b = document.body;
+  b.classList.add('no-scroll');
+  b.style.top = `-${__scrollY}px`;
+}
+function unlockScroll(){
+  const b = document.body;
+  b.classList.remove('no-scroll');
+  const y = __scrollY || 0;
+  b.style.top = '';
+  window.scrollTo(0, y);
+}
+
+
+function closeLightbox(){
+  const lb = document.getElementById('lightbox');
+  if(!lb) return;
+  lb.classList.remove('active');
+  lb.setAttribute('aria-hidden','true');
+  unlockScroll();
+}
+
+// prevent background scroll through lightbox
+document.addEventListener('wheel', (e)=>{
+  const lb = document.getElementById('lightbox');
+  const inner = document.querySelector('.lb-inner');
+  if(lb && lb.classList.contains('active') && inner && !inner.contains(e.target)){
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, {passive:false});
+document.addEventListener('touchmove', (e)=>{
+  const lb = document.getElementById('lightbox');
+  const inner = document.querySelector('.lb-inner');
+  if(lb && lb.classList.contains('active') && inner && !inner.contains(e.target)){
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, {passive:false});
+
+
+function renderFichaStatic(folder, id, meta){
+  const grid = document.getElementById('specs-grid');
+  const name = document.getElementById('specs-name');
+  if(!grid) return;
+  if(name) name.textContent = (meta && meta.title) ? meta.title : '';
+  grid.innerHTML = '';
+  const data = (typeof TECH_SPECS !== 'undefined' && TECH_SPECS[folder] && TECH_SPECS[folder][id]) || {};
+  const order = ["Banco","Genética","Floración","THC","Satividad","Rendimiento","Efecto","Sabor","Cantidad"];
+  if(Object.keys(data).length === 0){
+    const div = document.createElement('div');
+    div.className = 'kv';
+    div.innerHTML = `<div class="k">Ficha técnica</div><div class="v">Próximamente…</div>`;
+    grid.appendChild(div);
+  }else{
+    order.forEach(k=>{
+      const v = data[k];
+      if(v){
+        const div = document.createElement('div');
+        div.className = 'kv';
+        div.innerHTML = `<div class="k">${k}</div><div class="v">${v}</div>`;
+        grid.appendChild(div);
+      }
+    });
+  }
+  // Scroll to specs for mobile convenience
+  const specs = document.getElementById('specs');
+  if(specs) specs.scrollIntoView({behavior:'smooth', block:'start'});
+}
