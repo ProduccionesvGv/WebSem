@@ -290,3 +290,20 @@ body.no-scroll{
 .specs-grid .k{ color:var(--muted); font-size:.9rem; }
 .specs-grid .v{ color:var(--text); font-weight:600; }
 @media(max-width:768px){ .specs-grid{ grid-template-columns:1fr; } }
+
+
+/* === Tabs para múltiples fichas técnicas === */
+.specs-tabs{
+  display:flex; gap:8px; flex-wrap:wrap; margin: 2px 0 10px;
+}
+.specs-tab{
+  appearance:none; border:1px solid var(--border); background:var(--surface-2);
+  color:var(--text); padding:8px 12px; border-radius:999px; cursor:pointer; font-weight:600;
+}
+.specs-tab[aria-selected="true"]{
+  background:#1f2937; border-color:#334155;
+}
+.specs-panels{ display:block; }
+.specs-panel{ display:none; }
+.specs-panel[aria-hidden="false"]{ display:block; }
+.specs-panel .specs-grid{ margin-top:6px; }

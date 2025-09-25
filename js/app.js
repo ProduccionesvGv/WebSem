@@ -33,6 +33,32 @@ const TECH_SPECS = {
     "03": {}
   }
 };
+// Estructura opcional para múltiples fichas por tarjeta (hasta 4)
+const TECH_SPECS_SETS = {
+  "01Genint": {
+    "01": [
+      {
+        title: "Ficha 1",
+        data: {
+          "Banco":"Genetic1",
+          "Genética":"Feminizada",
+          "Floración":"70-80 días",
+          "THC":"20-22%",
+          "Satividad":"70% Sativa",
+          "Rendimiento":"INT: 450-550 gr × m² | EXT: 80-200 gr × planta",
+          "Efecto":"Eufórico, enérgico, creativo",
+          "Sabor":"Cítrico, incienso",
+          "Cantidad":"x3 Semillas"
+        }
+      },
+      { title: "Ficha 2", data: { "Notas":"Ejemplo de segunda ficha técnica opcional" } }
+    ],
+    "02": [],
+    "03": []
+  },
+  "02Genext": { "01": [], "02": [], "03": [] }
+};
+
 
 
 const EXTS = ['jpg','JPG','jpeg','JPEG','png','PNG','webp','WEBP'];
@@ -79,15 +105,7 @@ async function buildCard(folder, id){
 
   card.appendChild(heroDiv);
   card.appendChild(body);
-  card.addEventListener('click', async ()=> { updateSpecs(meta); renderFichaStatic(folder, id, meta); renderFicha(folder, id);
-    const names = ['foto1','foto2','foto3','foto4','Front2'];
-    const resolved = [];
-    for(const n of names){
-      const r = await resolveFirst(folderPath, n);
-      if(r) resolved.push(r);
-    }
-    openGallery(resolved); 
-  });
+  card.addEventListener('click', async ()=> { updateSpecs(meta); renderFichaStatic(folder, id, meta); });
   return card;
 }
 
@@ -278,6 +296,7 @@ document.addEventListener('touchmove', (e)=>{
 
 
 function renderFichaStatic(folder, id, meta){
+  if(renderFichaTabs(folder, id, meta)) return;
   const grid = document.getElementById('specs-grid');
   const name = document.getElementById('specs-name');
   if(!grid) return;
@@ -304,4 +323,83 @@ function renderFichaStatic(folder, id, meta){
   // Scroll to specs for mobile convenience
   const specs = document.getElementById('specs');
   if(specs) specs.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+
+function renderFichaTabs(folder, id, meta){
+  const tabs = document.getElementById('specs-tabs');
+  const panels = document.getElementById('specs-panels');
+  const gridSingle = document.getElementById('specs-grid');
+  if(!tabs || !panels) return;
+
+  const sets = (TECH_SPECS_SETS[folder] && TECH_SPECS_SETS[folder][id]) || [];
+  const validSets = sets.filter(s => s && s.data && Object.keys(s.data).length);
+  if(validSets.length === 0){
+    tabs.hidden = true;
+    panels.hidden = true;
+    gridSingle.hidden = false;
+    return false;
+  }
+
+  tabs.innerHTML = '';
+  panels.innerHTML = '';
+  validSets.slice(0,4).forEach((set, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'specs-tab'; btn.type='button';
+    btn.textContent = set.title || `Ficha ${i+1}`;
+    btn.setAttribute('role','tab');
+    btn.setAttribute('aria-selected', i===0 ? 'true' : 'false');
+    btn.dataset.index = i;
+    tabs.appendChild(btn);
+
+    const pan = document.createElement('div');
+    pan.className = 'specs-panel'; pan.setAttribute('role','tabpanel');
+    pan.setAttribute('aria-hidden', i===0 ? 'false' : 'true');
+
+    const grid = document.createElement('div');
+    grid.className = 'specs-grid';
+    const order = ["Banco","Genética","Floración","THC","Satividad","Rendimiento","Efecto","Sabor","Cantidad"];
+    const data = set.data || {};
+    if(Object.keys(data).length === 0){
+      const div = document.createElement('div');
+      div.className = 'kv';
+      div.innerHTML = `<div class="k">Ficha técnica</div><div class="v">Próximamente…</div>`;
+      grid.appendChild(div);
+    }else{
+      order.forEach(k=>{
+        const v = data[k];
+        if(v){
+          const div = document.createElement('div');
+          div.className = 'kv';
+          div.innerHTML = `<div class="k">${k}</div><div class="v">${v}</div>`;
+          grid.appendChild(div);
+        }
+      });
+      Object.keys(data).forEach(k=>{
+        if(!order.includes(k)){
+          const div = document.createElement('div');
+          div.className = 'kv';
+          div.innerHTML = `<div class="k">${k}</div><div class="v">${data[k]}</div>`;
+          grid.appendChild(div);
+        }
+      });
+    }
+    pan.appendChild(grid);
+    panels.appendChild(pan);
+  });
+
+  tabs.hidden = false;
+  panels.hidden = false;
+  gridSingle.hidden = true;
+
+  tabs.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.specs-tab'); if(!btn) return;
+    const idx = parseInt(btn.dataset.index, 10);
+    [...tabs.children].forEach((b, i)=> b.setAttribute('aria-selected', i===idx ? 'true' : 'false'));
+    [...panels.children].forEach((p, i)=> p.setAttribute('aria-hidden', i===idx ? 'false' : 'true'));
+  });
+
+  const specs = document.getElementById('specs');
+  if(specs) specs.scrollIntoView({behavior:'smooth', block:'start'});
+  return true;
 }
