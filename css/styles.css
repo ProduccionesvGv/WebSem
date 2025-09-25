@@ -117,7 +117,7 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 
 /* === Ficha técnica fija bajo imágenes (mobile-first) === */
 .lb-ficha-fixed, .inline-ficha-fixed{
-  margin-top:10px;
+  margin-top: 36px;
   background:#0b0b0e;
   border:1px solid #222;
   border-radius:12px;
@@ -140,3 +140,27 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 @media(min-width:1024px){
   .lb-ficha-grid, .inline-ficha-fixed .grid{ grid-template-columns:1fr 1fr; }
 }
+
+/* extra spacing between gallery and ficha */
+.lb-ficha-fixed, .inline-ficha-fixed{ margin-top:36px; }
+@media(min-width:1024px){
+  .lb-ficha-fixed, .inline-ficha-fixed{ margin-top:44px; }
+}
+
+
+/* === Scroll capture for images+ficha === */
+.lightbox.active{ display:block; overflow-y:auto; overscroll-behavior:contain; }
+.lb-inner{
+  box-sizing:border-box;
+  min-height:100vh;
+  max-height:100vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom:16px;
+}
+#lb-thumbs{ overflow-x:auto; }
+.lb-ficha-fixed{ max-height:none; }
+
+/* Inline details variant must not trap or hide overflow */
+.details{ overflow:visible; }
+.details .viewer{ overflow:visible; }
