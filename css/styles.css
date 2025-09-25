@@ -180,3 +180,93 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 /* Keep overlay scroll self-contained */
 .lightbox.active{ display:block; overflow-y:auto; overscroll-behavior:contain; }
 .lb-inner{ box-sizing:border-box; min-height:100vh; max-height:100vh; overflow-y:auto; -webkit-overflow-scrolling:touch; padding-bottom:20px; }
+
+
+/* === Prevent main image overlapping thumbnails === */
+.details .viewer{ position:relative; }
+.details .viewer .main{ 
+  position:relative; z-index:1;
+  margin-bottom:18px;                 /* space below main image */
+  max-height: 56vh;                   /* keep within viewport on mobile */
+  overflow:hidden; border-radius:10px; background:#000;
+}
+.details .viewer .main img{ 
+  width:100%; height:auto; object-fit:contain; display:block; 
+}
+.details .viewer .thumbs{ 
+  position:relative; z-index:2;       /* ensure thumbs are above */
+  display:flex; gap:10px; overflow-x:auto; padding:6px 2px 2px; margin:0 0 16px;
+}
+.details .viewer .thumbs img{
+  flex:0 0 auto; width:74px; height:74px; object-fit:cover;
+  border-radius:8px; border:1px solid var(--border); background:#111;
+}
+/* Lightbox variant */
+#lb-img{ 
+  position:relative; z-index:1; 
+  max-height: 58vh; width:100%; height:auto; object-fit:contain; margin-bottom:18px;
+}
+#lb-thumbs{ 
+  position:relative; z-index:2; 
+  display:flex; gap:10px; overflow-x:auto; padding:6px 2px 2px; margin:0 0 16px;
+}
+#lb-thumbs img{ flex:0 0 auto; width:74px; height:74px; object-fit:cover; border-radius:8px; border:1px solid var(--border); }
+
+
+/* === Soften borders to avoid overlay on thumbnails === */
+.lb-ficha-fixed, .inline-ficha-fixed{
+  border: 0 !important;
+  box-shadow: none !important;
+  background: #0b0b0e; /* keep subtle bg */
+}
+.details .ficha{
+  border: 0 !important;
+  box-shadow: none !important;
+  background: #0b0b0e;
+}
+.details .viewer .main{
+  border: 0 !important;
+  box-shadow: none !important;
+}
+/* remove dashed inner borders of ficha items */
+.lb-ficha-grid .kv, .inline-ficha-fixed .kv, .details .ficha .kv{
+  border: 0 !important;
+}
+/* ensure thumbs stay clickable and above */
+.details .viewer .thumbs{ z-index: 3; }
+
+
+/* === Fix: prevent black border overlay between thumbs and "Ficha técnica" === */
+.details .viewer .thumbs,
+#lb-thumbs{
+  position: relative !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  margin-bottom: 18px !important;
+  overflow: visible !important;
+}
+
+.lb-ficha-fixed, .inline-ficha-fixed{
+  margin-top: 72px !important;   /* bigger gap below thumbs */
+  padding-top: 8px !important;
+  position: relative !important;
+  z-index: 0 !important;         /* keep ficha below thumbs stacking */
+  overflow: visible !important;
+  background-clip: padding-box !important;
+}
+
+/* Remove any decorative pseudo overlays that could cover thumbs */
+.lb-ficha-fixed::before, .lb-ficha-fixed::after,
+.inline-ficha-fixed::before, .inline-ficha-fixed::after{
+  display: none !important;
+  content: none !important;
+}
+
+/* Ensure the main image block does not overlap the thumbs area */
+.details .viewer .main,
+#lb-img{
+  margin-bottom: 18px !important;
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+}
