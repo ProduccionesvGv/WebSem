@@ -11,36 +11,88 @@ const DATA_OVERRIDE = {
     "03": {"title":"Gen3","genetica":"Feminizada","price":"49.999"}
   }
 };
+const TECH_SPECS = {
+  "01Genint": {
+    "01": {
+      "Banco":"Genetic1",
+      "Genética":"Feminizada",
+      "Floración":"70-80 días",
+      "THC":"20-22%",
+      "Satividad":"70% Sativa",
+      "Rendimiento":"INT: 450-550 gr × m² | EXT: 80-200 gr × planta",
+      "Efecto":"Eufórico, enérgico, creativo",
+      "Sabor":"Cítrico, incienso",
+      "Cantidad":"x3 Semillas"
+    },
+    "02": {},
+    "03": {}
+  },
+  "02Genext": {
+    "01": {},
+    "02": {},
+    "03": {}
+  }
+};
 
-function buildCarousel(rootId, folder){
-  const container = document.getElementById(rootId);
-  if(!container) return;
-  ['01','02','03'].forEach(id=>{
-    const folderPath = `img/${folder}/${id}`;
-    const hero = `${folderPath}/Front.jpg`;
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.setAttribute('data-folder', folder);
-    card.setAttribute('data-id', id);
 
-    const heroDiv = document.createElement('div');
-    heroDiv.className = 'hero';
-    heroDiv.style.backgroundImage = `url('${hero}')`;
+const EXTS = ['jpg','JPG','jpeg','JPEG','png','PNG','webp','WEBP'];
+function candidates(name){
+  // name like 'Front' or 'foto1' or 'Front2'
+  const base = [name, name.toLowerCase(), name.toUpperCase()];
+  const out = [];
+  base.forEach(b=> EXTS.forEach(ext=> out.push(`${b}.${ext}`)));
+  return out;
+}
 
-    const body = document.createElement('div');
-    body.className = 'body';
-    const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
-    body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div><div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`;
-
-    card.appendChild(heroDiv);
-    card.appendChild(body);
-    card.addEventListener('click', ()=> openGallery(folderPath));
-    container.appendChild(card);
+function resolveFirst(folderPath, baseName){
+  return new Promise((resolve)=>{
+    const list = candidates(baseName);
+    let idx = 0;
+    function tryNext(){
+      if(idx >= list.length){ resolve(null); return; }
+      const src = `${folderPath}/${list[idx++]}`;
+      const img = new Image();
+      img.onload = ()=> resolve(src);
+      img.onerror = tryNext;
+      img.src = src + `?v=${Date.now()%999999}`; // bypass cache
+    }
+    tryNext();
   });
 }
 
-function openGallery(folderPath){
-  const images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','Front2.jpg'].map(n=> `${folderPath}/${n}`);
+async function buildCard(folder, id){
+  const folderPath = `img/${folder}/${id}`;
+  const heroSrc = await resolveFirst(folderPath, 'Front');
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.setAttribute('data-folder', folder);
+  card.setAttribute('data-id', id);
+
+  const heroDiv = document.createElement('div');
+  heroDiv.className = 'hero skeleton';
+  if(heroSrc){ heroDiv.style.backgroundImage = `url('${heroSrc}')`; heroDiv.classList.remove('skeleton'); }
+
+  const body = document.createElement('div');
+  body.className = 'body';
+  const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
+  body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div><div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`;
+
+  card.appendChild(heroDiv);
+  card.appendChild(body);
+  card.addEventListener('click', async ()=> { updateSpecs(meta); renderFicha(folder, id);
+    const names = ['foto1','foto2','foto3','foto4','Front2'];
+    const resolved = [];
+    for(const n of names){
+      const r = await resolveFirst(folderPath, n);
+      if(r) resolved.push(r);
+    }
+    openGallery(resolved); renderFichaLB(folder, id);
+  });
+  return card;
+}
+
+function openGallery(images){
+  if(!images || !images.length){ return; }
   const lb = document.getElementById('lightbox');
   const img = document.getElementById('lb-img');
   const thumbs = document.getElementById('lb-thumbs');
@@ -57,12 +109,111 @@ function openGallery(folderPath){
   lb.setAttribute('aria-hidden','false');
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-  buildCarousel('carousel','01Genint');
-  buildCarousel('carousel2','02Genext');
+async function buildCarousel(rootId, folder){
+  const container = document.getElementById(rootId);
+  if(!container) return;
+  for(const id of ['01','02','03']){
+    const card = await buildCard(folder, id);
+    container.appendChild(card);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async function(){
+  await buildCarousel('carousel','01Genint');
+  await buildCarousel('carousel2','02Genext');
   document.getElementById('lb-close').addEventListener('click', ()=>{
     const lb = document.getElementById('lightbox');
     lb.classList.remove('active');
     lb.setAttribute('aria-hidden','true');
   });
 });
+
+
+function bindCarouselControls(sectionId, carouselId, prevId, nextId){
+  const wrap = document.getElementById(carouselId);
+  const prev = document.getElementById(prevId);
+  const next = document.getElementById(nextId);
+  if(!wrap || !prev || !next) return;
+  function cardWidth(){
+    const card = wrap.querySelector('.card');
+    return card ? (card.getBoundingClientRect().width + 14) : 320;
+  }
+  prev.addEventListener('click', ()=> wrap.scrollBy({left: -cardWidth()*1.2, behavior:'smooth'}));
+  next.addEventListener('click', ()=> wrap.scrollBy({left:  cardWidth()*1.2, behavior:'smooth'}));
+}
+
+
+function updateSpecs(meta){
+  const box = document.querySelector('.specs-box');
+  if(!box) return;
+  box.querySelector('.specs-empty')?.setAttribute('hidden','');
+  const content = box.querySelector('.specs-content');
+  if(content) content.hidden = false;
+  const t = document.getElementById('specs-title');
+  const g = document.getElementById('specs-gen');
+  const p = document.getElementById('specs-price');
+  if(t) t.textContent = meta.title || '';
+  if(g) g.textContent = meta.genetica || '';
+  if(p) p.textContent = meta.price ? ('$'+meta.price) : 'Consultar';
+
+  // Update WA links
+  const msg = encodeURIComponent(`Consulta por ${meta.title} (${meta.genetica})`);
+  const wa = document.getElementById('wa-link');
+  if(wa) wa.href = `https://wa.me/5490000000000?text=${msg}`; // reemplazar número
+  const fab = document.getElementById('wa-fab');
+  if(fab) fab.href = `https://wa.me/5490000000000?text=${msg}`;
+}
+
+
+function renderFicha(folder, id){
+  const grid = document.getElementById('specs-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const data = (TECH_SPECS[folder] && TECH_SPECS[folder][id]) || {};
+  const order = ["Banco","Genética","Floración","THC","Satividad","Rendimiento","Efecto","Sabor","Cantidad"];
+  let hasAny = false;
+  order.forEach(k=>{
+    const v = data[k];
+    if(v){
+      hasAny = true;
+      const div = document.createElement('div');
+      div.className = 'kv';
+      div.innerHTML = `<div class="k">${k}</div><div class="v">${v}</div>`;
+      grid.appendChild(div);
+    }
+  });
+  if(!hasAny){
+    const div = document.createElement('div');
+    div.className = 'kv';
+    div.innerHTML = `<div class="k">Ficha técnica</div><div class="v">Próximamente…</div>`;
+    grid.appendChild(div);
+  }
+}
+
+
+function renderFichaLB(folder, id){
+  const box = document.getElementById('lb-ficha');
+  const grid = document.getElementById('lb-ficha-grid');
+  if(!box || !grid) return;
+  grid.innerHTML = '';
+  const data = (typeof TECH_SPECS !== 'undefined' && TECH_SPECS[folder] && TECH_SPECS[folder][id]) || {};
+  const order = ["Banco","Genética","Floración","THC","Satividad","Rendimiento","Efecto","Sabor","Cantidad"];
+  let has = false;
+  order.forEach(k=>{
+    const v = data[k];
+    if(v){
+      has = true;
+      const div = document.createElement('div');
+      div.className = 'kv';
+      div.innerHTML = `<div class="k">${k}</div><div class="v">${v}</div>`;
+      grid.appendChild(div);
+    }
+  });
+  if(!has){
+    const div = document.createElement('div');
+    div.className = 'kv';
+    div.innerHTML = `<div class="k">Ficha técnica</div><div class="v">Próximamente…</div>`;
+    grid.appendChild(div);
+  }
+  box.hidden = false;
+}
