@@ -189,3 +189,79 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
   overflow-y:auto;
 }
 
+
+
+/* === Mobile-first lightbox: single vertical scroll === */
+.lightbox{ position:fixed; inset:0; display:none; background:rgba(0,0,0,0.9); z-index:9999; }
+.lightbox.active{ display:block; }
+.lb-inner{
+  box-sizing:border-box;
+  height:100vh; width:100vw;
+  overflow-y:auto; overflow-x:hidden;
+  margin:0; padding:12px;
+  background:#000;
+  display:block;
+}
+#lb-close{ position:fixed; top:10px; right:12px; z-index:10000; background:#fff; border:0; border-radius:10px; padding:6px 10px; }
+#lb-img{ width:100%; height:auto; max-height:none; object-fit:contain; border-radius:10px; display:block; }
+#lb-thumbs{ display:flex; gap:8px; overflow-x:auto; padding:10px 2px; margin-top:8px; }
+#lb-thumbs img{ width:72px; height:72px; object-fit:cover; border-radius:8px; border:1px solid #222; }
+#lb-ficha{ margin-top:10px; background:#0b0b0e; border:1px solid #222; border-radius:12px; padding:12px; }
+#lb-ficha .lb-ficha-title{ margin:0 0 8px; color:#fff; font-size:1rem; }
+#lb-ficha .lb-ficha-grid{ display:grid; grid-template-columns:1fr; gap:10px; }
+#lb-ficha .kv{ background:#141418; border:1px dashed #2a2a36; border-radius:10px; padding:10px; }
+#lb-ficha .k{ color:#a2a2b3; font-size:.9rem; }
+#lb-ficha .v{ color:#e9e9ef; font-weight:600; }
+
+/* Remove nested scrolls from previous desktop-like layout */
+.lb-inner .scroll, .lb-inner .panel{ overflow:visible !important; max-height:none !important; }
+
+
+/* === Ficha técnica optimizada para móvil === */
+/* Single scroll area, layout en columna, sin solapamientos */
+.lightbox{ position:fixed; inset:0; display:none; background:rgba(0,0,0,0.92); z-index:9999; }
+.lightbox.active{ display:block; }
+.lb-inner{
+  box-sizing:border-box;
+  height:100vh; width:100vw;
+  overflow-y:auto; overflow-x:hidden;
+  padding:12px 12px 18px;
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+#lb-img{
+  width:100%; height:auto; object-fit:contain; border-radius:10px;
+}
+#lb-thumbs{
+  display:flex; gap:8px; overflow-x:auto; padding:6px 2px 8px; margin:0;
+}
+#lb-thumbs img{
+  width:68px; height:68px; object-fit:cover; border-radius:8px; border:1px solid #222;
+}
+#lb-ficha{
+  position:static; /* evita solapamientos */
+  margin-top:6px;
+  background:#0b0b0e;
+  border:1px solid #222;
+  border-radius:12px;
+  padding:12px;
+}
+.lb-ficha-title{
+  margin:0 0 4px; font-size:1rem; color:#e9e9ef;
+}
+.lb-ficha-name{
+  margin:0 0 10px; font-weight:800; color:#22c55e; /* verde */
+}
+.lb-ficha-grid{
+  display:grid; grid-template-columns:1fr; gap:10px;
+}
+.lb-ficha-grid .kv{
+  background:#141418; border:1px dashed #2a2a36; border-radius:10px; padding:10px;
+}
+.lb-ficha-grid .k{ color:#a2a2b3; font-size:.9rem; }
+.lb-ficha-grid .v{ color:#e9e9ef; font-weight:600; }
+
+/* Evita bloqueos de scroll de estilos previos */
+.lb-inner *{ overscroll-behavior: contain; }

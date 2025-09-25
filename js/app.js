@@ -86,7 +86,7 @@ async function buildCard(folder, id){
       const r = await resolveFirst(folderPath, n);
       if(r) resolved.push(r);
     }
-    openGallery(resolved); renderFichaLB(folder, id);
+    openGallery(resolved); renderFichaLB(folder, id, meta);
   });
   return card;
 }
@@ -119,6 +119,8 @@ async function buildCarousel(rootId, folder){
 }
 
 document.addEventListener('DOMContentLoaded', async function(){
+  bindCarouselControls('cuadro1','carousel','prevBtn','nextBtn');
+  bindCarouselControls('cuadro2','carousel2','prevBtn2','nextBtn2');
   await buildCarousel('carousel','01Genint');
   await buildCarousel('carousel2','02Genext');
   document.getElementById('lb-close').addEventListener('click', ()=>{
@@ -191,8 +193,10 @@ function renderFicha(folder, id){
 }
 
 
-function renderFichaLB(folder, id){
+function renderFichaLB(folder, id, meta){
   const box = document.getElementById('lb-ficha');
+  const name = document.getElementById('lb-ficha-name');
+  if(name && meta && meta.title){ name.textContent = meta.title; }
   const grid = document.getElementById('lb-ficha-grid');
   if(!box || !grid) return;
   grid.innerHTML = '';
