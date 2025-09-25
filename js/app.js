@@ -232,3 +232,10 @@ function renderFichaUnderInline(card, folder, id, meta){
     order.forEach(k=>{ const v = data[k]; if(v){ const d=document.createElement('div'); d.className='kv'; d.innerHTML=`<div class="k">${k}</div><div class="v">${v}</div>`; grid.appendChild(d); } });
   }
 }
+
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    bindCarouselControls('cuadro1','carousel','prevBtn','nextBtn');
+    bindCarouselControls('cuadro2','carousel2','prevBtn2','nextBtn2');
+  }catch(e){ console.error('bind controls err', e); }
+});
