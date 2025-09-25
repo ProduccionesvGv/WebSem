@@ -115,195 +115,28 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 }
 
 
-/* === Ficha técnica dentro del lightbox === */
-.lb-ficha{
-  width:100%;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  margin-top:8px;
-}
-.lb-ficha-title{
-  margin:0 0 8px;
-  font-size:1rem;
-  color:var(--text);
-}
-.lb-ficha-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:10px 14px;
-}
-.lb-ficha-grid .kv{
-  background:var(--surface-2);
-  border:1px dashed var(--border);
-  border-radius:10px;
-  padding:10px;
-  display:flex; flex-direction:column; gap:4px;
-}
-.lb-ficha-grid .k{ font-size:.85rem; color:var(--muted); }
-.lb-ficha-grid .v{ font-weight:600; color:var(--text); }
-@media(max-width:640px){
-  .lb-ficha-grid{ grid-template-columns:1fr; }
-}
-
-
-/* === Lightbox layout fixes: full selector visible + ficha scroll === */
-.lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.72); z-index:9999; }
-.lightbox.active{ display:flex; }
-
-.lb-inner{
-  background:#0b0b0e;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  max-height:90vh;
-  width:min(1000px, 95vw);
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-#lb-img{
-  max-width:100%;
-  max-height:55vh;
-  object-fit:contain;
-  border-radius:10px;
-  align-self:center;
-}
-
-#lb-thumbs{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:6px;
-  border-top:1px solid var(--border);
-}
-#lb-thumbs img{
-  height:64px; width:64px; object-fit:cover;
-  border-radius:8px; border:1px solid var(--border); cursor:pointer;
-}
-
-#lb-ficha{
-  max-height:24vh;
-  overflow-y:auto;
-}
-
-
-
-/* === Mobile-first lightbox: single vertical scroll === */
-.lightbox{ position:fixed; inset:0; display:none; background:rgba(0,0,0,0.9); z-index:9999; }
-.lightbox.active{ display:block; }
-.lb-inner{
-  box-sizing:border-box;
-  height:100vh; width:100vw;
-  overflow-y:auto; overflow-x:hidden;
-  margin:0; padding:12px;
-  background:#000;
-  display:block;
-}
-#lb-close{ position:fixed; top:10px; right:12px; z-index:10000; background:#fff; border:0; border-radius:10px; padding:6px 10px; }
-#lb-img{ width:100%; height:auto; max-height:none; object-fit:contain; border-radius:10px; display:block; }
-#lb-thumbs{ display:flex; gap:8px; overflow-x:auto; padding:10px 2px; margin-top:8px; }
-#lb-thumbs img{ width:72px; height:72px; object-fit:cover; border-radius:8px; border:1px solid #222; }
-#lb-ficha{ margin-top:10px; background:#0b0b0e; border:1px solid #222; border-radius:12px; padding:12px; }
-#lb-ficha .lb-ficha-title{ margin:0 0 8px; color:#fff; font-size:1rem; }
-#lb-ficha .lb-ficha-grid{ display:grid; grid-template-columns:1fr; gap:10px; }
-#lb-ficha .kv{ background:#141418; border:1px dashed #2a2a36; border-radius:10px; padding:10px; }
-#lb-ficha .k{ color:#a2a2b3; font-size:.9rem; }
-#lb-ficha .v{ color:#e9e9ef; font-weight:600; }
-
-/* Remove nested scrolls from previous desktop-like layout */
-.lb-inner .scroll, .lb-inner .panel{ overflow:visible !important; max-height:none !important; }
-
-
-/* === Ficha técnica optimizada para móvil === */
-/* Single scroll area, layout en columna, sin solapamientos */
-.lightbox{ position:fixed; inset:0; display:none; background:rgba(0,0,0,0.92); z-index:9999; }
-.lightbox.active{ display:block; }
-.lb-inner{
-  box-sizing:border-box;
-  height:100vh; width:100vw;
-  overflow-y:auto; overflow-x:hidden;
-  padding:12px 12px 18px;
-  background:#000;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-#lb-img{
-  width:100%; height:auto; object-fit:contain; border-radius:10px;
-}
-#lb-thumbs{
-  display:flex; gap:8px; overflow-x:auto; padding:6px 2px 8px; margin:0;
-}
-#lb-thumbs img{
-  width:68px; height:68px; object-fit:cover; border-radius:8px; border:1px solid #222;
-}
-#lb-ficha{
-  position:static; /* evita solapamientos */
-  margin-top:6px;
+/* === Ficha técnica fija bajo imágenes (mobile-first) === */
+.lb-ficha-fixed, .inline-ficha-fixed{
+  margin-top:10px;
   background:#0b0b0e;
   border:1px solid #222;
   border-radius:12px;
   padding:12px;
 }
-.lb-ficha-title{
-  margin:0 0 4px; font-size:1rem; color:#e9e9ef;
+.lb-ficha-title, .inline-ficha-fixed .ft-title{
+  margin:0 0 6px; font-size:1rem; color:#e9e9ef;
 }
-.lb-ficha-name{
+#lb-ficha-name, .inline-ficha-fixed .ft-name{
   margin:0 0 10px; font-weight:800; color:#22c55e; /* verde */
 }
-.lb-ficha-grid{
+.lb-ficha-grid, .inline-ficha-fixed .grid{
   display:grid; grid-template-columns:1fr; gap:10px;
 }
-.lb-ficha-grid .kv{
+.lb-ficha-grid .kv, .inline-ficha-fixed .kv{
   background:#141418; border:1px dashed #2a2a36; border-radius:10px; padding:10px;
 }
-.lb-ficha-grid .k{ color:#a2a2b3; font-size:.9rem; }
-.lb-ficha-grid .v{ color:#e9e9ef; font-weight:600; }
-
-/* Evita bloqueos de scroll de estilos previos */
-.lb-inner *{ overscroll-behavior: contain; }
-
-
-/* Disable background scroll when lightbox is open */
-body.no-scroll{
-  position: fixed;
-  width: 100%;
-  overflow: hidden;
-  touch-action: none;
+.lb-ficha-grid .k, .inline-ficha-fixed .k{ color:#a2a2b3; font-size:.9rem; }
+.lb-ficha-grid .v, .inline-ficha-fixed .v{ color:#e9e9ef; font-weight:600; }
+@media(min-width:1024px){
+  .lb-ficha-grid, .inline-ficha-fixed .grid{ grid-template-columns:1fr 1fr; }
 }
-/* Ensure lightbox captures interactions */
-.lightbox{ pointer-events: auto; }
-
-
-/* === Static ficha técnica section === */
-.specs-section{ padding:22px 0 28px; border-top:1px solid var(--border); }
-.specs-section h2{ margin:0 0 10px; font-size:1.1rem; color:var(--text); }
-.specs-box{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px; }
-.specs-header{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-.specs-title{ font-weight:800; color:var(--text); }
-.specs-name{ font-weight:800; color:#22c55e; } /* green selected card name */
-.specs-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; }
-.specs-grid .kv{ background:var(--surface-2); border:1px dashed var(--border); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:4px; }
-.specs-grid .k{ color:var(--muted); font-size:.9rem; }
-.specs-grid .v{ color:var(--text); font-weight:600; }
-@media(max-width:768px){ .specs-grid{ grid-template-columns:1fr; } }
-
-
-/* === Tabs para múltiples fichas técnicas === */
-.specs-tabs{
-  display:flex; gap:8px; flex-wrap:wrap; margin: 2px 0 10px;
-}
-.specs-tab{
-  appearance:none; border:1px solid var(--border); background:var(--surface-2);
-  color:var(--text); padding:8px 12px; border-radius:999px; cursor:pointer; font-weight:600;
-}
-.specs-tab[aria-selected="true"]{
-  background:#1f2937; border-color:#334155;
-}
-.specs-panels{ display:block; }
-.specs-panel{ display:none; }
-.specs-panel[aria-hidden="false"]{ display:block; }
-.specs-panel .specs-grid{ margin-top:6px; }
