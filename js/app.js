@@ -239,3 +239,22 @@ document.addEventListener('DOMContentLoaded', function(){
     bindCarouselControls('cuadro2','carousel2','prevBtn2','nextBtn2');
   }catch(e){ console.error('bind controls err', e); }
 });
+
+
+function bindThumbClicks(scope){
+  const mainInline = scope.querySelector('#main-img');
+  const mainLb = document.getElementById('lb-img');
+  scope.querySelectorAll('.thumbs img, #lb-thumbs img').forEach(im=>{
+    im.addEventListener('click', (e)=>{
+      const src = im.dataset.src || im.getAttribute('src');
+      if(mainInline){ mainInline.src = src; }
+      if(mainLb && document.getElementById('lightbox')?.classList.contains('active')){ mainLb.src = src; }
+      e.stopPropagation();
+    });
+  });
+}
+
+document.addEventListener('click', (e)=>{
+  const scope = e.target.closest('.details, .lightbox, body');
+  if(scope){ bindThumbClicks(scope); }
+}, {capture:true});
