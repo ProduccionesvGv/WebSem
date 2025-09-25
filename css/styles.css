@@ -146,3 +146,46 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 @media(max-width:640px){
   .lb-ficha-grid{ grid-template-columns:1fr; }
 }
+
+
+/* === Lightbox layout fixes: full selector visible + ficha scroll === */
+.lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.72); z-index:9999; }
+.lightbox.active{ display:flex; }
+
+.lb-inner{
+  background:#0b0b0e;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  max-height:90vh;
+  width:min(1000px, 95vw);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+#lb-img{
+  max-width:100%;
+  max-height:55vh;
+  object-fit:contain;
+  border-radius:10px;
+  align-self:center;
+}
+
+#lb-thumbs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:6px;
+  border-top:1px solid var(--border);
+}
+#lb-thumbs img{
+  height:64px; width:64px; object-fit:cover;
+  border-radius:8px; border:1px solid var(--border); cursor:pointer;
+}
+
+#lb-ficha{
+  max-height:24vh;
+  overflow-y:auto;
+}
+

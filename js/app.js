@@ -217,3 +217,15 @@ function renderFichaLB(folder, id){
   }
   box.hidden = false;
 }
+
+
+// lb backdrop click to close
+document.addEventListener('click', (e)=>{
+  const lb = document.getElementById('lightbox');
+  if(!lb || !lb.classList.contains('active')) return;
+  const inner = document.querySelector('.lb-inner');
+  if(inner && !inner.contains(e.target) || e.target.id==='lb-close'){
+    lb.classList.remove('active');
+    lb.setAttribute('aria-hidden','true');
+  }
+});
