@@ -292,3 +292,37 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 #lb-img{
   max-height: 62vh !important;
 }
+
+
+/* === Larger main image and better scrolling === */
+.details .viewer .main{
+  max-height: 78vh !important;   /* larger image area */
+  min-height: 260px !important;
+}
+.details .viewer{
+  scroll-behavior: smooth;
+}
+/* Close button inside expandable panel */
+.details .details-close{
+  position: sticky;
+  top: 8px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border, #333);
+  background: rgba(20,20,24,.85);
+  color: #eaeaf0;
+  cursor: pointer;
+  z-index: 20;
+}
+.details .details-close:hover{ filter: brightness(1.05); }
+
+
+/* === Match hero size: JS controls .main height to equal .card .hero === */
+.details .viewer .main{
+  max-height: none !important;
+  height: auto; /* will be set inline via JS */
+}

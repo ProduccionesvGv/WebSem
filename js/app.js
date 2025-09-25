@@ -258,3 +258,70 @@ document.addEventListener('click', (e)=>{
   const scope = e.target.closest('.details, .lightbox, body');
   if(scope){ bindThumbClicks(scope); }
 }, {capture:true});
+
+
+// === Inject close button when a details panel appears and wire interactions ===
+(function(){
+  const ensureCloseButton = (host)=>{
+    if(!host || host.querySelector('.details-close')) return;
+    const btn = document.createElement('button');
+    btn.className = 'details-close';
+    btn.type = 'button';
+    btn.innerHTML = 'Cerrar ✕';
+    // Insert at top of details
+    const viewer = host.querySelector('.viewer');
+    if(viewer) host.insertBefore(btn, viewer);
+    else host.prepend(btn);
+  };
+
+  // Observe additions of .details and enhance them
+  const mo = new MutationObserver((mutations)=>{
+    mutations.forEach(m=>{
+      m.addedNodes && m.addedNodes.forEach(node=>{
+        if(node.nodeType===1){
+          if(node.classList.contains('details')) ensureCloseButton(node);
+          node.querySelectorAll && node.querySelectorAll('.details').forEach(ensureCloseButton);
+        }
+      });
+    });
+  });
+  mo.observe(document.documentElement, {subtree:true, childList:true});
+
+  // Delegate close action
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.details-close');
+    if(!btn) return;
+    const details = btn.closest('.details');
+    const card = btn.closest('.card');
+    if(details){ details.innerHTML=''; }
+    if(card){ card.classList.remove('open'); }
+  });
+
+  // Close on ESC
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      const open = document.querySelector('.card.open .details');
+      if(open){
+        open.innerHTML='';
+        open.closest('.card')?.classList.remove('open');
+      }
+    }
+  });
+})();
+
+
+// === Sync large image height with card hero height ===
+function _matchMainToHero(card){
+  if(!card) return;
+  const hero = card.querySelector('.hero');
+  const main = card.querySelector('.details .viewer .main');
+  if(!hero || !main) return;
+  const h = Math.max(160, Math.round(hero.getBoundingClientRect().height || 0));
+  main.style.height = h + 'px';
+}
+
+// Recompute on resize for the currently open card
+window.addEventListener('resize', ()=>{
+  const openCard = document.querySelector('.card.open');
+  if(openCard) _matchMainToHero(openCard);
+});
