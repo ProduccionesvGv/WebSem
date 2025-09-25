@@ -1,339 +1,68 @@
-// Auto-generated PRODUCTS config for easier extensibility
-// PRODUCTS moved to products.js
 
-
-// Auto-generated PRODUCTS config for easier extensibility
-
-
-// === Minimal Gallery Bootstrap (id-agnostic) ===
-function renderGalleryFromConfig(containerSelector, products) {
-  const container = document.querySelector(containerSelector);
-  if (!container || !products || !products.length) return;
-  container.innerHTML = products.map(p => `
-    <section class="product" data-id="${p.id}">
-      <h3 class="product-title">${p.title}</h3>
-      <div class="product-images">
-        ${ (p.images||[]).map(src => `<img src="${src}" alt="${p.title}" loading="lazy">`).join('') }
-      </div>
-    </section>
-  `).join('');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (document.querySelector('#gallery')) {
-    renderGalleryFromConfig('#gallery', PRODUCTS);
-  }
-});
-
-
-
-
-
-
-// === Minimal Gallery Bootstrap (id-agnostic) ===
-function renderGalleryFromConfig(containerSelector, products) {
-  const container = document.querySelector(containerSelector);
-  if (!container || !products || !products.length) return;
-  container.innerHTML = products.map(p => `
-    <section class="product" data-id="${p.id}">
-      <h3 class="product-title">${p.title}</h3>
-      <div class="product-images">
-        ${ (p.images||[]).map(src => `<img src="${src}" alt="${p.title}" loading="lazy">`).join('') }
-      </div>
-    </section>
-  `).join('');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Try to auto-render into a common container if present
-  if (document.querySelector('#gallery')) {
-    renderGalleryFromConfig('#gallery', PRODUCTS);
-  }
-});
-
-
-// Datos de ejemplo. Reemplaza con tus variedades reales.
-let DATA = [
-  {
-    id: 'phantom-ice',
-    title: 'Phantom Ice',
-    subtitle: 'Feminizada · Hibrida',
-    price_ars: 18999,
-    badge: 'x4',
-    // Imagen de relleno con SVG embebido (puedes reemplazar por tu propia ruta/URL)
-    image: 'https://ibb.co/svJvGv3R' + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
-        <defs>
-          <linearGradient id="g" x1="0" x2="1">
-            <stop offset="0" stop-color="#1f2937"/>
-            <stop offset="1" stop-color="#0b0f1a"/>
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#g)"/>
-        <text x="50%" y="48%" fill="#9ca3af" font-family="Inter, Arial" font-size="48" text-anchor="middle">Gorilla Glue</text>
-        <text x="50%" y="56%" fill="#6ee7b7" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">AUTO</text>
-      </svg>
-    `),
-    specs: {
-      banco: 'Mamua Seeds',
-      genetica: 'Phantom Cookies x Jamaican Ice',
-      floracion: '8-10 semanas',
-      thc: '17-20%',
-      rendimiento: 'Alto',
-      sabor: 'Dulce, Incienso, Herbal',
-      notas: 'Planta robusta, ideal para principiantes.'
-    }
+const DATA_OVERRIDE = {
+  "02Genext": {
+    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","price":"99.000"},
+    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","price":"99.000"},
+    "03": {"title":"Auto Granel","genetica":"Autofloreciente","price":"99.000"}
   },
-  {
-    id: 'la-messias',
-    title: 'La Messias ',
-    subtitle: 'Feminizada · Sativa',
-    price_ars: 20999,
-    badge: 'x5',
-    image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
-        <defs>
-          <linearGradient id="g2" x1="0" x2="1">
-            <stop offset="0" stop-color="#1b4332"/>
-            <stop offset="1" stop-color="#081c15"/>
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#g2)"/>
-        <text x="50%" y="48%" fill="#b7e4c7" font-family="Inter, Arial" font-size="48" text-anchor="middle">La Messias</text>
-        <text x="50%" y="56%" fill="#ffd166" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">FEM</text>
-      </svg>
-    `),
-    specs: {
-      banco: 'Canndi',
-      genetica: 'Red Skunk x Gran Daddy',
-      floracion: '8-10 semanas',
-      thc: '15-18%',
-      rendimiento: 'Medio-Alto',
-      sabor: 'Dulce, Frutal, Citrico',
-      notas: 'Aroma cítrico muy marcado. Efecto energizante.'
-    }
-  },
-  {
-    id: 'cookies-kush',
-    title: 'Craig',
-    subtitle: 'Feminizada · Índica',
-    price_ars: 19999,
-    badge: 'x4',
-    image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
-        <defs>
-          <linearGradient id="g3" x1="0" x2="1">
-            <stop offset="0" stop-color="#28203f"/>
-            <stop offset="1" stop-color="#0d0b14"/>
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#g3)"/>
-        <text x="50%" y="48%" fill="#c4b5fd" font-family="Inter, Arial" font-size="48" text-anchor="middle">Cookies</text>
-        <text x="50%" y="56%" fill="#a78bfa" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">KUSH</text>
-      </svg>
-    `),
-    specs: {
-      banco: 'Yeruti Seeds',
-      genetica: 'Destroyer X Skunk ',
-      floracion: '10-12 semanas',
-      thc: '18-20%',
-      rendimiento: 'Alto',
-      sabor: 'Dulce, Manzana, Vainilla',
-      notas: 'Resinosa, efecto cerebral energizante, creativo .'
-    }
-  },
-  {
-    id: 'blueberry-auto',
-    title: 'Blueberry Auto',
-    subtitle: 'Autofloreciente · Índica',
-    price_ars: 15499,
-    badge: 'SALE',
-    image: 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
-        <defs>
-          <linearGradient id="g4" x1="0" x2="1">
-            <stop offset="0" stop-color="#1f1147"/>
-            <stop offset="1" stop-color="#0a0717"/>
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#g4)"/>
-        <text x="50%" y="48%" fill="#cbd5ff" font-family="Inter, Arial" font-size="48" text-anchor="middle">Blueberry</text>
-        <text x="50%" y="56%" fill="#93c5fd" font-family="Inter, Arial" font-weight="bold" font-size="34" text-anchor="middle">AUTO</text>
-      </svg>
-    `),
-    specs: {
-      banco: 'Demo Seeds',
-      genetica: 'Blueberry Auto',
-      floracion: '9 semanas',
-      thc: '18-20%',
-      rendimiento: 'Medio',
-      sabor: 'Frutos del bosque, dulce',
-      notas: 'Coloraciones moradas en climas fríos.'
-    }
+  "01Genint": {
+    "01": {"title":"Gen1","genetica":"Feminizada","price":"49.999"},
+    "02": {"title":"Gen2","genetica":"Feminizada","price":"49.999"},
+    "03": {"title":"Gen3","genetica":"Feminizada","price":"49.999"}
   }
-];
+};
 
-const $carousel = document.getElementById('carousel');
-const $prev = document.getElementById('prevBtn');
-const $next = document.getElementById('nextBtn');
-
-// Devuelve 3 URLs de imagen para la galería vertical
-function ensureGallery(item){
-  if(Array.isArray(item.gallery) && item.gallery.length >= 3){
-    return item.gallery.slice(0,3);
-  }
-  // Fallback por ID
-  let base = null;
-  if(item && item.id){
-    if(item.id === 'phantom-ice') base = 'img/phantom-ice-phantom.jpg';
-    else if(item.id === 'la-messias') base = 'img/lemon.jpg';
-    else if(item.id === 'cookies-kush') base = 'img/cookies.jpg';
-  }
-  if(!base){
-    // Como último recurso, si hay un string en item.image, úsalo
-    base = (item && item.image) ? item.image : 'img/phantom-ice-phantom.jpg';
-  }
-  return [base, base, base];
-}
-
-const $specsCard = document.getElementById('specsCard');
-const $specsGallery = document.getElementById('specsGallery');
-const $specName = document.getElementById('specName');
-// Helper para setear mensaje predefinido en WhatsApp
-function setWhatsAppMessage(text){
-  const wa = document.querySelector('.whatsapp-float');
-  if(wa){
-    const url = 'https://wa.me/56998118816?text=' + encodeURIComponent(text);
-    wa.setAttribute('href', url);
-  }
-}
-// Mensaje por defecto al cargar
-setWhatsAppMessage('Hola, vengo de la web. Quiero más información.');
-
-function moneyARS(n){
-  try{
-    return n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
-  }catch(e){
-    return '$ ' + (n||0);
-  }
-}
-
-function renderCards(){
-  const frag = document.createDocumentFragment();
-  DATA.forEach(item => {
+function buildCarousel(rootId, folder){
+  const container = document.getElementById(rootId);
+  if(!container) return;
+  ['01','02','03'].forEach(id=>{
+    const folderPath = `img/${folder}/${id}`;
+    const hero = `${folderPath}/Front.jpg`;
     const card = document.createElement('article');
     card.className = 'card';
+    card.setAttribute('data-folder', folder);
+    card.setAttribute('data-id', id);
 
-    const imgWrap = document.createElement('a');
-    imgWrap.href = '#specs';
-    imgWrap.className = 'card-img-wrap';
-    imgWrap.dataset.id = item.id;
-    imgWrap.addEventListener('click', () => showSpecs(item.id));
-    
-imgWrap.innerHTML = `<span class="badge">${item.badge}</span>`;
-
-// Si es Gorilla, usar imagen local como background cover
-if(item.id === 'phantom-ice'){
-  imgWrap.style.backgroundImage = "url('img/phantom-ice-phantom.jpg')";
-  imgWrap.style.backgroundSize = "cover";
-  imgWrap.style.backgroundPosition = "center";
-} else if(item.id === 'la-messias'){
-  imgWrap.style.backgroundImage = "url('img/lemon.jpg')";
-  imgWrap.style.backgroundSize = "cover";
-  imgWrap.style.backgroundPosition = "center";
-} else if(item.id === 'cookies-kush'){
-  imgWrap.style.backgroundImage = "url('img/cookies.jpg')";
-  imgWrap.style.backgroundSize = "cover";
-  imgWrap.style.backgroundPosition = "center";
-} else {
-  const imgTag = document.createElement('img');
-  imgTag.src = item.image;
-  imgTag.alt = item.title;
-  imgTag.loading = 'lazy';
-  imgWrap.appendChild(imgTag);
-}
-
+    const heroDiv = document.createElement('div');
+    heroDiv.className = 'hero';
+    heroDiv.style.backgroundImage = `url('${hero}')`;
 
     const body = document.createElement('div');
-    body.className = 'card-body';
-    body.innerHTML = `
-      <h3 class="title">${item.title}</h3>
-      <p class="subtitle">${item.subtitle}</p>
-      <p class="price">${moneyARS(item.price_ars)}</p>
-    `;
+    body.className = 'body';
+    const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
+    body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div><div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`;
 
-    card.appendChild(imgWrap);
+    card.appendChild(heroDiv);
     card.appendChild(body);
-    frag.appendChild(card);
+    card.addEventListener('click', ()=> openGallery(folderPath));
+    container.appendChild(card);
   });
-  $carousel.appendChild(frag);
 }
 
-function showSpecs(id){
-  const item = DATA.find(x => x.id === id);
-  if(!item){ return; }
-
-  const { banco, genetica, floracion, thc, rendimiento, sabor, notas } = item.specs;
-
-  // Actualiza título (nombre verde) y galería de 3 imágenes
-  if($specName){ $specName.textContent = item.title; }
-  if($specsGallery){
-    const imgs = ensureGallery(item).map((src,i)=>`<img src="${src}" alt="${item.title} ${i+1}" loading="lazy">`).join('');
-    $specsGallery.innerHTML = imgs;
-    $specsGallery.classList.add('has-images');
-  }
-
-  $specsCard.innerHTML = `
-    <div class="spec-grid">
-      <div><div class="label">Nombre</div><div class="value">${item.title}</div></div>
-      <div><div class="label">Banco</div><div class="value">${banco}</div></div>
-      <div><div class="label">Genética</div><div class="value">${genetica}</div></div>
-      <div><div class="label">Floración</div><div class="value">${floracion}</div></div>
-      <div><div class="label">THC</div><div class="value">${thc}</div></div>
-      <div><div class="label">Rendimiento</div><div class="value">${rendimiento}</div></div>
-      <div style="grid-column: 1 / -1">
-        <div class="label">Sabor</div><div class="value">${sabor}</div>
-      </div>
-      <div style="grid-column: 1 / -1">
-        <div class="label">Notas</div><div class="value">${notas}</div>
-      </div>
-    </div>
-  `;
-
-  // Scroll suave hasta la sección de especificaciones
-  document.getElementById('specs').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  // Actualiza el mensaje de WhatsApp con la variedad + subtítulo + precio
-  const msg = `Hola, vengo de la web. Me interesa "${item.title}" (${item.subtitle}) con precio ${moneyARS(item.price_ars)}. ¿Disponibilidad?`;
-  setWhatsAppMessage(msg);
-  // Update footer title with selected item
-  const footerDynamic = document.getElementById('footerDynamic');
-  if(footerDynamic){
-    footerDynamic.innerHTML = `<h3 style="color: var(--accent); margin:0;">${item.title}</h3>`;
-  }
-
+function openGallery(folderPath){
+  const images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','Front2.jpg'].map(n=> `${folderPath}/${n}`);
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lb-img');
+  const thumbs = document.getElementById('lb-thumbs');
+  thumbs.innerHTML = '';
+  img.src = images[0];
+  images.forEach(src=>{
+    const im = document.createElement('img');
+    im.src = src;
+    im.loading = 'lazy';
+    im.onclick = ()=> img.src = src;
+    thumbs.appendChild(im);
+  });
+  lb.classList.add('active');
+  lb.setAttribute('aria-hidden','false');
 }
 
-// Navegación con botones
-function scrollByCards(dir = 1){
-  const cardWidth = $carousel.querySelector('.card')?.getBoundingClientRect().width || 260;
-  $carousel.scrollBy({ left: dir * (cardWidth + 16) * 2, behavior: 'smooth' }); // desplaza ~2 tarjetas
-}
-
-$prev.addEventListener('click', () => scrollByCards(-1));
-$next.addEventListener('click', () => scrollByCards(1));
-
-// Soporte de teclas
-$carousel.addEventListener('keydown', (e) => {
-  if(e.key === 'ArrowRight') scrollByCards(1);
-  if(e.key === 'ArrowLeft') scrollByCards(-1);
-});
-
-// Inicializa
-DATA = DATA.filter(item => item.id !== 'blueberry-auto');
-renderCards();
-
-// Enfocar carrusel al cargar para flechas
-window.addEventListener('load', () => {
-  $carousel.focus({ preventScroll: true });
-  if($specsGallery){ $specsGallery.classList.remove('has-images'); $specsGallery.innerHTML=''; }
+document.addEventListener('DOMContentLoaded', function(){
+  buildCarousel('carousel','01Genint');
+  buildCarousel('carousel2','02Genext');
+  document.getElementById('lb-close').addEventListener('click', ()=>{
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('active');
+    lb.setAttribute('aria-hidden','true');
+  });
 });
