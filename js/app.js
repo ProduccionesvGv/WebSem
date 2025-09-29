@@ -68,6 +68,8 @@ try {
     const ficha = document.createElement('div');
     ficha.className = 'lb-ficha-panel';
     ficha.innerHTML = `
+        <h4 class=\"lb-ficha-title\">${meta.title || ''}</h4>
+        
       <div class="ficha-grid">
         <div><b>Banco</b><span>${meta.banco || '—'}</span></div>
         <div><b>Genética</b><span>${meta.genetica || '—'}</span></div>
@@ -117,3 +119,20 @@ document.addEventListener('DOMContentLoaded', function(){
     bindCarouselControls('carousel2','prevBtn2','nextBtn2');
   }catch(e){ console.error('bind controls error', e); }
 });
+
+
+// PATCH: Datos completos de ficha para 01Genint/01 (plantilla de ejemplo)
+try {
+  if (!DATA_OVERRIDE["01Genint"]) DATA_OVERRIDE["01Genint"] = {};
+  DATA_OVERRIDE["01Genint"]["01"] = {
+    title: "Gen1",
+    genetica: "Feminizada",
+    price: "49.999",
+    banco: "BSF Seeds",
+    floracion: "9 semanas",
+    thc: "25%",
+    rendimiento: "650 g/m²",
+    sabor: "Dulce y terroso",
+    notas: "Planta robusta, recomendada para interiores. Responde bien a poda y SCROG."
+  };
+} catch(e) {}
