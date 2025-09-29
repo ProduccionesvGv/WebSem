@@ -84,6 +84,45 @@ try {
     thumbs.insertAdjacentElement('afterend', ficha);
   }
 } catch(e) { /* silencioso */ }
+
+// PATCH v9: Fichas múltiples dentro del lightbox para 02Genext/01
+try {
+  const parts2 = folderPath.split('/');
+  const folder2 = parts2[1];
+  const id2 = parts2[2];
+  if (folder2 === '02Genext' && id2 === '01') {
+    // limpiar contenedores previos si existen
+    const oldMulti = lb.querySelector('.lb-fichas-multi');
+    if (oldMulti) oldMulti.remove();
+
+    const fichas = (window.DATA_FICHAS && DATA_FICHAS['02Genext'] && DATA_FICHAS['02Genext']['01']) || [];
+    if (fichas.length) {
+      const cont = document.createElement('div');
+      cont.className = 'lb-fichas-multi';
+
+      fichas.forEach(f => {
+        const panel = document.createElement('div');
+        panel.className = 'lb-ficha-panel'; // reutiliza estilos del panel individual
+        panel.innerHTML = `
+          <h4 class="lb-ficha-title">${f.titulo || ''}</h4>
+          <div class="ficha-grid">
+            <div><b>Banco</b><span>${f.banco || '—'}</span></div>
+            <div><b>Genética</b><span>${f.genetica || '—'}</span></div>
+            <div><b>Floración</b><span>${f.floracion || '—'}</span></div>
+            <div><b>THC</b><span>${f.thc || '—'}</span></div>
+            <div><b>Rendimiento</b><span>${f.rendimiento || '—'}</span></div>
+            <div><b>Sabor</b><span>${f.sabor || '—'}</span></div>
+            <div class="notas"><b>Notas</b><span>${f.notas || '—'}</span></div>
+          </div>`;
+        cont.appendChild(panel);
+      });
+
+      // Insertar el contenedor de fichas debajo de las miniaturas
+      thumbs.insertAdjacentElement('afterend', cont);
+    }
+  }
+} catch(e) {}
+
 lb.classList.add('active');
   lb.setAttribute('aria-hidden','false');
 }
@@ -135,4 +174,17 @@ try {
     sabor: "Dulce y terroso",
     notas: "Planta robusta, recomendada para interiores. Responde bien a poda y SCROG."
   };
+} catch(e) {}
+
+
+// PATCH v9: dataset de fichas múltiples para 02Genext/01 (Dealer Deal XXL)
+try {
+  window.DATA_FICHAS = window.DATA_FICHAS || {};
+  if (!DATA_FICHAS["02Genext"]) DATA_FICHAS["02Genext"] = {};
+  DATA_FICHAS["02Genext"]["01"] = [
+    { titulo: "Critical+2", banco: "BSF Seeds", genetica: "Auto", floracion: "8-9 semanas", thc: "20%", rendimiento: "550 g/m²", sabor: "Dulce", notas: "Ficha 1 de ejemplo" },
+    { titulo: "Black Dom",  banco: "BSF Seeds", genetica: "Fem", floracion: "8 semanas",   thc: "22%", rendimiento: "600 g/m²", sabor: "Terroso", notas: "Ficha 2 de ejemplo" },
+    { titulo: "Moby-D",     banco: "BSF Seeds", genetica: "Fem", floracion: "10 semanas",  thc: "24%", rendimiento: "700 g/m²", sabor: "Cítrico", notas: "Ficha 3 de ejemplo" },
+    { titulo: "northern",   banco: "BSF Seeds", genetica: "Auto", floracion: "9 semanas",  thc: "19%", rendimiento: "500 g/m²", sabor: "Picante", notas: "Ficha 4 de ejemplo" }
+  ];
 } catch(e) {}

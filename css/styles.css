@@ -128,3 +128,13 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
   color: #1fa43b; /* verde */
   text-transform: none;
 }
+
+
+/* PATCH v9: contenedor de fichas múltiples */
+.lb-fichas-multi{
+  display: block;
+  margin-top: 12px;
+}
+.lb-fichas-multi .lb-ficha-panel{
+  margin-top: 12px;
+}
