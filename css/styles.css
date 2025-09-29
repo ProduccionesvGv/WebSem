@@ -80,61 +80,24 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
 }
 
 
-/* PATCH v6: ficha técnica dentro del lightbox */
-.lb-ficha-panel{
-  border-top:1px solid var(--border, #ddd);
-  margin-top:8px;
-  padding:8px 0 0 0;
-}
-.lb-ficha-panel .ficha-grid{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap:8px 16px;
-  font-size:.95rem;
-  line-height:1.35;
-}
-.lb-ficha-panel .ficha-grid .notas{ grid-column:1 / -1; }
-.lb-ficha-panel b{ display:block; font-weight:600; margin-bottom:2px; }
-.lb-ficha-panel span{ display:block; opacity:.9; }
+/* v12: lightbox layout, flow, and panel styles */
+html.modal-open, body.modal-open{ overflow: hidden !important; }
+body.modal-open{ position: fixed !important; width: 100%; }
 
+#lightbox{ position: fixed !important; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100vh; }
 
+#lb-thumbs{ position: static !important; display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; clear:both; z-index:2; }
+#lb-thumbs img{ display:block; max-width:100%; height:auto; }
 
-/* PATCH v7: evitar superposición de ficha con miniaturas */
-#lb-thumbs{
-  position: static !important;   /* salir de absoluto si lo hubiera */
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-  z-index: 1;
-}
-#lb-thumbs img{
-  flex: 0 0 auto;
-}
+.lb-sep{ display:block; height:1px; width:100%; clear:both; margin:6px 0 4px 0; }
 
-.lb-ficha-panel{
-  position: relative;
-  z-index: 0;                    /* por debajo de overlays de thumbs si los hubiera */
-  clear: both;
-  margin-top: 12px;
-}
+.lb-ficha-panel{ position:relative; display:block; clear:both; background:var(--card-bg, rgba(255,255,255,0.97)); border:1px solid var(--border, #e0e0e0); border-radius:10px; padding:12px; margin-top:12px; z-index:1; box-shadow:0 1px 2px rgba(0,0,0,0.04); }
+.lb-fichas-multi{ display:block; margin-top:12px; }
+.lb-fichas-multi .lb-ficha-panel{ margin-top:12px; }
 
+.lb-ficha-title{ margin:4px 0 8px 0; font-size:1rem; font-weight:700; color:#1fa43b; }
 
-/* PATCH v8: título verde dentro de la ficha del lightbox */
-.lb-ficha-title{
-  margin: 4px 0 8px 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1fa43b; /* verde */
-  text-transform: none;
-}
-
-
-/* PATCH v9: contenedor de fichas múltiples */
-.lb-fichas-multi{
-  display: block;
-  margin-top: 12px;
-}
-.lb-fichas-multi .lb-ficha-panel{
-  margin-top: 12px;
-}
+.ficha-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px 16px; font-size:.95rem; line-height:1.35; }
+.ficha-grid .notas{ grid-column:1 / -1; }
+.ficha-grid b{ display:block; font-weight:600; margin-bottom:2px; }
+.ficha-grid span{ display:block; opacity:.9; }
