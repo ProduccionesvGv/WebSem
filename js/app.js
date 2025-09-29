@@ -68,39 +68,23 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 
-/* === Limpia/oculta la sección central de Especificaciones === */
-function clearSpecs(){
-  const sec = document.getElementById('specs');
-  if(!sec) return;
-  const name = document.getElementById('specs-name');
-  const grid = document.getElementById('specs-grid');
-  const gal  = document.getElementById('specs-gallery');
-  if(name) name.textContent = '';
-  if(grid) grid.innerHTML = '';
-  if(gal)  gal.innerHTML  = '';
-  sec.style.display = 'none';
-}
-function showSpecs(){
-  const sec = document.getElementById('specs');
-  if(sec) sec.style.display = '';
+/* === Carousel controls binding === */
+function bindCarouselControls(carouselId, prevId, nextId){
+  const wrap = document.getElementById(carouselId);
+  const prev = document.getElementById(prevId);
+  const next = document.getElementById(nextId);
+  if(!wrap || !prev || !next) return;
+  function cardWidth(){
+    const c = wrap.querySelector('.card');
+    return c ? (c.getBoundingClientRect().width + 14) : 280;
+  }
+  prev.addEventListener('click', (e)=>{ e.stopPropagation(); wrap.scrollBy({left: -cardWidth()*1.2, behavior:'smooth'}); });
+  next.addEventListener('click', (e)=>{ e.stopPropagation(); wrap.scrollBy({left:  cardWidth()*1.2, behavior:'smooth'}); });
 }
 
-
-/* === Auto-ocultar #specs cuando no hay tarjetas abiertas === */
-function _anyCardOpen(){ return !!document.querySelector('.card.open'); }
-function _hideSpecsIfNoOpen(){
-  const sec = document.getElementById('specs');
-  if(!sec) return;
-  if(!_anyCardOpen()){
-    clearSpecs();
-  }
-}
-const _specsObserver = new MutationObserver(()=>{ _hideSpecsIfNoOpen(); });
-_specsObserver.observe(document.documentElement, {subtree:true, childList:true, attributes:true});
-document.addEventListener('click', (e)=>{
-  const insideCard = e.target.closest('.card');
-  const insideSpecs = e.target.closest('#specs');
-  if(!insideCard && !insideSpecs){
-    _hideSpecsIfNoOpen();
-  }
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    bindCarouselControls('carousel','prevBtn','nextBtn');
+    bindCarouselControls('carousel2','prevBtn2','nextBtn2');
+  }catch(e){ console.error('bind controls error', e); }
 });
