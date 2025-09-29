@@ -53,7 +53,36 @@ function openGallery(folderPath){
     im.onclick = ()=> img.src = src;
     thumbs.appendChild(im);
   });
-  lb.classList.add('active');
+  // PATCH v6: Ficha técnica dentro del lightbox para 01Genint/01
+// Limpia fichas previas
+const oldFicha = lb.querySelector('.lb-ficha-panel');
+if (oldFicha) oldFicha.remove();
+
+// Derivar folder e id desde folderPath: img/<folder>/<id>
+try {
+  const parts = folderPath.split('/'); // ["img", "01Genint", "01"]
+  const folder = parts[1];
+  const id = parts[2];
+  if (folder === '01Genint' && id === '01') {
+    const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {};
+    const ficha = document.createElement('div');
+    ficha.className = 'lb-ficha-panel';
+    ficha.innerHTML = `
+      <div class="ficha-grid">
+        <div><b>Banco</b><span>${meta.banco || '—'}</span></div>
+        <div><b>Genética</b><span>${meta.genetica || '—'}</span></div>
+        <div><b>Floración</b><span>${meta.floracion || '—'}</span></div>
+        <div><b>THC</b><span>${meta.thc || '—'}</span></div>
+        <div><b>Rendimiento</b><span>${meta.rendimiento || '—'}</span></div>
+        <div><b>Sabor</b><span>${meta.sabor || '—'}</span></div>
+        <div class="notas"><b>Notas</b><span>${meta.notas || '—'}</span></div>
+      </div>`;
+    // Insertar después de las miniaturas
+    const thumbsParent = thumbs.parentElement || lb;
+    thumbs.insertAdjacentElement('afterend', ficha);
+  }
+} catch(e) { /* silencioso */ }
+lb.classList.add('active');
   lb.setAttribute('aria-hidden','false');
 }
 
