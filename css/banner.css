@@ -1,0 +1,24 @@
+/* Banner superior fijo y delgado */
+.top-banner{ position:fixed; top:0; left:0; right:0; height:12px;
+  background:#000;
+  overflow:hidden;
+  z-index:9999;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+@media(min-width:768px){ .top-banner{ height:14px; } }
+
+.top-banner__track{ display:flex; align-items:center; gap:12px; width:max-content; animation:banner-scroll 20s linear infinite; padding-left:8px; }
+.top-banner img{ height:auto; width:auto; display:block; object-fit:contain; }
+
+@keyframes banner-scroll{
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+/* Empuje del contenido para no quedar tapado por el banner */
+body{ padding-top:16px; }
+@media(min-width:768px){ body{ padding-top:18px; } }
+
+.top-banner__track{ height:100%; }
+
+.top-banner .top-banner__track img{ height: 100% !important; width:auto; display:block; object-fit:contain; }

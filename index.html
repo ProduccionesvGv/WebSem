@@ -5,8 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nueva Página - Carruseles</title>
 <link rel="stylesheet" href="css/styles.css">
-</head>
+
+  <link rel="stylesheet" href="css/banner.css"></head>
 <body class="theme-dark">
+<!-- Banner superior -->
+<div class="top-banner" role="region" aria-label="información de envíos">
+  <div class="top-banner__track">
+    <img src="img/Banner.jpg?v=6" alt="Andreani - Envíos a todo el país">
+    <img src="img/Banner.jpg?v=6" alt="" aria-hidden="true">
+    <img src="img/Banner.jpg?v=6" alt="" aria-hidden="true">
+  </div>
+</div>
+
 <header class="site-header">
   <div class="header-inner">
     <img class="site-logo" src="img/logo.png" alt="logo" onerror="this.style.display='none'">
@@ -17,35 +27,18 @@
   <section id="cuadro1" class="carousel-section theme-a">
     <div class="section-head">
       <h2>Genéticas interior</h2>
-    <div class="controls"><button id="prevBtn" aria-label="Anterior">‹</button><button id="nextBtn" aria-label="Siguiente">›</button></div></div>
+      <div class="controls"><button id="prevBtn" aria-label="Anterior">‹</button><button id="nextBtn" aria-label="Siguiente">›</button></div>
+    </div>
     <div id="carousel" class="carousel" aria-label="Carrusel interior"></div>
   </section>
 
   <section id="cuadro2" class="carousel-section theme-b">
     <div class="section-head">
       <h2>Genéticas exterior</h2>
-    <div class="controls"><button id="prevBtn2" aria-label="Anterior">‹</button><button id="nextBtn2" aria-label="Siguiente">›</button></div></div>
+      <div class="controls"><button id="prevBtn2" aria-label="Anterior">‹</button><button id="nextBtn2" aria-label="Siguiente">›</button></div>
+    </div>
     <div id="carousel2" class="carousel" aria-label="Carrusel exterior"></div>
   </section>
-
-<section id="specs" class="specs-section">
-  <h2>Especificaciones</h2>
-  <p class="specs-hint">Selecciona una genética</p>
-  <div class="specs-box">
-    <div class="specs-empty">Selecciona cualquier genética para ver las especificaciones aquí abajo.</div>
-    <div class="specs-content" hidden>
-      <div id="specs-grid" class="specs-grid"></div>
-      <h3 id="specs-title"></h3>
-      <div class="specs-row"><span class="k">Genética</span><span id="specs-gen"></span></div>
-      <div class="specs-row"><span class="k">Precio</span><span id="specs-price"></span></div>
-      <a id="wa-link" class="wa-btn" target="_blank" rel="noopener">
-        <img src="img/whatsapp-icon.png" alt="WhatsApp" class="wa-icon">
-        Consultar por WhatsApp
-      </a>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <!-- modal gallery -->
@@ -54,15 +47,9 @@
     <button id="lb-close" class="lb-close" aria-label="Cerrar">×</button>
     <img id="lb-img" src="" alt="">
     <div id="lb-thumbs" class="lb-thumbs"></div>
-    <div id="lb-ficha-fixed" class="lb-ficha-fixed" hidden>
-      <h3 class="lb-ficha-title">Ficha técnica</h3>
-      <div id="lb-ficha-name" class="lb-ficha-name"></div>
-      <div id="lb-ficha-grid" class="lb-ficha-grid"></div>
-    </div>
   </div>
 </div>
 
 <script src="js/app.js"></script>
-<a id="wa-fab" class="wa-fab" href="https://wa.me/5490000000000" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="img/whatsapp-icon.png" alt="WhatsApp"></a>
 </body>
 </html>
