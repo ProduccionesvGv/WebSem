@@ -123,6 +123,30 @@ try{
   right.appendChild(buildFicha({}));
 }
 
+
+// v46: ensure single visible close button
+(function(){
+  // remove duplicates
+  lb.querySelectorAll('#lb-close').forEach((n,i)=>{ if(i>0) n.remove(); });
+  let closeBtn = lb.querySelector('#lb-close');
+  if (!closeBtn){
+    closeBtn = document.createElement('button');
+    closeBtn.id = 'lb-close';
+    closeBtn.className = 'lb-close';
+    closeBtn.type = 'button';
+    closeBtn.setAttribute('aria-label','Cerrar');
+    closeBtn.innerHTML = '&times;';
+    lb.appendChild(closeBtn);
+  }
+  // handler
+  closeBtn.onclick = function(ev){ ev.stopPropagation(); lb.classList.remove('active'); };
+  // keyboard ESC once per open
+  function onKey(ev){
+    if(ev.key === 'Escape'){ lb.classList.remove('active'); document.removeEventListener('keydown', onKey); }
+  }
+  document.addEventListener('keydown', onKey);
+})();
+
   lb.classList.add('active');
 
 // v34: Forzar render de 4 fichas para Dealer Deal XXL cuando aplique

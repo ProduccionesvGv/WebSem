@@ -415,3 +415,326 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 @media (max-width: 900px){
   .lb-split{ grid-template-columns: 1fr; gap: 12px; padding: 12px; }
 }
+
+
+/* v41: eliminar círculo/loader del lightbox y cualquier pseudo-elemento */
+#lightbox::before,
+#lightbox::after{
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+/* Evitar halos/contornos circulares por focus dentro del lightbox */
+#lightbox *:focus{
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Si existieran puntos de navegación circulares antiguos, ocultarlos */
+.lb-dots,
+.lb-dots button{ display: none !important; }
+
+
+/* v42: eliminación estricta de círculos/pseudo-elementos del lightbox */
+.lightbox::before,
+.lightbox::after,
+.lb-inner::before,
+.lb-inner::after,
+#lightbox::before,
+#lightbox::after{
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  mask: none !important;
+  -webkit-mask: none !important;
+}
+
+/* Ocultar posibles elementos circulares residuales (loaders, dots) */
+#lightbox .loader,
+#lightbox .spinner,
+#lightbox .dot,
+#lightbox .dots,
+#lightbox [class*="loader"],
+#lightbox [class*="spinner"],
+#lightbox [class*="dot"]{
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Neutralizar un botón de cierre circular si existe */
+#lightbox .lb-close,
+.lightbox .lb-close{
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Asegurar que no haya bordes circulares en contenedores base */
+.lightbox, #lightbox, .lb-inner{
+  border-radius: 0 !important;
+}
+
+
+/* v43: sin nada en los bordes: sin gaps, sin padding, sin bordes ni sombras */
+#lightbox.active{
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.lb-split{
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.panel, .panel-visual, .panel-fichas, .lb-ficha-panel{
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#lightbox .lb-close,
+#lightbox [class*="close"]{
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Thumbs pegadas al borde también */
+.panel-visual #lb-thumbs{
+  padding: 0 !important;
+  border-top: 0 !important;
+  background: #f4f4f4; /* opcional: quitar si no querés color */
+}
+
+/* Evitar cualquier outline residual */
+#lightbox *, #lightbox *::before, #lightbox *::after{
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+/* v44: eliminar overlay/control izquierdo (prev) del lightbox */
+#lightbox .lb-prev,
+#lightbox .prev,
+#lightbox .nav-prev,
+#lightbox .nav-left,
+#lightbox .lb-left,
+#lightbox [class*="prev"],
+#lightbox [class*="left-nav"]{
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Si el elemento es un <a> o <button> absoluto pegado a la izquierda, neutralizarlo */
+#lightbox a, #lightbox button{
+  outline: none !important;
+}
+#lightbox a[aria-label="Previous"],
+#lightbox button[aria-label="Previous"]{
+  display: none !important;
+}
+
+/* Asegurar que no aparezca ningún pseudo-elemento en la esquina */
+#lightbox *::before, #lightbox *::after{
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+
+/* v45: eliminar el cuadradito de la esquina neutralizando .lb-inner */
+.lb-inner{
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Asegurar que la X esté visible */
+#lb-close.lb-close{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9999;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 6px 10px;
+  line-height: 1;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+/* v46: close button visible y único */
+#lb-close.lb-close{
+  position: fixed;        /* fijo respecto a la ventana del lightbox */
+  top: 14px;
+  right: 14px;
+  width: 72px;
+  height: 72px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid #222;
+  border-radius: 12px;
+  cursor: pointer;
+  z-index: 10000;
+}
+#lb-close.lb-close:hover{ background: rgba(0,0,0,0.9); }
+
+/* No ocultar #lb-close aunque existan reglas anteriores */
+#lightbox #lb-close.lb-close{ display: inline-flex !important; visibility: visible !important; opacity: 1 !important; }
+
+/* Ocultar otros candidatos a "close" para evitar confusión, pero NO #lb-close */
+#lightbox [class*="close"]:not(.lb-close),
+#lightbox [id*="close"]:not(#lb-close){
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+
+/* v-car2.5: mostrar 2.5 tarjetas en cada carrusel (desktop) */
+.carousel, .carrusel, .carousel-wrap, .cards-track{
+  scroll-snap-type: x mandatory;
+}
+
+.carousel .card, .carrusel .card, .carousel .tarjeta, .carrusel .tarjeta{
+  flex: 0 0 calc(100% / 2.5);
+  max-width: calc(100% / 2.5);
+  scroll-snap-align: start;
+}
+
+/* Mantener experiencia en móvil si ya estaba: 1.2–1.5 tarjetas */
+@media (max-width: 900px){
+  .carousel .card, .carrusel .card, .carousel .tarjeta, .carrusel .tarjeta{
+    flex-basis: calc(100% / 1.3);
+    max-width: calc(100% / 1.3);
+  }
+}
+
+
+/* v-car2.5-v2: forzar 2.5 tarjetas también en smartphone */
+.carousel{
+  display: flex !important;
+  overflow-x: auto !important;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.carousel .card, .carrusel .card, .carousel .tarjeta, .carrusel .tarjeta{
+  flex: 0 0 40% !important;     /* 100% / 2.5 */
+  max-width: 40% !important;
+  scroll-snap-align: start;
+}
+
+/* opcional: si existe gap muy grande, reduce en móvil para que se aprecie el .5 */
+@media (max-width: 900px){
+  .carousel{ gap: 8px; padding-inline: 8px; }
+}
+
+
+/* v3: Botón Cerrar con imagen personalizada */
+#lb-close,
+#lightbox #lb-close{
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 72px;
+  height: 72px;
+  display: inline-block;
+  background: transparent url("../img/cerrar.webp") center center / contain no-repeat !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+  z-index: 10000;
+  /* ocultar cualquier texto interno sin romper accesibilidad */
+  color: transparent !important;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+#lb-close:hover{ filter: brightness(1.05); transform: scale(1.02); transition: transform .12s ease; }
+#lb-close:active{ transform: scale(0.98); }
+
+
+/* v4: tamaño móvil un poco más pequeño para no tapar contenido */
+@media (max-width: 480px){
+  #lb-close{ width: 60px; height: 60px; }
+}
+
+
+/* v5: Títulos de sección con acento de marca */
+:root{
+  /* Ajusta este color para coordinar con tu logo.png */
+  --brand-accent: #90ee90;
+  --brand-ink: #c8ffd1;
+}
+.section-title.brand{
+  margin: 10px 0 18px 0;
+  font-size: clamp(24px, 3.2vw, 40px);
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--brand-accent);
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+  position: relative;
+  padding-left: 14px; /* espacio para el punto decorativo */
+}
+
+/* barra de acento */
+.section-title.brand::after{
+  content: "";
+  position: absolute;
+  left: 14px;
+  bottom: -8px;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brand-accent), transparent 85%);
+  border-radius: 2px;
+}
+
+/* punto de acento tipo "logo-dot" */
+.section-title.brand::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .2em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  box-shadow: 0 0 8px var(--brand-ink);
+}
+
+/* modo oscuro base */
+body{ color: #eee; background: #1a1a1a; }
