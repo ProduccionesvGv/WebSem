@@ -287,9 +287,7 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
   gap: 6px;
   padding: 8px;
 }
-.panel-visual #lb-thumbs img{
-  height: 60px;
-}
+.panel-visual #lb-thumbs img{height:auto; max-width:100%;}
 
 /* Mobile: sigue sin márgenes laterales */
 @media (max-width: 900px){
@@ -297,4 +295,123 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
     grid-template-columns: 1fr;
     height: 100vh !important;
   }
+}
+
+
+/* v37: Logo grande por altura y centrado */
+:root{ --logo-vh: 28vh; }
+
+header, .header{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: clamp(16px, calc(var(--logo-vh) * 0.35), 140px);
+}
+
+header img[src*="logo.png"], .header img[src*="logo.png"], img.logo, .site-logo img{
+  display: block;
+  height: clamp(120px, var(--logo-vh), 420px);
+  width: auto;
+  max-width: none !important;
+}
+
+/* Contenido principal separado del header por si hay otros contenedores */
+main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
+  margin-top: clamp(12px, calc(var(--logo-vh) * 0.15), 64px);
+}
+
+@media (max-width: 640px){
+  :root{ --logo-vh: 22vh; } /* un poco menos en móvil para no desbordar */
+}
+
+
+/* v38: fuerza de logo grande, evita límites antiguos */
+.site-header .site-logo,
+header .site-logo,
+img.site-logo,
+.site-logo[src*="logo.png"]{
+  height: clamp(160px, 30vh, 520px) !important;
+  width: auto !important;
+  max-height: none !important;
+  max-width: 95vw !important;
+  display: block;
+  margin: 6px auto 18px !important;
+}
+/* separar los carruseles según el alto real del logo */
+main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
+  margin-top: clamp(16px, 6vh, 80px);
+}
+
+
+/* v39: card image constraints so cards don't blow up */
+.carousel .card img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit: cover;
+}
+
+
+/* v40: Scroll único del lightbox (todo el contenido scrollea junto) */
+#lightbox.active{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto !important;           /* un solo scroll vertical */
+  overflow-x: hidden;
+  padding: 0;                             /* full-bleed por pedido previo */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* El contenedor ya no fuerza altura de viewport */
+.lb-split{
+  width: 100vw;
+  max-width: none;
+  height: auto !important;               /* sin 100vh */
+  min-height: 0 !important;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;                             /* dejamos un gutter razonable */
+  padding: 16px;                         /* respiración interna */
+}
+
+/* Los paneles no tienen scroll propio */
+.panel{
+  min-height: 0;
+  overflow: visible !important;          /* el scroll vive en #lightbox */
+}
+
+/* Imagen sin tope de alto para que no se corte; que se adapte al ancho */
+.panel-visual #lb-img{
+  width: 100%;
+  height: auto;
+  max-height: none !important;
+  object-fit: contain;
+  border-bottom: 1px solid #222;
+}
+
+/* Thumbs pueden seguir con scroll horizontal propio si exceden */
+.panel-visual #lb-thumbs{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 8px 4px;
+  background: #f4f4f4;
+  border-top: 1px solid #e2e2e2;
+}
+.panel-visual #lb-thumbs img{
+  flex: 0 0 auto;
+  height: 64px;
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+}
+
+/* Responsive: apilar en móvil, sigue un solo scroll vertical */
+@media (max-width: 900px){
+  .lb-split{ grid-template-columns: 1fr; gap: 12px; padding: 12px; }
 }
