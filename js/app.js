@@ -124,6 +124,44 @@ try{
 }
 
   lb.classList.add('active');
+
+// v34: Forzar render de 4 fichas para Dealer Deal XXL cuando aplique
+try{
+  const parts = folderPath.split('/'); const folder = parts[1]; const id = parts[2];
+  const right = lb.querySelector('.panel-fichas');
+  // builder local por si no existe en scope
+  function _buildFicha(meta, titleOverride){
+    const d = document.createElement('div');
+    d.className = 'lb-ficha-panel';
+    const t = titleOverride || meta.title || `${folder}-${id}`;
+    d.innerHTML = `
+      <h4 class="lb-ficha-title">${t}</h4>
+      <div class="ficha-grid">
+        <div><b>Banco</b><span>${meta.banco || '—'}</span></div>
+        <div><b>Genética</b><span>${meta.genetica || '—'}</span></div>
+        <div><b>Floración</b><span>${meta.floracion || '—'}</span></div>
+        <div><b>THC</b><span>${meta.thc || '—'}</span></div>
+        <div><b>Rendimiento</b><span>${meta.rendimiento || '—'}</span></div>
+        <div><b>Sabor</b><span>${meta.sabor || '—'}</span></div>
+        <div class="notas"><b>Notas</b><span>${meta.notas || '—'}</span></div>
+      </div>`;
+    return d;
+  }
+  const metaTitle = (window.DATA_OVERRIDE && DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id] && DATA_OVERRIDE[folder][id].title) || '';
+  const arr = (window.DATA_FICHAS && DATA_FICHAS[folder] && DATA_FICHAS[folder][id])
+           || (metaTitle === 'Dealer Deal XXL' && DATA_FICHAS['02Genext'] && DATA_FICHAS['02Genext']['01'])
+           || null;
+  if (right && arr && Array.isArray(arr) && arr.length){
+    right.innerHTML = '';
+    const cont = document.createElement('div'); cont.className = 'lb-fichas-multi';
+    arr.forEach(f => {
+      const m = { title:f.titulo, banco:f.banco, genetica:f.genetica, floracion:f.floracion, thc:f.thc, rendimiento:f.rendimiento, sabor:f.sabor, notas:f.notas };
+      cont.appendChild(_buildFicha(m, f.titulo || ''));
+    });
+    right.appendChild(cont);
+  }
+}catch(e){}
+
   lb.setAttribute('aria-hidden','false');
 }
 
@@ -158,3 +196,24 @@ document.addEventListener('DOMContentLoaded', function(){
     bindCarouselControls('carousel2','prevBtn2','nextBtn2');
   }catch(e){ console.error('bind controls error', e); }
 });
+
+
+// v34: Datos Dealer Deal XXL (Carrusel 2 · Tarjeta 1)
+(function(){
+  try {
+    window.DATA_OVERRIDE = window.DATA_OVERRIDE || DATA_OVERRIDE || {};
+    if (!DATA_OVERRIDE["02Genext"]) DATA_OVERRIDE["02Genext"] = {};
+    DATA_OVERRIDE["02Genext"]["01"] = Object.assign({}, DATA_OVERRIDE["02Genext"]["01"] || {}, {
+      title: "Dealer Deal XXL"
+    });
+
+    window.DATA_FICHAS = window.DATA_FICHAS || {};
+    if (!DATA_FICHAS["02Genext"]) DATA_FICHAS["02Genext"] = {};
+    DATA_FICHAS["02Genext"]["01"] = [
+      { titulo: "Critical+2", banco: "BSF Seeds", genetica: "Auto XXL",  floracion: "8-9 semanas", thc: "20%", rendimiento: "550 g/m²", sabor: "Dulce, afrutado", notas: "Estructura compacta, ideal para espacios reducidos." },
+      { titulo: "Black Dom",  banco: "BSF Seeds", genetica: "Fem XXL",   floracion: "8 semanas",   thc: "22%", rendimiento: "600 g/m²", sabor: "Terroso, especiado", notas: "Fenotipo rápido, tronco fuerte para SCROG." },
+      { titulo: "Moby-D",     banco: "BSF Seeds", genetica: "Fem XXL",   floracion: "10 semanas",  thc: "24%", rendimiento: "700 g/m²", sabor: "Cítrico, pino", notas: "Alta ramificación, responde bien a LST." },
+      { titulo: "northern",   banco: "BSF Seeds", genetica: "Auto XXL",  floracion: "9 semanas",   thc: "19%", rendimiento: "500 g/m²", sabor: "Dulce, picante", notas: "Estable y resistente a estrés hídrico." }
+    ];
+  } catch(e) {}
+})();
