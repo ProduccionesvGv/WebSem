@@ -1025,3 +1025,54 @@ body{ color: #eee; background: #1a1a1a; }
   .dealer-only .dealer-details-grid{ grid-template-columns: 1fr; gap: 8px 12px; }
   .dealer-only .dd-label::after{ margin-left: 5px; }
 }
+
+
+/* vDealer-Details v4: 2 columnas equilibradas dentro de cada ficha, sin amontonarse */
+.dealer-only .dealer-details-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* dos columnas de pares */
+  gap: 14px 24px;                                   /* aire vertical y horizontal */
+  align-items: start;
+}
+
+/* Cada par ocupa una de las dos columnas y alinea etiqueta/valor dentro */
+.dealer-only .dd-item{
+  display: grid !important;                         /* anula display:contents previo */
+  grid-template-columns: max-content 1fr;
+  column-gap: 10px;
+  row-gap: 4px;
+  padding: 4px 0;
+  border-bottom: 1px solid #1b1b1b;
+}
+.dealer-only .dd-item:nth-child(odd){ padding-right: 8px; }
+.dealer-only .dd-item:nth-child(even){ padding-left: 8px; }
+.dealer-only .dd-item:last-child{ border-bottom: none; }
+
+/* Etiqueta y valor más legibles, sin cajas extra */
+.dealer-only .dd-label{
+  color: #cfead2;
+  font-weight: 700;
+  font-size: .95rem;
+  text-transform: none;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}
+.dealer-only .dd-label::after{
+  content: ":";
+  margin-left: 6px;
+  color: #9aa3a5;
+  font-weight: 600;
+}
+.dealer-only .dd-value{
+  color: #f1f1f1;
+  font-weight: 600;
+  font-size: .98rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Responsive: una sola columna en móvil para no apilar demasiado estrecho */
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid{ grid-template-columns: 1fr; gap: 12px; }
+  .dealer-only .dd-item{ padding: 6px 0; }
+}
