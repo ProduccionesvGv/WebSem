@@ -1504,3 +1504,8 @@ body{ color: #eee; background: #1a1a1a; }
 }
 #zoom-modal .zm-close:hover{ background: rgba(0,0,0,.75); }
 body.no-scroll{ overflow: hidden; }
+
+
+/* vZoom-3: permitir scroll si el zoom supera el viewport */
+#zoom-modal .zm-content{ overflow: auto; }
+#zoom-modal .zm-img{ transform-origin: center center; }

@@ -629,3 +629,182 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('DOMContentLoaded', function(){ try{ bindZoomV2(); }catch(e){} });
 })(); 
 
+
+
+// v12c: Inject new label 'CICLO' with per-card values only for 02Genext/01
+(function(){
+  var CICLO_MAP = {
+    "CRITICAL+2": "55 Dias",
+    "BLACK DOM": "50-55 Dias",
+    "MOBY-D": "75 Dias",
+    "NORTHERN": "50-55 Dias"
+  };
+  function normTitle(s){
+    return (s||"").toString().trim().toUpperCase().replace(/\s+/g,"").replace(/\+/g,"+");
+  }
+  function prettyTitle(s){
+    // keep existing title as rendered by v12; we only need matching
+    return (s||"").toString();
+  }
+  function injectCiclo(){
+    var lb = document.getElementById('lightbox');
+    if(!lb) return;
+    var wrap = lb.querySelector('.ft-wrap');
+    if(!wrap) return;
+    wrap.querySelectorAll('.ft-card.dealer-only').forEach(function(card){
+      var titleEl = card.querySelector('.ft-title');
+      var title = titleEl ? titleEl.textContent.trim() : "";
+      var key = title.toUpperCase().replace(/\s+/g,"").replace(/\+/g,"+");
+      var val = CICLO_MAP[key];
+      if(!val) return;
+      var grid = card.querySelector('.ft-grid');
+      if(!grid) return;
+      // If CICLO already exists, update and exit
+      var exists = grid.querySelector('.ft-item .ft-label') && Array.prototype.some.call(grid.querySelectorAll('.ft-item .ft-label'), function(lbl){
+        return /CICLO\s*$/i.test(lbl.textContent.trim());
+      });
+      if(exists){
+        grid.querySelectorAll('.ft-item').forEach(function(it){
+          var lbl = it.querySelector('.ft-label'); var v = it.querySelector('.ft-val');
+          if(lbl && /CICLO\s*$/i.test(lbl.textContent.trim()) && v){ v.textContent = val; }
+        });
+        return;
+      }
+      // Create item
+      var item = document.createElement('div'); item.className='ft-item';
+      var lbl = document.createElement('div'); lbl.className='ft-label'; lbl.textContent='CICLO';
+      var v = document.createElement('div'); v.className='ft-val'; v.textContent = val;
+      item.append(lbl, v);
+      // Insert after FLORACIÓN if present
+      var afterNode = null;
+      Array.prototype.forEach.call(grid.querySelectorAll('.ft-item'), function(it){
+        var l = it.querySelector('.ft-label'); 
+        if(l && /FLORACI[ÓO]N\s*$/i.test(l.textContent.trim())) afterNode = it;
+      });
+      if(afterNode && afterNode.nextSibling){
+        grid.insertBefore(item, afterNode.nextSibling);
+      }else if(afterNode){
+        grid.appendChild(item);
+      }else{
+        grid.appendChild(item);
+      }
+    });
+  }
+  // Hook openGallery to inject after v12 renders
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01'){ injectCiclo(); }
+    }catch(e){}
+  };
+  // In case the lightbox is already open
+  document.addEventListener('DOMContentLoaded', function(){ setTimeout(injectCiclo, 0); });
+})(); 
+
+
+
+// v12c-fix: garantizar 'CICLO' en la ficha 'Black Dom' (02Genext/01) sin tocar el resto
+(function(){
+  function ensureCicloBlackDom(){
+    var lb = document.getElementById('lightbox'); if(!lb) return;
+    var wrap = lb.querySelector('.ft-wrap'); if(!wrap) return;
+    wrap.querySelectorAll('.ft-card.dealer-only').forEach(function(card){
+      var titleEl = card.querySelector('.ft-title');
+      var title = titleEl ? titleEl.textContent.trim().toUpperCase() : "";
+      if(title.indexOf('BLACK DOM') === -1) return;
+      var grid = card.querySelector('.ft-grid'); if(!grid) return;
+      var updated = false;
+      grid.querySelectorAll('.ft-item').forEach(function(it){
+        var lbl = it.querySelector('.ft-label'); var val = it.querySelector('.ft-val');
+        if(lbl && /CICLO\s*$/i.test(lbl.textContent.trim())){
+          if(val) val.textContent = '50-55 Dias';
+          updated = true;
+        }
+      });
+      if(updated) return;
+      // Insertar después de FLORACIÓN si existe
+      var item = document.createElement('div'); item.className = 'ft-item';
+      var l = document.createElement('div'); l.className = 'ft-label'; l.textContent = 'CICLO';
+      var v = document.createElement('div'); v.className = 'ft-val'; v.textContent = '50-55 Dias';
+      item.append(l, v);
+      var after = null;
+      grid.querySelectorAll('.ft-item').forEach(function(it){
+        var a = it.querySelector('.ft-label');
+        if(a && /FLORACI[ÓO]N\s*$/i.test(a.textContent.trim())) after = it;
+      });
+      if(after && after.nextSibling) grid.insertBefore(item, after.nextSibling);
+      else if(after) grid.appendChild(item);
+      else grid.appendChild(item);
+    });
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01') ensureCicloBlackDom();
+    }catch(e){}
+  };
+  document.addEventListener('DOMContentLoaded', function(){ try{ ensureCicloBlackDom(); }catch(e){} });
+})();
+
+
+// vZoom-3: zoom inicial +30% al abrir la previsualización
+(function(){
+  var INITIAL_ZOOM = 1.3;
+  function applyInitialZoom(modal){
+    try{
+      var img = modal.querySelector('.zm-img');
+      var cont = modal.querySelector('.zm-content');
+      if(!img || !cont) return;
+      // Reset sizing to get natural fit
+      img.style.maxWidth = 'none';
+      img.style.maxHeight = 'none';
+      img.style.width = '';
+      img.style.height = '';
+      // Compute scale-to-fit within 95% viewport
+      var vw = Math.floor(window.innerWidth * 0.95);
+      var vh = Math.floor(window.innerHeight * 0.95);
+      var nw = img.naturalWidth || img.width;
+      var nh = img.naturalHeight || img.height;
+      if(!nw || !nh) return;
+      var fit = Math.min(vw / nw, vh / nh);
+      var scale = fit * INITIAL_ZOOM;
+      var targetW = Math.max(1, Math.round(nw * scale));
+      // Apply size; height auto mantiene proporción
+      img.style.width = targetW + 'px';
+      img.style.height = 'auto';
+      // Contenedor scrolleable si excede viewport
+      cont.style.maxWidth = '95vw';
+      cont.style.maxHeight = '95vh';
+      cont.style.overflow = 'auto';
+    }catch(e){ /* silent */ }
+  }
+  // Hook en la apertura del modal existente vZoom-2
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var lb = document.getElementById('lb-img');
+      if(!lb) return;
+      // inyectamos listener sobre click si no existe
+      if (!document.body.dataset.zoomV3Bound){
+        document.addEventListener('click', function(ev){
+          var m = document.getElementById('zoom-modal');
+          if(!m || !m.classList.contains('active')) return;
+          // cuando la imagen cargue, aplicar zoom inicial
+          var img = m.querySelector('.zm-img');
+          if(!img) return;
+          img.addEventListener('load', function once(){
+            img.removeEventListener('load', once);
+            applyInitialZoom(m);
+          });
+        }, true);
+        document.body.dataset.zoomV3Bound = '1';
+      }
+    }catch(e){ /* silent */ }
+  };
+})(); 
+
