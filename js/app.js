@@ -53,77 +53,77 @@ function openGallery(folderPath){
     im.onclick = ()=> img.src = src;
     thumbs.appendChild(im);
   });
-  // CLEAN previous ficha panels to avoid mixing
-lb.querySelectorAll('.lb-ficha-panel, .lb-fichas-multi, .lb-sep').forEach(n => n.remove());
 
-// Ensure a separator after thumbs to keep flow
-const lbSep = document.createElement('div');
-lbSep.className = 'lb-sep';
-thumbs.insertAdjacentElement('afterend', lbSep);
+// v32: split-view layout + fichas always visible
+// Cleanup any previous split/fichas blocks
+lb.querySelectorAll('.lb-split, .lb-ficha-panel, .lb-fichas-multi').forEach(n=>n.remove());
 
-// FICHA for 01Genint/01 inside lightbox
-try {
-  const parts = folderPath.split('/'); // ["img","<folder>","<id>"]
-  const folder = parts[1];
-  const id = parts[2];
-  if (folder === '01Genint' && id === '01') {
-    const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {};
-    const ficha = document.createElement('div');
-    ficha.className = 'lb-ficha-panel';
-    ficha.innerHTML = `
-      <h4 class="lb-ficha-title">${meta.title || ''}</h4>
-      <div class="ficha-grid">
-        <div><b>Banco</b><span>${meta.banco || '—'}</span></div>
-        <div><b>Genética</b><span>${meta.genetica || '—'}</span></div>
-        <div><b>Floración</b><span>${meta.floracion || '—'}</span></div>
-        <div><b>THC</b><span>${meta.thc || '—'}</span></div>
-        <div><b>Rendimiento</b><span>${meta.rendimiento || '—'}</span></div>
-        <div><b>Sabor</b><span>${meta.sabor || '—'}</span></div>
-        <div class="notas"><b>Notas</b><span>${meta.notas || '—'}</span></div>
-      </div>`;
-    lbSep.insertAdjacentElement('afterend', ficha);
-  }
-} catch(e) {}
+// Build split container with two panels
+const split = document.createElement('div');
+split.className = 'lb-split';
+const left = document.createElement('section');
+left.className = 'panel panel-visual';
+const right = document.createElement('section');
+right.className = 'panel panel-fichas';
+split.appendChild(left);
+split.appendChild(right);
 
-// MULTI FICHAS for 02Genext/01 inside lightbox
-try {
-  const parts2 = folderPath.split('/');
-  const folder2 = parts2[1];
-  const id2 = parts2[2];
-  if (folder2 === '02Genext' && id2 === '01') {
-    const fichas = (window.DATA_FICHAS && DATA_FICHAS['02Genext'] && DATA_FICHAS['02Genext']['01']) || [];
-    if (fichas.length) {
+// Insert split into lightbox
+lb.appendChild(split);
+
+// Move image and thumbs into left panel
+if (img && img.parentElement !== left) left.appendChild(img);
+if (thumbs && thumbs.parentElement !== left) left.appendChild(thumbs);
+
+// Derive folder/id from folderPath: img/<folder>/<id>
+const parts = folderPath.split('/');
+const folder = parts[1];
+const id = parts[2];
+
+// Helper to build a ficha panel
+function buildFicha(meta, titleOverride){
+  const d = document.createElement('div');
+  d.className = 'lb-ficha-panel';
+  const t = titleOverride || meta.title || `${folder}-${id}`;
+  d.innerHTML = `
+    <h4 class="lb-ficha-title">${t}</h4>
+    <div class="ficha-grid">
+      <div><b>Banco</b><span>${meta.banco || '—'}</span></div>
+      <div><b>Genética</b><span>${meta.genetica || '—'}</span></div>
+      <div><b>Floración</b><span>${meta.floracion || '—'}</span></div>
+      <div><b>THC</b><span>${meta.thc || '—'}</span></div>
+      <div><b>Rendimiento</b><span>${meta.rendimiento || '—'}</span></div>
+      <div><b>Sabor</b><span>${meta.sabor || '—'}</span></div>
+      <div class="notas"><b>Notas</b><span>${meta.notas || '—'}</span></div>
+    </div>`;
+  return d;
+}
+
+// Render fichas
+try{
+  let rendered = false;
+  if (folder === '02Genext' && id === '01' && window.DATA_FICHAS && DATA_FICHAS['02Genext'] && Array.isArray(DATA_FICHAS['02Genext']['01'])) {
+    const arr = DATA_FICHAS['02Genext']['01'];
+    if (arr.length){
       const cont = document.createElement('div');
       cont.className = 'lb-fichas-multi';
-      fichas.forEach(f => {
-        const panel = document.createElement('div');
-        panel.className = 'lb-ficha-panel';
-        panel.innerHTML = `
-          <h4 class="lb-ficha-title">${f.titulo || ''}</h4>
-          <div class="ficha-grid">
-            <div><b>Banco</b><span>${f.banco || '—'}</span></div>
-            <div><b>Genética</b><span>${f.genetica || '—'}</span></div>
-            <div><b>Floración</b><span>${f.floracion || '—'}</span></div>
-            <div><b>THC</b><span>${f.thc || '—'}</span></div>
-            <div><b>Rendimiento</b><span>${f.rendimiento || '—'}</span></div>
-            <div><b>Sabor</b><span>${f.sabor || '—'}</span></div>
-            <div class="notas"><b>Notas</b><span>${f.notas || '—'}</span></div>
-          </div>`;
-        cont.appendChild(panel);
+      arr.forEach(f => {
+        const m = { title:f.titulo, banco:f.banco, genetica:f.genetica, floracion:f.floracion, thc:f.thc, rendimiento:f.rendimiento, sabor:f.sabor, notas:f.notas };
+        cont.appendChild(buildFicha(m, f.titulo || ''));
       });
-      lbSep.insertAdjacentElement('afterend', cont);
+      right.appendChild(cont);
+      rendered = true;
     }
   }
-} catch(e) {}
+  if (!rendered){
+    const meta = (window.DATA_OVERRIDE && DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {};
+    right.appendChild(buildFicha(meta));
+  }
+} catch(e) {
+  right.appendChild(buildFicha({}));
+}
 
-// SCROLL-LOCK: block background scroll and let lightbox scroll
-(function(){
-  const y = window.scrollY || document.documentElement.scrollTop || 0;
-  document.body.dataset.modalScrollY = String(y);
-  document.body.classList.add('modal-open');
-  document.body.style.top = `-${y}px`;
-})();
-lb.classList.add('active');
+  lb.classList.add('active');
   lb.setAttribute('aria-hidden','false');
 }
 
@@ -134,16 +134,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const lb = document.getElementById('lightbox');
     lb.classList.remove('active');
     lb.setAttribute('aria-hidden','true');
-
-// SCROLL-UNLOCK
-(function(){
-  const y = parseInt(document.body.dataset.modalScrollY || '0', 10);
-  document.body.classList.remove('modal-open');
-  document.body.style.top = '';
-  delete document.body.dataset.modalScrollY;
-  window.scrollTo(0, y);
-})();
-
   });
 });
 
@@ -168,20 +158,3 @@ document.addEventListener('DOMContentLoaded', function(){
     bindCarouselControls('carousel2','prevBtn2','nextBtn2');
   }catch(e){ console.error('bind controls error', e); }
 });
-
-
-// DATA: ensure Gen1 title and fichas multi for 02Genext/01
-try {
-  if (!window.DATA_OVERRIDE) window.DATA_OVERRIDE = DATA_OVERRIDE;
-  if (!DATA_OVERRIDE["01Genint"]) DATA_OVERRIDE["01Genint"] = {};
-  DATA_OVERRIDE["01Genint"]["01"] = Object.assign({}, DATA_OVERRIDE["01Genint"]["01"], { title: "Gen1" });
-
-  window.DATA_FICHAS = window.DATA_FICHAS || {};
-  if (!DATA_FICHAS["02Genext"]) DATA_FICHAS["02Genext"] = {};
-  DATA_FICHAS["02Genext"]["01"] = [
-    { titulo: "Critical+2", banco: "BSF Seeds", genetica: "Auto", floracion: "8-9 semanas", thc: "20%", rendimiento: "550 g/m²", sabor: "Dulce", notas: "Ficha 1" },
-    { titulo: "Black Dom",  banco: "BSF Seeds", genetica: "Fem",  floracion: "8 semanas",   thc: "22%", rendimiento: "600 g/m²", sabor: "Terroso", notas: "Ficha 2" },
-    { titulo: "Moby-D",     banco: "BSF Seeds", genetica: "Fem",  floracion: "10 semanas",  thc: "24%", rendimiento: "700 g/m²", sabor: "Cítrico", notas: "Ficha 3" },
-    { titulo: "northern",   banco: "BSF Seeds", genetica: "Auto", floracion: "9 semanas",   thc: "19%", rendimiento: "500 g/m²", sabor: "Picante", notas: "Ficha 4" }
-  ];
-} catch(e) {}
