@@ -214,3 +214,87 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
     max-height: 48vh;
   }
 }
+
+
+/* v35: logo +40% y separación de carruseles */
+header, .header{
+  position: relative;
+  z-index: 10;
+  margin-bottom: 24px; /* separación base */
+}
+/* Si el logo está dentro del header, aumentar tamaño 40% */
+header img[src*="logo.png"], .header img[src*="logo.png"], img.logo, .site-logo img{
+  display: block;
+  height: auto;
+  /* Si el logo tenía un ancho fijo, multiplicar por 1.4. Si no, limítalo por max-width */
+  max-width: 140% !important;
+}
+/* Si el logo usa width explícito por clase .logo, refuerzo */
+.logo{
+  max-width: 140% !important;
+}
+
+/* Empuje extra para contenedor de carruseles si quedara cercano al header */
+main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
+  margin-top: 16px;
+}
+
+/* En pantallas pequeñas, evita que el logo empuje demasiado */
+@media (max-width: 640px){
+  header img[src*="logo.png"], .header img[src*="logo.png"], img.logo, .site-logo img{
+    max-width: 120% !important; /* 20% en móvil para no romper */
+  }
+  header, .header{ margin-bottom: 16px; }
+}
+
+
+/* v36: Lightbox full-bleed (100% ancho y alto) */
+#lightbox.active{
+  padding: 0 !important;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* los paneles scrollean */
+}
+
+.lb-split{
+  width: 100vw !important;
+  max-width: none !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  gap: 0 !important;              /* sin gutter para tocar bordes laterales */
+  grid-template-columns: 1fr 1fr; /* mantiene dos columnas */
+}
+
+.panel{
+  border-radius: 0 !important;    /* que llegue al borde */
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Imagen ajustada al alto disponible dentro del panel visual */
+.panel-visual #lb-img{
+  max-height: calc(100vh - 140px); /* espacio para thumbs y barras */
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+}
+
+/* Thumbs más compactas para caber siempre */
+.panel-visual #lb-thumbs{
+  gap: 6px;
+  padding: 8px;
+}
+.panel-visual #lb-thumbs img{
+  height: 60px;
+}
+
+/* Mobile: sigue sin márgenes laterales */
+@media (max-width: 900px){
+  .lb-split{
+    grid-template-columns: 1fr;
+    height: 100vh !important;
+  }
+}
