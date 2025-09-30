@@ -462,3 +462,69 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 })(); 
 
+
+
+// vZoom-1: preview grande al hacer clic en la imagen principal (#lb-img)
+(function(){
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'zoom-modal';
+    m.innerHTML = [
+      '<div class="zm-backdrop"></div>',
+      '<div class="zm-content">',
+        '<button class="zm-close" type="button" aria-label="Cerrar">&times;</button>',
+        '<img class="zm-img" alt="Vista ampliada">',
+      '</div>'
+    ].join('');
+    document.body.appendChild(m);
+    // Handlers
+    var img = m.querySelector('.zm-img');
+    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+    m.querySelector('.zm-backdrop').onclick = close;
+    m.querySelector('.zm-close').onclick = close;
+    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
+    return m;
+  }
+  function getMainSrc(){
+    var c = document.getElementById('lb-img');
+    if (!c) return '';
+    var tag = c.querySelector('img');
+    if (tag && tag.src) return tag.src;
+    var bg = getComputedStyle(c).backgroundImage;
+    if (bg && bg.startsWith('url(')){
+      var u = bg.slice(4,-1).replace(/["']/g,'');
+      return u;
+    }
+    return '';
+  }
+  function bindZoom(){
+    var c = document.getElementById('lb-img');
+    if (!c) return;
+    c.style.cursor = 'zoom-in';
+    // Avoid duplicate listeners
+    if (c.dataset.zoomBound === '1') return;
+    c.dataset.zoomBound = '1';
+    c.addEventListener('click', function(ev){
+      // Sólo la imagen principal, no miniaturas
+      if (ev.target.closest('#lb-img')){
+        var src = getMainSrc();
+        if(!src) return;
+        var m = ensureModal();
+        m.querySelector('.zm-img').src = src;
+        m.classList.add('active');
+        document.body.classList.add('no-scroll');
+      }
+    });
+  }
+  // Hook: tras abrir cualquier tarjeta
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{ bindZoom(); }catch(e){}
+  };
+  // Por si ya está abierto al cargar
+  document.addEventListener('DOMContentLoaded', function(){ try{ bindZoom(); }catch(e){} });
+})();
+
