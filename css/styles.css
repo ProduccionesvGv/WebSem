@@ -738,3 +738,31 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 
 /* modo oscuro base */
 body{ color: #eee; background: #1a1a1a; }
+
+
+/* v6: colores sincronizados con 'Seeds' del logo */
+:root{
+  --seeds-green: #518c0b;
+  --seeds-yellow: #ccc523;
+  --seeds-glow: #ccc52333;
+}
+.section-title.brand{
+  color: var(--seeds-green) !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  /* borde amarillo: combinar stroke y sombras para compatibilidad */
+  -webkit-text-stroke: 1.2px var(--seeds-yellow);
+  text-shadow:
+    -1px 0 var(--seeds-yellow),
+     1px 0 var(--seeds-yellow),
+     0 -1px var(--seeds-yellow),
+     0 1px var(--seeds-yellow),
+     0 2px 8px var(--seeds-glow);
+}
+.section-title.brand::before{
+  background: var(--seeds-yellow) !important;
+  box-shadow: 0 0 10px var(--seeds-glow);
+}
+.section-title.brand::after{
+  background: linear-gradient(90deg, var(--seeds-yellow), transparent 85%) !important;
+}
