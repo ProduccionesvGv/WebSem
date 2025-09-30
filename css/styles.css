@@ -1509,3 +1509,10 @@ body.no-scroll{ overflow: hidden; }
 /* vZoom-3: permitir scroll si el zoom supera el viewport */
 #zoom-modal .zm-content{ overflow: auto; }
 #zoom-modal .zm-img{ transform-origin: center center; }
+
+
+/* vZoom-4: asegurar centrado en el modal */
+#zoom-modal{ display: none; align-items: center; justify-content: center; }
+#zoom-modal.active{ display: flex; }
+#zoom-modal .zm-content{ display: block; margin: 0 auto; }
+#zoom-modal .zm-img{ display: block; margin: 0 auto; transform-origin: center center; }

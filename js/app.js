@@ -808,3 +808,55 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 })(); 
 
+
+
+// vZoom-4: zoom inicial 1.56x y centrado en el modal
+(function(){
+  var INITIAL_ZOOM_V4 = 1.56; // +20% sobre 1.3
+  if (!document.body.dataset.zoomV4Bound){
+    document.addEventListener('click', function(){
+      var m = document.getElementById('zoom-modal');
+      if(!m || !m.classList.contains('active')) return;
+      var img = m.querySelector('.zm-img');
+      var cont = m.querySelector('.zm-content');
+      if(!img || !cont) return;
+      function apply(){
+        try{
+          // reset and compute fit
+          img.style.maxWidth = 'none';
+          img.style.maxHeight = 'none';
+          img.style.width = ''; img.style.height = '';
+          var vw = Math.floor(window.innerWidth * 0.95);
+          var vh = Math.floor(window.innerHeight * 0.95);
+          var nw = img.naturalWidth || img.width;
+          var nh = img.naturalHeight || img.height;
+          if(!nw || !nh) return;
+          var fit = Math.min(vw / nw, vh / nh);
+          var scale = fit * INITIAL_ZOOM_V4;
+          var targetW = Math.max(1, Math.round(nw * scale));
+          img.style.width = targetW + 'px';
+          img.style.height = 'auto';
+          cont.style.maxWidth = '95vw';
+          cont.style.maxHeight = '95vh';
+          cont.style.overflow = 'auto';
+          // Center after layout
+          requestAnimationFrame(function(){
+            var cw = cont.clientWidth, ch = cont.clientHeight;
+            var iw = img.clientWidth, ih = img.clientHeight;
+            if (iw > cw) cont.scrollLeft = Math.max(0, Math.floor((iw - cw)/2));
+            if (ih > ch) cont.scrollTop  = Math.max(0, Math.floor((ih - ch)/2));
+          });
+        }catch(e){}
+      }
+      if (img.complete) apply();
+      else {
+        img.addEventListener('load', function once(){
+          img.removeEventListener('load', once);
+          apply();
+        });
+      }
+    }, true);
+    document.body.dataset.zoomV4Bound = '1';
+  }
+})(); 
+
