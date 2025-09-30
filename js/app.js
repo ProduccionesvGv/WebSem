@@ -383,3 +383,82 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 })();
 
+
+
+// v12: Photo-style cards ONLY for 02Genext/01 (labels above values, 2 columns). Combine Rendimiento.
+(function(){
+  function NORM(s){ try{ return (s||'').toString().normalize('NFD').replace(/\p{M}/gu,'').toUpperCase().replace(/\./g,'').trim(); }catch(e){ return (s||'').toString().toUpperCase().trim(); } }
+  function buildCard(card){
+    var panel = document.createElement('div');
+    panel.className = 'ft-card dealer-only';
+    var h = document.createElement('h4');
+    h.className = 'ft-title'; h.textContent = card.titulo || 'Ficha';
+    panel.appendChild(h);
+    var grid = document.createElement('div');
+    grid.className = 'ft-grid';
+    var items = card.detalles || [];
+    // map labels
+    var map = Object.create(null);
+    items.forEach(function(it){ map[NORM(it.etiqueta)] = (it.valor||'').trim(); });
+    var prodInt = map[NORM('PRODUCCIÓN INT')] || map[NORM('PRODUCCION INT')] || '';
+    var prodExt = map[NORM('PRODUCCIÓN EXT')] || map[NORM('PRODUCCION EXT')] || '';
+    var rendimiento = '';
+    if (prodInt || prodExt){
+      rendimiento = (prodInt?('INT: ' + prodInt):'') + (prodExt?((prodInt?' / ':'') + 'EXT: ' + prodExt):'');
+    }
+    var order = [
+      ['BANCO', map[NORM('BANCO')]||''],
+      ['GENÉTICA', map[NORM('GENÉTICA')]||map[NORM('GENETICA')]||''],
+      ['FLORACIÓN', map[NORM('FLORACIÓN')]||map[NORM('FLORACION')]||''],
+      ['THC', map[NORM('THC')]||''],
+      ['SATIVIDAD', map[NORM('SATIVIDAD')]||''],
+      ['RENDIMIENTO', rendimiento],
+      ['EFECTO', map[NORM('EFECTO')]||''],
+      ['SABOR', map[NORM('SABOR')]||''],
+      ['CANTIDAD', map[NORM('CANTIDAD')]||'']
+    ];
+    order.forEach(function(pair){
+      if(!pair[1]) return;
+      var item = document.createElement('div'); item.className='ft-item';
+      var lbl = document.createElement('div'); lbl.className='ft-label'; lbl.textContent = pair[0].replace('GENÉTICA','Genética');
+      var val = document.createElement('div'); val.className='ft-val'; val.textContent = pair[1];
+      item.append(lbl, val);
+      grid.appendChild(item);
+    });
+    panel.appendChild(grid);
+    return panel;
+  }
+  function toCardsFromDOM(lb){
+    var cards = [];
+    lb.querySelectorAll('.dealer-only').forEach(function(panel){
+      var title = panel.querySelector('.lb-ficha-title')?.textContent || 'Ficha';
+      var items = [];
+      panel.querySelectorAll('.dd-pair, .dd-item').forEach(function(p){
+        var l = p.querySelector('.dd-label')?.textContent?.replace(/:$/,'') || '';
+        var v = p.querySelector('.dd-value')?.textContent || '';
+        if(l && v) items.push({etiqueta:l, valor:v});
+      });
+      if (items.length) cards.push({titulo:title, detalles:items});
+    });
+    return cards;
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01'){
+        var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+        if(!right) return;
+        // Source data: prefer previous payload if exists, else collect from current DOM
+        var src = (window.DEALER_V6 && window.DEALER_V6.cards) || toCardsFromDOM(lb);
+        right.innerHTML = '';
+        var cont = document.createElement('div'); cont.className = 'ft-wrap';
+        (src||[]).forEach(function(c){ cont.appendChild(buildCard(c)); });
+        right.appendChild(cont);
+      }
+    }catch(e){/* silent */}
+  };
+})(); 
+

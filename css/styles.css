@@ -1303,3 +1303,187 @@ body{ color: #eee; background: #1a1a1a; }
   .dealer-only .dealer-details-grid2{ gap: 8px 10px; }
   .dealer-only .dd-pair{ grid-template-columns: minmax(60px, 50%) 4px 1fr; }
 }
+
+
+/* v10: diseño más armónico solo Dealer Deal XXL */
+.dealer-only.lb-ficha-panel{
+  background: #151515 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 16px 0 18px 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+}
+.dealer-only .lb-ficha-title{
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1e1e1e;
+  font-size: 1.03rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  color: var(--seeds-green, #9be29b);
+}
+
+/* grid interno con aire. 2 columnas cómodas; 1 columna en pantallas angostas */
+.dealer-only .dealer-details-grid2{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 14px 24px;
+}
+@media (max-width: 540px){
+  .dealer-only .dealer-details-grid2{ grid-template-columns: 1fr; gap: 10px 14px; }
+}
+
+/* cada par consistente, con separador suave */
+.dealer-only .dd-pair{
+  display: grid;
+  grid-template-columns: max-content 6px 1fr;
+  align-items: baseline;
+  column-gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #202020;
+}
+.dealer-only .dd-pair:last-child{ border-bottom: none; }
+
+/* etiqueta sutil, valor legible */
+.dealer-only .dd-label{
+  font-size: .82rem;
+  font-weight: 600;
+  color: #cfd3d4;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.dealer-only .dd-sep{ color:#888; }
+.dealer-only .dd-value{
+  font-size: .95rem;
+  font-weight: 600;
+  color: #f2f2f2;
+  line-height: 1.28;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* microajustes por breakpoints */
+@media (max-width: 900px){
+  .dealer-only .dd-label{ font-size: .8rem; }
+  .dealer-only .dd-value{ font-size: .92rem; }
+}
+@media (max-width: 400px){
+  .dealer-only .lb-ficha-panel{ padding: 12px 14px; }
+  .dealer-only .dd-label{ font-size: .78rem; }
+  .dealer-only .dd-value{ font-size: .9rem; }
+}
+
+
+/* v11: diseño minimal y ordenado SOLO Dealer Deal XXL */
+.dealer-only.lb-ficha-panel{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 10px 0;
+  margin: 14px 0;
+}
+.dealer-only .lb-ficha-title{
+  margin: 0 0 8px 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1e1e1e;
+  font-size: .98rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+}
+
+/* Grid 2 columnas con aire */
+.dealer-only .dealer-details-grid2{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 22px;
+  align-items: start;
+}
+
+/* Cada par compacto y alineado en línea */
+.dealer-only .dd-pair{
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 0;
+}
+
+.dealer-only .dd-label{
+  font-size: .78rem !important;
+  font-weight: 600 !important;
+  color: #cfd3d4 !important;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.dealer-only .dd-sep{ color:#8a8f92; }
+.dealer-only .dd-value{
+  font-size: .9rem !important;
+  font-weight: 600 !important;
+  color: #eeeeee !important;
+  line-height: 1.24;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Breakpoints: evitar amontonamiento extremo */
+@media (max-width: 560px){
+  .dealer-only .dealer-details-grid2{ gap: 8px 14px; }
+  .dealer-only .dd-label{ font-size: .76rem !important; }
+  .dealer-only .dd-value{ font-size: .88rem !important; }
+}
+@media (max-width: 400px){
+  .dealer-only .dealer-details-grid2{
+    grid-template-columns: 1fr;   /* pasar a 1 columna si es muy angosto para mantener armonía */
+    gap: 8px 10px;
+  }
+}
+
+/* v12 photo-style (only Dealer) */
+.ft-wrap{ display:flex; flex-direction:column; gap: 16px; }
+.ft-card.dealer-only{
+  background: #18191b;
+  border: 1px solid #2a2b2d;
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+}
+.ft-title{
+  margin: 0 0 10px 0;
+  font-size: clamp(.98rem, 2.6vw, 1.06rem);
+  font-weight: 800;
+  color: #f2f4f6;
+}
+.ft-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: clamp(10px, 2.2vw, 16px) clamp(16px, 3.2vw, 28px);
+}
+.ft-item{ min-width: 0; }
+.ft-label{
+  font-size: clamp(.70rem, 1.9vw, .82rem);
+  color: #aeb3b7;
+  margin: 0 0 4px 0;
+  line-height: 1.15;
+  font-weight: 600;
+}
+.ft-val{
+  font-size: clamp(.86rem, 2.3vw, 1.02rem);
+  font-weight: 700;
+  color: #f7f7f7;
+  line-height: 1.28;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 400px){
+  .ft-grid{ gap: 8px 12px; }
+}
+
+
+/* v12b: título de ficha técnica en verde (solo Dealer) */
+.dealer-only .ft-title{
+  color: var(--seeds-green, #90ee90) !important;
+}
