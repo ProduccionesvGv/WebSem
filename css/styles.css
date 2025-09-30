@@ -574,8 +574,8 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 /* Asegurar que la X esté visible */
 #lb-close.lb-close{
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 18px
+  right: 18px
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -583,10 +583,10 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
   background: rgba(0,0,0,0.6);
   color: #fff;
   border: 1px solid #222;
-  border-radius: 10px;
+  border-radius: 15px
   padding: 6px 10px;
   line-height: 1;
-  font-size: 20px;
+  font-size: 30px
   cursor: pointer;
 }
 
@@ -594,19 +594,19 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 /* v46: close button visible y único */
 #lb-close.lb-close{
   position: fixed;        /* fijo respecto a la ventana del lightbox */
-  top: 14px;
-  right: 14px;
-  width: 72px;
-  height: 72px;
+  top: 21px
+  right: 21px
+  width: 108px
+  height: 108px
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 42px
   line-height: 1;
   color: #fff;
   background: rgba(0,0,0,0.75);
   border: 1px solid #222;
-  border-radius: 12px;
+  border-radius: 18px
   cursor: pointer;
   z-index: 10000;
 }
@@ -667,10 +667,10 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 #lb-close,
 #lightbox #lb-close{
   position: fixed;
-  top: 14px;
-  right: 14px;
-  width: 72px;
-  height: 72px;
+  top: 21px
+  right: 21px
+  width: 108px
+  height: 108px
   display: inline-block;
   background: transparent url("../img/cerrar.webp") center center / contain no-repeat !important;
   border: 0 !important;
@@ -688,7 +688,7 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 
 /* v4: tamaño móvil un poco más pequeño para no tapar contenido */
 @media (max-width: 480px){
-  #lb-close{ width: 60px; height: 60px; }
+  #lb-close{ width: 90px height: 90px }
 }
 
 
@@ -765,4 +765,263 @@ body{ color: #eee; background: #1a1a1a; }
 }
 .section-title.brand::after{
   background: linear-gradient(90deg, var(--seeds-yellow), transparent 85%) !important;
+}
+
+
+/* vTITLES-REFINE: borde amarillo más sutil en títulos de secciones */
+.section-title.brand{
+  -webkit-text-stroke: 0.4px var(--seeds-yellow, #ffd24d) !important;
+  text-shadow:
+    -0.3px 0   var(--seeds-yellow, #ffd24d),
+     0.3px 0   var(--seeds-yellow, #ffd24d),
+     0   -0.3px var(--seeds-yellow, #ffd24d),
+     0    0.3px var(--seeds-yellow, #ffd24d),
+     0    1px   4px  color-mix(in srgb, var(--seeds-yellow, #ffd24d) 35%, transparent) !important;
+}
+
+
+/* v-close-xl-only: aumentar tamaño del botón Cerrar sin tocar nada más */
+#lightbox #lb-close, #lb-close.lb-close{
+  width: 120px !important;
+  height: 120px !important;
+  background-size: contain !important;
+}
+@media (max-width: 480px){
+  #lightbox #lb-close, #lb-close.lb-close{
+    width: 88px !important;
+    height: 88px !important;
+  }
+}
+
+
+/* v-close-mid-only: tamaño intermedio del botón Cerrar */
+#lightbox #lb-close, #lb-close.lb-close{
+  width: 96px !important;
+  height: 96px !important;
+  background-size: contain !important;
+}
+@media (max-width: 480px){
+  #lightbox #lb-close, #lb-close.lb-close{
+    width: 74px !important;
+    height: 74px !important;
+  }
+}
+
+
+/* v-close-slightly-smaller: un poco más chico */
+#lightbox #lb-close, #lb-close.lb-close{
+  width: 84px !important;
+  height: 84px !important;
+  background-size: contain !important;
+}
+@media (max-width: 480px){
+  #lightbox #lb-close, #lb-close.lb-close{
+    width: 64px !important;
+    height: 64px !important;
+  }
+}
+
+
+/* v-close-30-less: 30% más chico */
+#lightbox #lb-close, #lb-close.lb-close{
+  width: 59px !important;
+  height: 59px !important;
+}
+@media (max-width: 480px){
+  #lightbox #lb-close, #lb-close.lb-close{
+    width: 45px !important;
+    height: 45px !important;
+  }
+}
+
+
+/* WhatsApp Floating Button */
+.wa-fab{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  z-index: 10050;
+  text-decoration: none;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.wa-fab:hover{ transform: scale(1.05); box-shadow: 0 6px 16px rgba(0,0,0,.3); }
+.wa-fab:active{ transform: scale(0.98); }
+.wa-fab svg{ display:block; color:#fff; }
+@media (max-width: 480px){
+  .wa-fab{ width:56px; height:56px; right:14px; bottom:14px; }
+  .wa-fab svg{ width:28px; height:28px; }
+}
+
+
+/* vWA-2: usar png local como icono del FAB de WhatsApp */
+.wa-fab{
+  background-color: #25D366 !important;
+  background-image: url("../img/whatsapp-icon.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 62% !important;
+}
+@media (max-width: 480px){
+  .wa-fab{ background-size: 60% !important; }
+}
+
+
+/* vWA-3: quitar círculo verde; dejar solo el icono PNG */
+.wa-fab{
+  background: none !important;
+  background-image: url("../img/whatsapp-icon.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  box-shadow: none !important;
+}
+.wa-fab:hover{ box-shadow: none !important; transform: scale(1.03); }
+@media (max-width: 480px){
+  .wa-fab{ background-size: contain !important; }
+}
+
+
+/* vWA-4: ícono WhatsApp 30% más pequeño */
+.wa-fab{
+  background-size: 70% 70% !important; /* antes 'contain' */
+}
+@media (max-width: 480px){
+  .wa-fab{ background-size: 70% 70% !important; }
+}
+
+/* vDealer-Details styles (scoped) */
+.dealer-only .dealer-details-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px 18px;
+}
+.dealer-only .dd-item{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 8px;
+}
+.dealer-only .dd-label{ color:#ddd; font-weight:700; }
+.dealer-only .dd-value{ color:#fafafa; }
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid{ grid-template-columns: 1fr; }
+}
+
+
+/* vDealer-Details v2: solo estilo para diferenciar etiqueta vs valor */
+.dealer-only .dealer-details-grid{
+  gap: 12px 20px; /* separa tarjetas dentro de la grilla 2-col */
+}
+
+.dealer-only .dd-item{
+  display: grid;
+  grid-template-columns: 150px 1fr; /* columna fija para etiqueta */
+  align-items: start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #121212;
+  border: 1px solid #202020;
+  border-radius: 10px;
+}
+
+.dealer-only .dd-label{
+  color: #a9f5b0;       /* etiqueta con tono distinto */
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: .86rem;
+  letter-spacing: .04em;
+  align-self: center;
+  background: rgba(144,238,144,.12);
+  border: 1px solid rgba(144,238,144,.25);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.dealer-only .dd-label::after{
+  content: ":";
+  margin-left: 6px;
+  color: #bbb;
+  font-weight: 600;
+}
+
+.dealer-only .dd-value{
+  color: #eeeeee;
+  font-weight: 600;
+  font-size: .98rem;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+/* Responsive: en móvil, apilar etiqueta y valor para legibilidad */
+@media (max-width: 900px){
+  .dealer-only .dd-item{
+    grid-template-columns: 1fr;
+  }
+  .dealer-only .dd-label{
+    justify-self: start;
+    margin-bottom: 2px;
+  }
+}
+
+
+/* vDealer-Details v3: cada ficha en su propio cuadro con título; grid 2 columnas dentro */
+.dealer-only.lb-ficha-panel{
+  margin: 16px 0 18px 0;
+  padding: 16px 18px;
+  background: #0f0f0f;
+  border: 1px solid #242424;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+}
+.dealer-only .lb-ficha-title{
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  font-size: 1.08rem;
+  color: var(--seeds-green, #90ee90);
+  border-bottom: 1px solid #1c1c1c;
+  padding-bottom: 8px;
+}
+
+/* Etiquetas y valores en 2 columnas simétricas dentro del cuadro */
+.dealer-only .dealer-details-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+
+/* Los items dejan de tener caja propia: solo filas limpias */
+.dealer-only .dd-item{
+  display: contents; /* mantiene el layout de dos columnas por fila */
+}
+
+.dealer-only .dd-label{
+  color: #bfe9c2;
+  font-weight: 700;
+  font-size: .95rem;
+  text-transform: none;
+  letter-spacing: .01em;
+  align-self: center;
+}
+.dealer-only .dd-label::after{ content: ":"; margin-left: 6px; color: #9aa3a5; }
+
+.dealer-only .dd-value{
+  color: #eeeeee;
+  font-weight: 600;
+  font-size: .98rem;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+/* Responsive: en móvil, la grilla pasa a 1 columna */
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid{ grid-template-columns: 1fr; gap: 8px 12px; }
+  .dealer-only .dd-label::after{ margin-left: 5px; }
 }

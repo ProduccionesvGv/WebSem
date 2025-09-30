@@ -241,3 +241,53 @@ document.addEventListener('DOMContentLoaded', function(){
     ];
   } catch(e) {}
 })();
+
+
+// vDealer-Details: render etiqueta/valor in 2-column grid ONLY for 02Genext/01
+(function(){
+  var DATA_DEALER = [{"titulo": "Critical +2", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "40%"}, {"etiqueta": "Thc", "valor": "20%"}, {"etiqueta": "Producción INT", "valor": "300-450 GR"}, {"etiqueta": "Producción EXT", "valor": "100-300 GR"}, {"etiqueta": "Ciclo Completo", "valor": "55 Dias"}, {"etiqueta": "Efecto", "valor": "Relajante, Potente Larga Duracion"}, {"etiqueta": "Sabor", "valor": "Dulce, Limon, Citricos"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "Black Dom", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "20%"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Producción INT", "valor": "200-400 GR"}, {"etiqueta": "Producción EXT", "valor": "50-450 GR"}, {"etiqueta": "Ciclo Completo", "valor": "50-55 Dias"}, {"etiqueta": "Efecto", "valor": "Relajante, Fuerte"}, {"etiqueta": "Sabor", "valor": "Hachis, Afgano, Dulce, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "Moby-D", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Producción INT", "valor": "300-500"}, {"etiqueta": "Producción EXT", "valor": "60-250"}, {"etiqueta": "Ciclo Completo", "valor": "75 DÍAS"}, {"etiqueta": "Efecto", "valor": "Euforia, Psicodelica, Energizante"}, {"etiqueta": "Sabor", "valor": "Citrico, Pino, Haze, Madera"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "Northern", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "20%"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Producción INT", "valor": "250-450 GR"}, {"etiqueta": "Producción EXT", "valor": "60-350 GR"}, {"etiqueta": "Ciclo Completo", "valor": "50-55 Dias"}, {"etiqueta": "Efecto", "valor": "Narcotico, Sedante"}, {"etiqueta": "Sabor", "valor": "Dulce, Tierra"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}];
+  function buildGrid(items){
+    var grid = document.createElement('div');
+    grid.className = 'dealer-details-grid';
+    items.forEach(function(it){
+      var d = document.createElement('div');
+      d.className = 'dd-item';
+      d.innerHTML = '<b class="dd-label"></b><span class="dd-value"></span>';
+      d.querySelector('.dd-label').textContent = it.etiqueta;
+      d.querySelector('.dd-value').textContent = it.valor;
+      grid.appendChild(d);
+    });
+    return grid;
+  }
+  function renderDealer(lb, folder, id){
+    if(folder!=='02Genext' || id!=='01') return;
+    var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+    if(!right) return;
+    right.innerHTML = '';
+    var cont = document.createElement('div');
+    cont.className = 'lb-fichas-multi';
+    DATA_DEALER.forEach(function(card){
+      var panel = document.createElement('div');
+      panel.className = 'lb-ficha-panel dealer-only';
+      var h = document.createElement('h4');
+      h.className = 'lb-ficha-title';
+      h.textContent = card.titulo || 'Ficha';
+      panel.appendChild(h);
+      panel.appendChild(buildGrid(card.detalles||[]));
+      cont.appendChild(panel);
+    });
+    right.appendChild(cont);
+  }
+  // Patch openGallery to post-render
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try {
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/');
+      var folder = parts[1], id = parts[2];
+      renderDealer(lb, folder, id);
+    } catch(e) {}
+  };
+})();
+
