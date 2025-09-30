@@ -1076,3 +1076,230 @@ body{ color: #eee; background: #1a1a1a; }
   .dealer-only .dealer-details-grid{ grid-template-columns: 1fr; gap: 12px; }
   .dealer-only .dd-item{ padding: 6px 0; }
 }
+
+
+/* vDealer-Details v5: etiquetas sin formato, más chicas; 2 columnas homogéneas; fondo gris oscuro */
+.dealer-only.lb-ficha-panel{
+  background: #1c1c1c !important;
+  border: 1px solid #2a2a2a !important;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  padding: 16px 18px;
+  margin: 16px 0 18px 0;
+}
+.dealer-only .lb-ficha-title{
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #262626;
+}
+
+/* Dos columnas de pares dentro de la ficha, con buen aire */
+.dealer-only .dealer-details-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 16px 24px;
+  align-items: start;
+}
+
+/* Cada par en bloque, etiqueta y valor en línea (no separados) */
+.dealer-only .dd-item{
+  display: block !important;
+  padding: 2px 0;
+  border-bottom: 0;
+}
+.dealer-only .dd-label{
+  display: inline;
+  font-weight: 600;
+  font-size: .88rem;
+  color: #d0d0d0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.dealer-only .dd-label::after{ content: none !important; }
+.dealer-only .dd-value{
+  display: inline;
+  margin-left: 6px;
+  color: #e6e6e6;
+  font-weight: 600;
+  font-size: .94rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Móvil: una columna para no amontonar */
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid{ grid-template-columns: 1fr; gap: 12px; }
+}
+
+
+/* vDealer-Details v6: pares en 2 columnas dentro de cada ficha (solo Dealer) */
+.dealer-only .dealer-details-grid2{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 14px 24px;
+  align-items: start;
+}
+.dealer-only .dd-pair{
+  display: grid;
+  grid-template-columns: max-content 8px 1fr; /* etiqueta : valor */
+  align-items: baseline;
+}
+.dealer-only .dd-label{
+  color: #d0d0d0;
+  font-weight: 600;
+  font-size: .92rem;
+}
+.dealer-only .dd-sep{ color: #9aa3a5; }
+.dealer-only .dd-value{
+  color: #f1f1f1;
+  font-weight: 600;
+  font-size: .98rem;
+  line-height: 1.35;
+  word-break: break-word;
+}
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid2{ grid-template-columns: 1fr; gap: 12px; }
+}
+
+
+/* v7: 2 columnas también en smartphone y etiqueta compacta */
+.dealer-only .dd-label{
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  font-size: .88rem !important;
+  font-weight: 600 !important;
+  color: #d2d2d2 !important;
+}
+.dealer-only .dd-value{
+  font-size: .94rem !important;
+}
+/* Mantener 2 columnas en móvil */
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid2{
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px 16px !important;
+  }
+}
+@media (max-width: 480px){
+  .dealer-only .dd-label{ font-size: .84rem !important; }
+  .dealer-only .dd-value{ font-size: .9rem !important; }
+}
+
+
+/* v8: Compactar fuentes y espaciados SOLO en .dealer-only para que 2 columnas respiren en móvil */
+.dealer-only .lb-ficha-panel{ padding: 14px 16px; }
+
+/* Desktop: ajustes leves */
+.dealer-only .dealer-details-grid2{ gap: 12px 20px; }
+.dealer-only .dd-label{ font-size: .9rem; }
+.dealer-only .dd-value{ font-size: .96rem; line-height: 1.32; }
+
+/* <=900px: mantener 2 columnas pero con respiración y textos más chicos */
+@media (max-width: 900px){
+  .dealer-only .dealer-details-grid2{
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px 14px !important;
+  }
+  .dealer-only .lb-ficha-panel{ padding: 12px 14px; }
+  .dealer-only .dd-label{ font-size: .84rem !important; }
+  .dealer-only .dd-value{ font-size: .9rem !important; line-height: 1.28; }
+  .dealer-only .dd-pair{
+    grid-template-columns: minmax(84px, 42%) 6px 1fr;
+  }
+}
+
+/* <=600px: más compacto aún para evitar amontonamiento */
+@media (max-width: 600px){
+  .dealer-only .dealer-details-grid2{
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 12px !important;
+    row-gap: 8px !important;
+  }
+  .dealer-only .lb-ficha-panel{ padding: 10px 12px; }
+  .dealer-only .dd-label{ font-size: .8rem !important; letter-spacing: 0; }
+  .dealer-only .dd-value{ font-size: .86rem !important; line-height: 1.24; }
+  .dealer-only .dd-pair{
+    grid-template-columns: minmax(78px, 44%) 6px 1fr;
+  }
+}
+
+/* <=400px: últimas reducciones controladas */
+@media (max-width: 400px){
+  .dealer-only .lb-ficha-panel{ padding: 9px 10px; }
+  .dealer-only .dd-label{ font-size: .76rem !important; }
+  .dealer-only .dd-value{ font-size: .82rem !important; line-height: 1.22; }
+  .dealer-only .dd-pair{
+    grid-template-columns: minmax(72px, 46%) 6px 1fr;
+  }
+}
+
+/* Evitar cortes feos y permitir quiebres sanos en palabras largas */
+.dealer-only .dd-label, .dealer-only .dd-value{
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+
+/* v9: armonía tipográfica y respiración sin perder 2 columnas (solo Dealer) */
+.dealer-only .lb-ficha-panel{
+  padding: 12px 14px;
+  border-radius: 12px;
+}
+
+/* títulos un poco más contenidos */
+.dealer-only .lb-ficha-title{
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  padding-bottom: 6px;
+}
+
+/* grid 2×N con aire equilibrado */
+.dealer-only .dealer-details-grid2{
+  gap: 10px 14px;
+}
+
+/* cada par más fino y alineado; separadores mínimos */
+.dealer-only .dd-pair{
+  grid-template-columns: minmax(72px, 44%) 4px 1fr;
+  margin: 2px 0;
+}
+
+/* etiqueta y valor más chicos y regulares */
+.dealer-only .dd-label{
+  font-size: clamp(.72rem, 1.8vw, .86rem) !important;
+  font-weight: 600 !important;
+  color: #d4d6d7 !important;
+  letter-spacing: 0;
+  line-height: 1.18;
+  white-space: nowrap;
+}
+.dealer-only .dd-sep{ color:#9aa3a5; }
+.dealer-only .dd-value{
+  font-size: clamp(.78rem, 2.0vw, .92rem) !important;
+  font-weight: 600 !important;
+  color: #f0f0f0 !important;
+  line-height: 1.22;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* breakpoints: ajustar proporciones para que no se amontone */
+@media (max-width: 900px){
+  .dealer-only .lb-ficha-panel{ padding: 10px 12px; }
+  .dealer-only .dealer-details-grid2{ gap: 10px 12px; }
+  .dealer-only .dd-pair{ grid-template-columns: minmax(68px, 46%) 4px 1fr; }
+}
+@media (max-width: 600px){
+  .dealer-only .lb-ficha-panel{ padding: 9px 10px; }
+  .dealer-only .dealer-details-grid2{ gap: 8px 10px; }
+  .dealer-only .dd-pair{ grid-template-columns: minmax(64px, 48%) 4px 1fr; }
+}
+@media (max-width: 400px){
+  .dealer-only .lb-ficha-panel{ padding: 8px 9px; }
+  .dealer-only .dealer-details-grid2{ gap: 8px 10px; }
+  .dealer-only .dd-pair{ grid-template-columns: minmax(60px, 50%) 4px 1fr; }
+}

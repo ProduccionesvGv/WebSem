@@ -291,3 +291,95 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 })();
 
+
+
+// vDealer-Details v6: pares en 2 columnas como en 1.txt, SOLO 02Genext/01
+(function(){
+  window.DEALER_V6 = {"cards": [{"titulo": "Critical +2", "detalles": [{"etiqueta": "GENÉTICA", "valor": "CRITICAL +2"}, {"etiqueta": "SATIVIDAD", "valor": "40%"}, {"etiqueta": "THC", "valor": "20%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "300-450 GR"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "100-300 GR"}, {"etiqueta": "CICLO COMPLETO", "valor": "55 Dias"}, {"etiqueta": "EFECTO", "valor": "Relajante, Potente Larga Duracion"}, {"etiqueta": "SABOR", "valor": "Dulce, Limon, Citricos"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}, {"titulo": "Black Dom", "detalles": [{"etiqueta": "GENÉTICA", "valor": "BLACK DOM"}, {"etiqueta": "SATIVIDAD", "valor": "20%"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "200-400 GR"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "50-450 GR"}, {"etiqueta": "CICLO COMPLETO", "valor": "50-55 Dias"}, {"etiqueta": "EFECTO", "valor": "Relajante, Fuerte"}, {"etiqueta": "SABOR", "valor": "Hachis, Afgano, Dulce, Pino"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}, {"titulo": "Moby-D", "detalles": [{"etiqueta": "GENÉTICA", "valor": "MOBY-D"}, {"etiqueta": "SATIVIDAD", "valor": "80%"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "300-500"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "60-250"}, {"etiqueta": "CICLO COMPLETO", "valor": "75 DÍAS"}, {"etiqueta": "EFECTO", "valor": "Euforia, Psicodelica, Energizante"}, {"etiqueta": "SABOR", "valor": "Citrico, Pino, Haze, Madera"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}, {"titulo": "Northern", "detalles": [{"etiqueta": "GENÉTICA", "valor": "NORTHERN"}, {"etiqueta": "SATIVIDAD", "valor": "20%"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "250-450 GR"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "60-350 GR"}, {"etiqueta": "CICLO COMPLETO", "valor": "50-55 Dias"}, {"etiqueta": "EFECTO", "valor": "Narcotico, Sedante"}, {"etiqueta": "SABOR", "valor": "Dulce, Tierra"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}], "pairs": [["BANCO", "GENETICA"], ["SATIVIDAD", "THC"], ["PRODUCCION INT", "PRODUCCION EXT"], ["CICLO COMPLETO", "SABOR"], ["EFECTO", "CANTIDAD"]]};
+  function NORM(s){ 
+    try{ return s.normalize('NFD').replace(/\p{M}/gu,'').replace(/\./g,'').trim().toUpperCase(); }
+    catch(e){ return (s||'').toString().toUpperCase(); }
+  }
+  function renderV6(lb, folder, id){
+    if(folder!=='02Genext' || id!=='01') return;
+    var cfg = window.DEALER_V6, cards = cfg.cards||[], pairs = cfg.pairs||[];
+    var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+    if(!right) return;
+    right.innerHTML = '';
+    var cont = document.createElement('div');
+    cont.className = 'lb-fichas-multi';
+    cards.forEach(function(card){
+      var panel = document.createElement('div');
+      panel.className = 'lb-ficha-panel dealer-only';
+      var h = document.createElement('h4');
+      h.className = 'lb-ficha-title';
+      h.textContent = card.titulo || 'Ficha';
+      panel.appendChild(h);
+      var grid = document.createElement('div');
+      grid.className = 'dealer-details-grid2';
+      // index items by normalized label
+      var map = Object.create(null);
+      (card.detalles||[]).forEach(function(it){ map[NORM(it.etiqueta||'')] = it.valor||''; });
+      // build rows of two pairs per row
+      pairs.forEach(function(p){
+        var leftK = NORM(p[0]), rightK = NORM(p[1]);
+        var leftV = map[leftK]; var rightV = map[rightK];
+        if(!leftV && !rightV) return; // skip empty row
+        var pairL = document.createElement('div');
+        pairL.className = 'dd-pair';
+        var l1 = document.createElement('span'); l1.className='dd-label'; l1.textContent = p[0].replace(/INT/g,'INT').replace(/EXT/g,'EXT');
+        var lsep = document.createElement('span'); lsep.className='dd-sep'; lsep.textContent = ':';
+        var l2 = document.createElement('span'); l2.className='dd-value'; l2.textContent = leftV || '—';
+        pairL.append(l1, lsep, l2);
+        grid.appendChild(pairL);
+        var pairR = document.createElement('div');
+        pairR.className = 'dd-pair';
+        var r1 = document.createElement('span'); r1.className='dd-label'; r1.textContent = p[1].replace(/INT/g,'INT').replace(/EXT/g,'EXT');
+        var rsep = document.createElement('span'); rsep.className='dd-sep'; rsep.textContent = ':';
+        var r2 = document.createElement('span'); r2.className='dd-value'; r2.textContent = rightV || '—';
+        pairR.append(r1, rsep, r2);
+        grid.appendChild(pairR);
+      });
+      panel.appendChild(grid);
+      cont.appendChild(panel);
+    });
+    right.appendChild(cont);
+  }
+  // Hook openGallery
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try {
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/');
+      var folder = parts[1], id = parts[2];
+      renderV6(lb, folder, id);
+    } catch(e) { /* silent */ }
+  };
+})();
+
+
+
+
+// v7: override BANCO value for all cards in 02Genext/01
+(function(){
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01'){
+        // Buscar pares ya pintados y forzar BANCO a "BSF Seeds"
+        lb.querySelectorAll('.dealer-only .dealer-details-grid2').forEach(function(grid){
+          var pairs = grid.querySelectorAll('.dd-pair');
+          pairs.forEach(function(p){
+            var lab = p.querySelector('.dd-label'); var val = p.querySelector('.dd-value');
+            if(lab && /BANCO/i.test(lab.textContent)) { if(val) val.textContent = 'BSF Seeds'; }
+          });
+        });
+      }
+    }catch(e){/*silent*/}
+  };
+})();
+
