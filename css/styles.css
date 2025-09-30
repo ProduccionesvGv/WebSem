@@ -117,3 +117,100 @@ main{ max-width:1200px; margin:0 auto; padding: 0 12px; }
   #lightbox.active{ overflow-y:auto; }
   .panel{ min-height:auto; overflow:visible; }
 }
+
+
+/* v33: centrar, ajustar tamaños y evitar cortes */
+#lightbox.active{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+  overflow-y: auto;              /* permite scroll general si hace falta */
+  -webkit-overflow-scrolling: touch;
+}
+
+.lb-split{
+  width: min(1120px, 100%);      /* ancho límite para que no desborde */
+  max-width: 1120px;
+  height: calc(100vh - 96px);    /* cabe en viewport con padding */
+  min-height: 420px;
+  margin: 0 auto;                /* centrado horizontal */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.panel{
+  min-width: 0;                  /* evita overflow por contenido ancho */
+  min-height: 0;                 /* habilita overflow dentro */
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Imagen contenida dentro del panel visual */
+.panel-visual #lb-img{
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 60vh;              /* evita que se corte por alto */
+  object-fit: contain;
+  border-bottom: 1px solid #222;
+}
+
+/* Miniaturas más compactas y dentro de ancho */
+.panel-visual #lb-thumbs{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px;
+  background: #f4f4f4;
+  border-top: 1px solid #e2e2e2;
+}
+.panel-visual #lb-thumbs img{
+  flex: 0 0 auto;
+  height: 64px;                  /* más pequeñas para caber */
+  width: auto;
+  border-radius: 6px;
+  border: 1px solid #d9d9d9;
+}
+
+/* Panel fichas con scroll; tarjetas no exceden ancho */
+.panel-fichas{
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+  word-break: break-word;
+}
+.lb-ficha-panel{
+  background:#0f0f0f;
+  border:1px solid #242424;
+  border-radius:12px;
+  padding:14px;
+  color:#eee;
+  box-shadow:0 2px 8px rgba(0,0,0,.25);
+}
+
+/* Responsive: apilar y usar scroll del lightbox */
+@media (max-width: 900px){
+  .lb-split{
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: none;
+    height: auto;
+  }
+  #lightbox.active{
+    overflow-y: auto;
+  }
+  .panel{
+    max-height: none;
+    overflow: visible;
+  }
+  .panel-visual #lb-img{
+    max-height: 48vh;
+  }
+}
