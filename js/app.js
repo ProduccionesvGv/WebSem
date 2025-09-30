@@ -528,3 +528,104 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('DOMContentLoaded', function(){ try{ bindZoom(); }catch(e){} });
 })();
 
+
+
+// vZoom-2: robust src discovery + rebinding
+(function(){
+  function isImgURL(u){
+    return /\.(?:jpe?g|png|webp|gif|bmp|avif)(?:\?|#|$)/i.test(u||"");
+  }
+  function pickFromImg(img){
+    if(!img) return "";
+    var ds = img.dataset||{};
+    return ds.large || ds.full || ds.src || img.currentSrc || img.src || "";
+  }
+  function pickFromAnchor(a){
+    if(!a) return "";
+    var ds = a.dataset||{};
+    var href = ds.large || ds.full || a.getAttribute("href") || "";
+    return href;
+  }
+  function pickBg(el){
+    if(!el) return "";
+    var bg = getComputedStyle(el).backgroundImage;
+    if(bg && bg !== "none"){
+      var u = bg.replace(/^url\((['"]?)(.*)\1\)$/,'$2');
+      return u;
+    }
+    return "";
+  }
+  function getMainSrc(container, clickTarget){
+    if(!container) return "";
+    // 1) if click on IMG
+    if(clickTarget && clickTarget.tagName === "IMG"){
+      var u = pickFromImg(clickTarget);
+      if(isImgURL(u)) return u;
+    }
+    // 2) IMG descendants with data-large/full then currentSrc
+    var imgs = container.querySelectorAll("img");
+    for (var i=0;i<imgs.length;i++){
+      var u2 = pickFromImg(imgs[i]);
+      if(isImgURL(u2)) return u2;
+    }
+    // 3) Anchors with image href
+    var as = container.querySelectorAll("a[href]");
+    for (var j=0;j<as.length;j++){
+      var u3 = pickFromAnchor(as[j]);
+      if(isImgURL(u3)) return u3;
+    }
+    // 4) background-image on container or descendants
+    var u4 = pickBg(container);
+    if(isImgURL(u4)) return u4;
+    var nodes = container.querySelectorAll("*");
+    for (var k=0;k<nodes.length;k++){
+      var u5 = pickBg(nodes[k]);
+      if(isImgURL(u5)) return u5;
+    }
+    // 5) fallback: any main-like selector in lightbox
+    var lb = document.getElementById('lightbox');
+    if(lb){
+      var cand = lb.querySelector('img[src*="/02/"], img[src*="main"], img[srcset]') || lb.querySelector('img');
+      var u6 = pickFromImg(cand);
+      if(isImgURL(u6)) return u6;
+    }
+    return "";
+  }
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'zoom-modal';
+    m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
+    document.body.appendChild(m);
+    var img = m.querySelector('.zm-img');
+    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+    m.querySelector('.zm-backdrop').onclick = close;
+    m.querySelector('.zm-close').onclick = close;
+    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
+    return m;
+  }
+  function bindZoomV2(){
+    var c = document.getElementById('lb-img');
+    if (!c) return;
+    c.style.cursor = 'zoom-in';
+    if (c.dataset.zoomBound === '2') return;
+    c.dataset.zoomBound = '2';
+    c.addEventListener('click', function(ev){
+      if (!ev.target.closest('#lb-img')) return;
+      var src = getMainSrc(c, ev.target);
+      if(!src) return;
+      var m = ensureModal();
+      m.querySelector('.zm-img').src = src;
+      m.classList.add('active');
+      document.body.classList.add('no-scroll');
+    });
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{ bindZoomV2(); }catch(e){}
+  };
+  document.addEventListener('DOMContentLoaded', function(){ try{ bindZoomV2(); }catch(e){} });
+})(); 
+
