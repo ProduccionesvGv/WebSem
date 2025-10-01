@@ -958,3 +958,105 @@ document.addEventListener('DOMContentLoaded', function(){
   window.PSYCHO_DATA = {"cards": [{"titulo": "Amnesia", "detalles": [{"etiqueta": "GenéTica", "valor": "Amnesia Auto"}, {"etiqueta": "Thc", "valor": "19%"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Rendimiento", "valor": "INT: 400-500 GR / EXT: 60-250 GR"}, {"etiqueta": "Efecto", "valor": "Potente, Fisico, Activo"}, {"etiqueta": "Sabor", "valor": "Pino, Incienso, Haze"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "75-90 Dias"}]}, {"titulo": "AK", "detalles": [{"etiqueta": "GenéTica", "valor": "AK 47"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "60%"}, {"etiqueta": "Rendimiento", "valor": "INT: 500-600 GR / EXT: 70-50 GR"}, {"etiqueta": "Efecto", "valor": "Subidon Cerebral, Intenso"}, {"etiqueta": "Sabor", "valor": "Dulce, Citrico, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "70 Dias"}]}, {"titulo": "Haze Lemon", "detalles": [{"etiqueta": "GenéTica", "valor": "Jack Herer Auto"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Rendimiento", "valor": "INT: 350-550 GR / EXT: 60-330 GR"}, {"etiqueta": "Efecto", "valor": "Subidon Cerebral, Activo"}, {"etiqueta": "Sabor", "valor": "Limon, Haze, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "75 Dias"}]}, {"titulo": "London Cheese", "detalles": [{"etiqueta": "GenéTica", "valor": "Chesee Auto"}, {"etiqueta": "Thc", "valor": "20%"}, {"etiqueta": "Satividad", "valor": "70%"}, {"etiqueta": "Rendimiento", "valor": "INT: 350-500 GR / EXT: 80-200 GR"}, {"etiqueta": "Efecto", "valor": "Narcotico, Euforizante"}, {"etiqueta": "Sabor", "valor": "Queso, Dulce, Skunk"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "70 Dias"}]}]};
 })();
 
+
+
+// vZoom-Fix r1: un solo clic abre ampliada y centrada. Solo #lb-img.
+(function(){
+  var ZF = { SCALE: 1.2 }; // respeta zoom "ampliada" sin exagerar
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'zoom-modal';
+    m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
+    document.body.appendChild(m);
+    var img = m.querySelector('.zm-img');
+    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+    m.querySelector('.zm-backdrop').onclick = close;
+    m.querySelector('.zm-close').onclick = close;
+    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
+    return m;
+  }
+  function isImgURL(u){ return /\.(?:jpe?g|png|webp|gif|bmp|avif)(?:\?|#|$)/i.test(u||''); }
+  function pickFromImg(img){
+    if(!img) return '';
+    var ds = img.dataset||{};
+    return ds.large || ds.full || ds.src || img.currentSrc || img.src || '';
+  }
+  function pickBg(el){
+    if(!el) return '';
+    var bg = getComputedStyle(el).backgroundImage;
+    if(bg && bg !== 'none'){
+      return bg.replace(/^url\((['"]?)(.*)\1\)$/,'$2');
+    }
+    return '';
+  }
+  function getMainSrc(container, clickTarget){
+    if(!container) return '';
+    // 1) si clic en IMG
+    if(clickTarget && clickTarget.tagName === 'IMG'){
+      var u = pickFromImg(clickTarget); if(isImgURL(u)) return u;
+    }
+    // 2) buscar IMG hija
+    var im = container.querySelector('img'); if(im){ var u2 = pickFromImg(im); if(isImgURL(u2)) return u2; }
+    // 3) background-image
+    var u3 = pickBg(container); if(isImgURL(u3)) return u3;
+    var nds = container.querySelectorAll('*');
+    for (var i=0;i<nds.length;i++){ var u4 = pickBg(nds[i]); if(isImgURL(u4)) return u4; }
+    return '';
+  }
+  function applyZoomAndCenter(){
+    var m = document.getElementById('zoom-modal');
+    if(!m || !m.classList.contains('active')) return;
+    var img = m.querySelector('.zm-img');
+    var cont = m.querySelector('.zm-content');
+    if(!img || !cont) return;
+    // reset tamaño
+    img.style.maxWidth = 'none'; img.style.maxHeight = 'none'; img.style.width=''; img.style.height='';
+    var vw = Math.floor((window.visualViewport ? window.visualViewport.width : window.innerWidth) * 0.95);
+    var vh = Math.floor((window.visualViewport ? window.visualViewport.height: window.innerHeight) * 0.95);
+    var nw = img.naturalWidth || img.width, nh = img.naturalHeight || img.height;
+    if(!nw || !nh) return;
+    var fit = Math.min(vw / nw, vh / nh);
+    var targetW = Math.max(1, Math.round(nw * fit * ZF.SCALE));
+    img.style.width = targetW + 'px'; img.style.height = 'auto';
+    // centrar por scroll tras layout estable
+    cont.scrollLeft = 0; cont.scrollTop = 0;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var sw = img.scrollWidth || img.clientWidth;
+        var sh = img.scrollHeight || img.clientHeight;
+        var cw = cont.clientWidth, ch = cont.clientHeight;
+        if (sw > cw) cont.scrollLeft = Math.max(0, Math.floor((sw - cw)/2));
+        if (sh > ch) cont.scrollTop  = Math.max(0, Math.floor((sh - ch)/2));
+      });
+    });
+  }
+  function bindZoomFix(){
+    var c = document.getElementById('lb-img'); if(!c) return;
+    c.style.cursor = 'zoom-in';
+    if (c.dataset.zoomFixBound === '1') return;
+    c.dataset.zoomFixBound = '1';
+    c.addEventListener('click', function(ev){
+      if (!ev.target.closest('#lb-img')) return;
+      var src = getMainSrc(c, ev.target); if(!src) return;
+      var m = ensureModal();
+      var img = m.querySelector('.zm-img');
+      // Asignar src y abrir
+      img.src = src;
+      m.classList.add('active'); document.body.classList.add('no-scroll');
+      // aplicar zoom/centrado al cargar o inmediatamente si ya está cacheado
+      if (img.complete) applyZoomAndCenter();
+      else img.addEventListener('load', function once(){ img.removeEventListener('load', once); applyZoomAndCenter(); });
+    });
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(fp){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{ bindZoomFix(); }catch(e){}
+  };
+  document.addEventListener('DOMContentLoaded', function(){ try{ bindZoomFix(); }catch(e){} });
+  window.addEventListener('resize', applyZoomAndCenter);
+  window.addEventListener('orientationchange', applyZoomAndCenter);
+})(); 
+

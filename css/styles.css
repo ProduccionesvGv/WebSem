@@ -1546,3 +1546,31 @@ body.no-scroll{ overflow: hidden; }
 }
 
 /* vPsycho-3: no extra CSS, reuse existing ft-card styles */
+
+
+/* vZoom-Fix r1: contenedor estable y centrado */
+#zoom-modal{ position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 100000; }
+#zoom-modal.active{ display: flex; }
+#zoom-modal .zm-backdrop{ position: absolute; inset: 0; background: rgba(0,0,0,.86); }
+#zoom-modal .zm-content{
+  position: relative;
+  width: 96vw; height: 96vh;
+  max-width: 96vw; max-height: 96vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: auto; -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  overscroll-behavior: contain;
+}
+@supports (height: 100dvh){
+  #zoom-modal .zm-content{ height: 96dvh; max-height: 96dvh; }
+}
+#zoom-modal .zm-img{ display: block; margin: auto; transform-origin: center center; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+#zoom-modal .zm-close{
+  position: absolute; top: 10px; right: 10px;
+  width: 44px; height: 44px; border: 0; border-radius: 10px;
+  background: rgba(0,0,0,.55); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+}
+#zoom-modal .zm-close:hover{ background: rgba(0,0,0,.75); }
+body.no-scroll{ overflow: hidden; }
