@@ -1673,3 +1673,58 @@ body.no-scroll{ overflow: hidden; }
   background-repeat: no-repeat !important;
   background-position: center !important;
 }
+
+
+/* vNZ-1: modal sin zoom extra */
+#zoom-modal{ position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 100000; }
+#zoom-modal.active{ display:flex; }
+#zoom-modal .zm-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.86); }
+#zoom-modal .zm-content{
+  position:relative; width:100vw; height:100vh; max-width:100vw; max-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:auto; -webkit-overflow-scrolling:touch; box-sizing:border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  overscroll-behavior: contain; scrollbar-gutter: stable both-edges;
+}
+@supports(height:100dvh){ #zoom-modal .zm-content{ height:100dvh; max-height:100dvh; } }
+#zoom-modal .zm-img{
+  display:block; margin:auto;
+  max-width:95vw; max-height:95vh;
+  height:auto; width:auto;
+  object-fit: contain;
+  border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+#zoom-modal .zm-close{ position:absolute; top:10px; right:10px; width:44px; height:44px; border:0; border-radius:10px; background:rgba(0,0,0,.55); color:#fff; font-size:24px; line-height:1; cursor:pointer; }
+#zoom-modal .zm-close:hover{ background:rgba(0,0,0,.75); }
+body.no-scroll{ overflow:hidden; }
+
+
+/* vNZ-2: anular transformaciones y escalados previos */
+#zoom-modal{ position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 100000; }
+#zoom-modal.active{ display: flex; }
+#zoom-modal .zm-backdrop{ position: absolute; inset: 0; background: rgba(0,0,0,.86); }
+#zoom-modal .zm-content{
+  position: relative; width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: auto; -webkit-overflow-scrolling: touch; box-sizing: border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  overscroll-behavior: contain; scrollbar-gutter: stable both-edges;
+}
+@supports (height: 100dvh){
+  #zoom-modal .zm-content{ height: 100dvh; max-height: 100dvh; }
+}
+#zoom-modal .zm-img{
+  display: block; margin: auto;
+  max-width: 95vw !important; max-height: 95vh !important;
+  width: auto !important; height: auto !important;
+  transform: none !important; scale: 1 !important;
+  object-fit: contain !important;
+  border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+#zoom-modal .zm-close{
+  position: absolute; top: 10px; right: 10px;
+  width: 44px; height: 44px; border: 0; border-radius: 10px;
+  background: rgba(0,0,0,.55); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
+}
+#zoom-modal .zm-close:hover{ background: rgba(0,0,0,.75); }
+body.no-scroll{ overflow: hidden; }

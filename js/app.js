@@ -1109,3 +1109,186 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('DOMContentLoaded', function(){ try{ bindCentering(); }catch(e){} });
 })(); 
 
+
+
+// vNZ-1: abrir imagen ampliada SIN zoom extra (fit-to-viewport), centrada.
+(function(){
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if(!m){
+      m = document.createElement('div');
+      m.id = 'zoom-modal';
+      m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
+      document.body.appendChild(m);
+      var img = m.querySelector('.zm-img');
+      var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+      m.querySelector('.zm-backdrop').onclick = close;
+      m.querySelector('.zm-close').onclick = close;
+      document.addEventListener('keydown', function(ev){ if(ev.key==='Escape') close(); });
+    }
+    return m;
+  }
+  function isImgURL(u){ return /\.(?:jpe?g|png|webp|gif|bmp|avif)(?:\?|#|$)/i.test(u||''); }
+  function pickFromImg(img){
+    if(!img) return '';
+    var ds = img.dataset||{};
+    return ds.large || ds.full || ds.src || img.currentSrc || img.src || '';
+  }
+  function pickBg(el){
+    if(!el) return '';
+    var bg = getComputedStyle(el).backgroundImage;
+    if(bg && bg!=='none'){ return bg.replace(/^url\((['"]?)(.*)\1\)$/,'$2'); }
+    return '';
+  }
+  function getMainSrc(container, target){
+    if(!container) return '';
+    if(target && target.tagName==='IMG'){ var u=pickFromImg(target); if(isImgURL(u)) return u; }
+    var im = container.querySelector('img'); if(im){ var u2=pickFromImg(im); if(isImgURL(u2)) return u2; }
+    var u3 = pickBg(container); if(isImgURL(u3)) return u3;
+    var nds = container.querySelectorAll('*');
+    for (var i=0;i<nds.length;i++){ var u4 = pickBg(nds[i]); if(isImgURL(u4)) return u4; }
+    return '';
+  }
+  function fitNoZoom(){
+    var m = document.getElementById('zoom-modal'); if(!m||!m.classList.contains('active')) return;
+    var img = m.querySelector('.zm-img'); var cont = m.querySelector('.zm-content'); if(!img||!cont) return;
+    // Eliminar cualquier tamaño anterior y forzar fit puro
+    img.style.width = ''; img.style.height = '';
+    img.style.maxWidth = '95vw'; img.style.maxHeight = '95vh';
+    // Centrar por scroll si hiciera falta (normalmente no, por contain)
+    cont.scrollLeft = 0; cont.scrollTop = 0;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var sw = img.scrollWidth || img.clientWidth;
+        var sh = img.scrollHeight || img.clientHeight;
+        var cw = cont.clientWidth, ch = cont.clientHeight;
+        if (sw > cw) cont.scrollLeft = Math.max(0, Math.round((sw - cw)/2));
+        if (sh > ch) cont.scrollTop  = Math.max(0, Math.round((sh - ch)/2));
+      });
+    });
+  }
+  function openNoZoom(ev){
+    var host = ev.target.closest('#lb-img'); if(!host) return;
+    ev.preventDefault(); ev.stopPropagation();
+    var src = getMainSrc(host, ev.target); if(!src) return;
+    var m = ensureModal(); var img = m.querySelector('.zm-img');
+    // reset estilos para evitar zoom previo
+    img.removeAttribute('style');
+    m.classList.add('active'); document.body.classList.add('no-scroll');
+    img.addEventListener('load', function once(){ img.removeEventListener('load', once); fitNoZoom(); });
+    img.src = src;
+  }
+  function bind(){
+    if (document.body.dataset.nz1Bound==='1') return;
+    document.addEventListener('click', openNoZoom, true);
+    window.addEventListener('resize', fitNoZoom);
+    window.addEventListener('orientationchange', fitNoZoom);
+    if (window.visualViewport){ window.visualViewport.addEventListener('resize', fitNoZoom); }
+    document.body.dataset.nz1Bound='1';
+  }
+  document.addEventListener('DOMContentLoaded', bind);
+})(); 
+
+
+
+// vNZ-2: quitar residuos de zoom y forzar apertura sin escalados previos
+(function(){
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if(!m){
+      m = document.createElement('div');
+      m.id = 'zoom-modal';
+      m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
+      document.body.appendChild(m);
+    }else if(!m.querySelector('.zm-content')){
+      m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
+    }
+    // listeners de cierre idempotentes
+    (function(){
+      var img = m.querySelector('.zm-img');
+      var close = function(){ 
+        m.classList.remove('active'); 
+        document.body.classList.remove('no-scroll'); 
+        document.body.classList.remove('zoomed'); 
+        if(img){ img.removeAttribute('src'); img.removeAttribute('style'); }
+      };
+      var bd = m.querySelector('.zm-backdrop'); if(bd && !bd.dataset.nzb){ bd.onclick = close; bd.dataset.nzb='1'; }
+      var bt = m.querySelector('.zm-close');    if(bt && !bt.dataset.nzb){ bt.onclick = close; bt.dataset.nzb='1'; }
+      if(!document.body.dataset.nzEsc){ 
+        document.addEventListener('keydown', function(ev){ if(ev.key==='Escape') close(); });
+        document.body.dataset.nzEsc='1';
+      }
+    })();
+    return m;
+  }
+  function isImgURL(u){ return /\.(?:jpe?g|png|webp|gif|bmp|avif)(?:\?|#|$)/i.test(u||''); }
+  function pickFromImg(img){
+    if(!img) return '';
+    var ds = img.dataset||{};
+    return ds.large || ds.full || ds.src || img.currentSrc || img.src || '';
+  }
+  function pickBg(el){
+    if(!el) return '';
+    var bg = getComputedStyle(el).backgroundImage;
+    if(bg && bg!=='none'){ return bg.replace(/^url\((['"]?)(.*)\1\)$/,'$2'); }
+    return '';
+  }
+  function getMainSrc(container, target){
+    if(!container) return '';
+    if(target && target.tagName==='IMG'){ var u=pickFromImg(target); if(isImgURL(u)) return u; }
+    var im = container.querySelector('img'); if(im){ var u2=pickFromImg(im); if(isImgURL(u2)) return u2; }
+    var u3 = pickBg(container); if(isImgURL(u3)) return u3;
+    var nds = container.querySelectorAll('*');
+    for (var i=0;i<nds.length;i++){ var u4 = pickBg(nds[i]); if(isImgURL(u4)) return u4; }
+    return '';
+  }
+  function resetStyles(img, cont){
+    try{
+      img.removeAttribute('style');
+      cont && cont.removeAttribute('style');
+      // limpiar clases heredadas de implementaciones previas
+      img.classList.remove('zoomed','is-zoom','zoom-in','zoom-out');
+      document.body.classList.remove('zoomed');
+    }catch(e){}
+  }
+  function centerIfNeeded(m){
+    var img = m.querySelector('.zm-img'); var cont = m.querySelector('.zm-content');
+    if(!img || !cont) return;
+    cont.scrollLeft = 0; cont.scrollTop = 0;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var sw = img.scrollWidth || img.clientWidth;
+        var sh = img.scrollHeight || img.clientHeight;
+        var cw = cont.clientWidth, ch = cont.clientHeight;
+        if (sw > cw) cont.scrollLeft = Math.max(0, Math.round((sw - cw)/2));
+        if (sh > ch) cont.scrollTop  = Math.max(0, Math.round((sh - ch)/2));
+      });
+    });
+  }
+  function openPlain(ev){
+    var host = ev.target.closest('#lb-img'); if(!host) return;
+    // cancelar handlers previos que podrían aplicar zoom
+    if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+    ev.stopPropagation(); ev.preventDefault();
+    var src = getMainSrc(host, ev.target); if(!src) return;
+    var m = ensureModal();
+    var img = m.querySelector('.zm-img');
+    var cont = m.querySelector('.zm-content');
+    resetStyles(img, cont);
+    // apertura simple sin escalado: fit por CSS (max 95vw/95vh)
+    m.classList.add('active');
+    document.body.classList.add('no-scroll');
+    img.addEventListener('load', function once(){ img.removeEventListener('load', once); centerIfNeeded(m); });
+    img.src = src;
+  }
+  function bindNZ2(){
+    if (document.body.dataset.nz2Bound === '1') return;
+    document.addEventListener('click', openPlain, true); // captura para ganar a otros listeners
+    window.addEventListener('resize', function(){ var m=document.getElementById('zoom-modal'); if(m&&m.classList.contains('active')) centerIfNeeded(m); });
+    window.addEventListener('orientationchange', function(){ var m=document.getElementById('zoom-modal'); if(m&&m.classList.contains('active')) centerIfNeeded(m); });
+    if (window.visualViewport){ window.visualViewport.addEventListener('resize', function(){ var m=document.getElementById('zoom-modal'); if(m&&m.classList.contains('active')) centerIfNeeded(m); }); }
+    document.body.dataset.nz2Bound = '1';
+  }
+  document.addEventListener('DOMContentLoaded', bindNZ2);
+})(); 
+
