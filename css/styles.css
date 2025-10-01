@@ -672,7 +672,7 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
   width: 108px
   height: 108px
   display: inline-block;
-  background: transparent url("../img/cerrar.webp") center center / contain no-repeat !important;
+  background: transparent url("../img/Atras.png") center center / contain no-repeat !important;
   border: 0 !important;
   border-radius: 50% !important;
   cursor: pointer;
@@ -1665,4 +1665,11 @@ body.no-scroll{ overflow: hidden; }
   display: block;
   margin: auto;
   transform-origin: center center;
+}
+
+/* v9: ajustar icono de cerrar -> Atras.png */
+.lb-close, #lb-close, .lightbox-close, .btn-cerrar{
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
 }
