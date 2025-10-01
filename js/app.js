@@ -1060,3 +1060,52 @@ document.addEventListener('DOMContentLoaded', function(){
   window.addEventListener('orientationchange', applyZoomAndCenter);
 })(); 
 
+
+
+// v8 zoom center fix: centrar exacto en móvil sin alterar zoom
+(function(){
+  function centerZoomModal(){
+    var m = document.getElementById('zoom-modal');
+    if(!m || !m.classList.contains('active')) return;
+    var img = m.querySelector('.zm-img');
+    var cont = m.querySelector('.zm-content');
+    if(!img || !cont) return;
+    // reset scroll primero
+    cont.scrollLeft = 0; cont.scrollTop = 0;
+    var attempt = function(){
+      try{
+        var sw = img.scrollWidth || img.clientWidth;
+        var sh = img.scrollHeight || img.clientHeight;
+        var cw = cont.clientWidth, ch = cont.clientHeight;
+        if (sw > cw) cont.scrollLeft = Math.max(0, Math.floor((sw - cw)/2));
+        if (sh > ch) cont.scrollTop  = Math.max(0, Math.floor((sh - ch)/2));
+      }catch(e){}
+    };
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          attempt();
+          setTimeout(attempt, 40);
+        });
+      });
+    });
+  }
+  function bindCentering(){
+    if (document.body.dataset.zoomCenterV8 === '1') return;
+    document.addEventListener('click', centerZoomModal, true);
+    window.addEventListener('resize', centerZoomModal);
+    window.addEventListener('orientationchange', centerZoomModal);
+    if (window.visualViewport){
+      window.visualViewport.addEventListener('resize', centerZoomModal);
+    }
+    document.body.dataset.zoomCenterV8 = '1';
+  }
+  // run
+  var _og = window.openGallery;
+  window.openGallery = function(fp){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{ bindCentering(); }catch(e){}
+  };
+  document.addEventListener('DOMContentLoaded', function(){ try{ bindCentering(); }catch(e){} });
+})(); 
+
