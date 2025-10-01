@@ -1517,33 +1517,32 @@ body.no-scroll{ overflow: hidden; }
 #zoom-modal .zm-content{ display: block; margin: 0 auto; }
 #zoom-modal .zm-img{ display: block; margin: 0 auto; transform-origin: center center; }
 
+/* vPsycho-1: estilo foto SOLO Psycho XXL */
+.ft-wrap{ display:flex; flex-direction:column; gap:16px; }
+.psycho-only.ft-card{
+  background:#18191b; border:1px solid #2a2b2d; border-radius:14px;
+  padding:14px 16px; box-shadow:0 6px 18px rgba(0,0,0,.28);
+}
+.psycho-only .ft-title{
+  margin:0 0 10px 0; font-size:clamp(.98rem,2.6vw,1.06rem);
+  font-weight:800; color:var(--seeds-green,#90ee90);
+  border-bottom:1px solid #1e1e1e; padding-bottom:8px;
+}
+.psycho-only .ft-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap: clamp(10px,2.2vw,16px) clamp(16px,3.2vw,28px);
+}
+.psycho-only .ft-item{ min-width:0; }
+.psycho-only .ft-label{
+  font-size:clamp(.70rem,1.9vw,.82rem); color:#aeb3b7; margin:0 0 4px 0;
+  line-height:1.15; font-weight:600;
+}
+.psycho-only .ft-val{
+  font-size:clamp(.86rem,2.3vw,1.02rem); font-weight:700; color:#f7f7f7;
+  line-height:1.28; word-break:break-word; overflow-wrap:anywhere;
+}
+@media (max-width: 400px){
+  .psycho-only .ft-grid{ gap:8px 12px; }
+}
 
-/* vZoom-SEMx: modal y centrado móvil */
-#zoom-modal{ position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 100000; }
-#zoom-modal.active{ display: flex; }
-#zoom-modal .zm-backdrop{ position: absolute; inset: 0; background: rgba(0,0,0,.86); }
-#zoom-modal .zm-content{
-  position: relative;
-  width: 96vw; height: 96vh; max-width: 96vw; max-height: 96vh;
-  display: flex; align-items: center; justify-content: center;
-  overflow: auto; -webkit-overflow-scrolling: touch;
-  box-sizing: border-box;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
-@supports (height: 100dvh){
-  #zoom-modal .zm-content{ height: 96dvh; }
-}
-#zoom-modal .zm-img{
-  display: block;
-  margin: auto;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.45);
-  transform-origin: center center;
-}
-#zoom-modal .zm-close{
-  position: absolute; top: 10px; right: 10px;
-  width: 44px; height: 44px; border: 0; border-radius: 10px;
-  background: rgba(0,0,0,.55); color: #fff; font-size: 24px; line-height: 1; cursor: pointer;
-}
-#zoom-modal .zm-close:hover{ background: rgba(0,0,0,.75); }
-body.no-scroll{ overflow: hidden; }
+/* vPsycho-3: no extra CSS, reuse existing ft-card styles */

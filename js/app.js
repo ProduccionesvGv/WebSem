@@ -862,115 +862,99 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 
-// vZoom-SEMx: modal imagen al clic en #lb-img, zoom inicial 1.2x del fit y centrado en móvil
+// vPsycho-1: Fichas para Psycho XXL (Carrusel 2 · Tarjeta 2) SIN tocar otras tarjetas
 (function(){
-  var ZP = { SCALE: 1.2 };
-  function ensureModal(){
-    var m = document.getElementById('zoom-modal');
-    if (m) return m;
-    m = document.createElement('div');
-    m.id = 'zoom-modal';
-    m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
-    document.body.appendChild(m);
-    var img = m.querySelector('.zm-img');
-    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
-    m.querySelector('.zm-backdrop').onclick = close;
-    m.querySelector('.zm-close').onclick = close;
-    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
-    return m;
+  window.PSYCHO_DATA = {"cards": [{"titulo": "Amnesia", "detalles": []}, {"titulo": "Genética", "detalles": []}, {"titulo": "AK", "detalles": []}, {"titulo": "Genética", "detalles": []}, {"titulo": "Haze Lemon", "detalles": []}, {"titulo": "Genética", "detalles": []}, {"titulo": "London Cheese", "detalles": []}, {"titulo": "Genética", "detalles": []}]};
+  function NORM(s){ try{return s.normalize('NFD').replace(/\p{M}/gu,'').trim().toUpperCase();}catch(e){return (s||'').toString().toUpperCase().trim();} }
+  function isPsychoContext(folder,id,lb){
+    if(folder==='02Genext' && id==='02') return true; // probable id de tarjeta 2
+    // fallback por título visible en lightbox si existe
+    var t = (lb && (lb.querySelector('.product-title, .lb-title, h3, h2')||{}).textContent)||"";
+    return /PSYCHO\s*XXL/i.test(t||"");
   }
-  function isImgURL(u){ return /\.(?:jpe?g|png|webp|gif|bmp|avif)(?:\?|#|$)/i.test(u||""); }
-  function pickFromImg(img){
-    if(!img) return "";
-    var ds = img.dataset||{};
-    return ds.large || ds.full || ds.src || img.currentSrc || img.src || "";
-  }
-  function pickFromAnchor(a){
-    if(!a) return "";
-    var ds = a.dataset||{};
-    return ds.large || ds.full || a.getAttribute("href") || "";
-  }
-  function pickBg(el){
-    if(!el) return "";
-    var bg = getComputedStyle(el).backgroundImage;
-    if(bg && bg !== "none"){
-      var u = bg.replace(/^url\((['"]?)(.*)\1\)$/,'$2');
-      return u;
-    }
-    return "";
-  }
-  function getMainSrc(container, clickTarget){
-    if(!container) return "";
-    if(clickTarget && clickTarget.tagName === "IMG"){
-      var u = pickFromImg(clickTarget); if(isImgURL(u)) return u;
-    }
-    var imgs = container.querySelectorAll("img");
-    for (var i=0;i<imgs.length;i++){ var u2 = pickFromImg(imgs[i]); if(isImgURL(u2)) return u2; }
-    var as = container.querySelectorAll("a[href]");
-    for (var j=0;j<as.length;j++){ var u3 = pickFromAnchor(as[j]); if(isImgURL(u3)) return u3; }
-    var u4 = pickBg(container); if(isImgURL(u4)) return u4;
-    var nodes = container.querySelectorAll("*");
-    for (var k=0;k<nodes.length;k++){ var u5 = pickBg(nodes[k]); if(isImgURL(u5)) return u5; }
-    return "";
-  }
-  function applyZoomAndCenter(scale){
-    var m = document.getElementById('zoom-modal');
-    if(!m || !m.classList.contains('active')) return;
-    var img = m.querySelector('.zm-img');
-    var cont = m.querySelector('.zm-content');
-    if(!img || !cont) return;
-    try{
-      img.style.maxWidth = 'none'; img.style.maxHeight = 'none'; img.style.width=''; img.style.height='';
-      var vw = Math.floor(window.innerWidth * 0.95);
-      var vh = Math.floor(window.innerHeight * 0.95);
-      var nw = img.naturalWidth || img.width;
-      var nh = img.naturalHeight || img.height;
-      if(!nw || !nh) return;
-      var fit = Math.min(vw / nw, vh / nh);
-      var targetW = Math.max(1, Math.round(nw * fit * scale));
-      img.style.width = targetW + 'px'; img.style.height = 'auto';
-      // centrar por scroll si excede viewport
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){
-          var sw = img.scrollWidth || img.clientWidth;
-          var sh = img.scrollHeight || img.clientHeight;
-          var cw = cont.clientWidth, ch = cont.clientHeight;
-          if (sw > cw) cont.scrollLeft = Math.max(0, Math.floor((sw - cw)/2));
-          if (sh > ch) cont.scrollTop  = Math.max(0, Math.floor((sh - ch)/2));
-        });
-      });
-    }catch(e){}
-  }
-  function bindZoom(){
-    var c = document.getElementById('lb-img'); if(!c) return;
-    c.style.cursor = 'zoom-in';
-    if (c.dataset.zoomPlusBound === '1') return;
-    c.dataset.zoomPlusBound = '1';
-    c.addEventListener('click', function(ev){
-      if (!ev.target.closest('#lb-img')) return;
-      var src = getMainSrc(c, ev.target);
-      if(!src) return;
-      var m = ensureModal();
-      var img = m.querySelector('.zm-img');
-      img.src = src;
-      m.classList.add('active');
-      document.body.classList.add('no-scroll');
-      if (img.complete) applyZoomAndCenter(ZP.SCALE);
-      else img.addEventListener('load', function once(){ img.removeEventListener('load', once); applyZoomAndCenter(ZP.SCALE); });
+  function buildCard(card){
+    var panel = document.createElement('div'); panel.className='ft-card psycho-only';
+    var h = document.createElement('h4'); h.className='ft-title'; h.textContent = card.titulo||'Ficha';
+    panel.appendChild(h);
+    var grid = document.createElement('div'); grid.className='ft-grid';
+    (card.detalles||[]).forEach(function(pair){
+      var item = document.createElement('div'); item.className='ft-item';
+      var lbl = document.createElement('div'); lbl.className='ft-label'; lbl.textContent = pair.etiqueta;
+      var val = document.createElement('div'); val.className='ft-val';   val.textContent = pair.valor;
+      item.append(lbl,val); grid.appendChild(item);
     });
+    panel.appendChild(grid);
+    return panel;
   }
-  function reCenter(){ applyZoomAndCenter(ZP.SCALE); }
-  if (!document.body.dataset.zoomPlusRecenter){
-    window.addEventListener('resize', reCenter);
-    window.addEventListener('orientationchange', reCenter);
-    document.body.dataset.zoomPlusRecenter = '1';
+  function renderPsycho(lb){
+    var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+    if(!right) return;
+    right.innerHTML = '';
+    var wrap = document.createElement('div'); wrap.className='ft-wrap';
+    (window.PSYCHO_DATA.cards||[]).forEach(function(c){ wrap.appendChild(buildCard(c)); });
+    right.appendChild(wrap);
   }
-  // Hook tras abrir tarjeta, si existe openGallery
   var _og = window.openGallery;
-  window.openGallery = function(fp){
+  window.openGallery = function(folderPath){
     if (typeof _og === 'function') _og.apply(this, arguments);
-    try{ bindZoom(); }catch(e){}
+    try{
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(isPsychoContext(folder,id,lb)) renderPsycho(lb);
+    }catch(e){}
   };
-  document.addEventListener('DOMContentLoaded', function(){ try{ bindZoom(); }catch(e){} });
+})();
+
+
+
+// vPsycho-2: Ensure detalles and build RENDIMIENTO from PRODUCCIÓN INT/EXT if needed
+(function(){
+  function NORM(s){ try{return (s||'').toString().normalize('NFD').replace(/\p{M}/gu,'').toUpperCase().replace(/\./g,'').trim();}catch(e){return (s||'').toString().toUpperCase().trim();} }
+  function enhancePsychoData(card){
+    var det = Array.isArray(card.detalles)? card.detalles.slice(): [];
+    // index existing labels
+    var map = Object.create(null);
+    det.forEach(function(it){ map[NORM(it.etiqueta||'')] = it.valor||''; });
+    // If no RENDIMIENTO, but have PRODUCCION INT/EXT, compose it
+    var hasR = !!map[NORM('RENDIMIENTO')];
+    var pint = map[NORM('PRODUCCIÓN INT')] || map[NORM('PRODUCCION INT')] || '';
+    var pext = map[NORM('PRODUCCIÓN EXT')] || map[NORM('PRODUCCION EXT')] || '';
+    if(!hasR && (pint || pext)){
+      var val = (pint?('INT: ' + pint):'') + (pext?((pint?' / ':'')+'EXT: ' + pext):'');
+      // remove old INT/EXT entries if present
+      det = det.filter(function(it){
+        var k = NORM(it.etiqueta||'');
+        return k !== NORM('PRODUCCIÓN INT') && k !== NORM('PRODUCCION INT') &&
+               k !== NORM('PRODUCCIÓN EXT') && k !== NORM('PRODUCCION EXT');
+      });
+      // insert RENDIMIENTO after FLORACIÓN if exists, else before THC
+      var idx = det.findIndex(function(it){ return /FLORACI[ÓO]N\s*$/i.test(it.etiqueta||''); });
+      var item = { etiqueta:'RENDIMIENTO', valor: val };
+      if(idx >= 0) det.splice(idx+1, 0, item);
+      else{
+        var idx2 = det.findIndex(function(it){ return NORM(it.etiqueta||'') === NORM('THC'); });
+        if(idx2 >= 0) det.splice(idx2, 0, item);
+        else det.push(item);
+      }
+    }
+    // compact empty entries
+    det = det.filter(function(it){ return (it && (it.valor||'').toString().trim() !== ''); });
+    card.detalles = det;
+    return card;
+  }
+  // Patch render for Psycho to enhance data right before painting
+  (function waitPsycho(){
+    if(!window.PSYCHO_DATA || !Array.isArray(window.PSYCHO_DATA.cards)){ return setTimeout(waitPsycho, 300); }
+    try{
+      window.PSYCHO_DATA.cards = window.PSYCHO_DATA.cards.map(enhancePsychoData);
+    }catch(e){}
+  })();
+})(); 
+
+
+
+// vPsycho-3: Replace Psycho XXL fichas with parsed data from TXT (labels line-by-line)
+(function(){
+  window.PSYCHO_DATA = {"cards": [{"titulo": "Amnesia", "detalles": [{"etiqueta": "GenéTica", "valor": "Amnesia Auto"}, {"etiqueta": "Thc", "valor": "19%"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Rendimiento", "valor": "INT: 400-500 GR / EXT: 60-250 GR"}, {"etiqueta": "Efecto", "valor": "Potente, Fisico, Activo"}, {"etiqueta": "Sabor", "valor": "Pino, Incienso, Haze"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "75-90 Dias"}]}, {"titulo": "AK", "detalles": [{"etiqueta": "GenéTica", "valor": "AK 47"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "60%"}, {"etiqueta": "Rendimiento", "valor": "INT: 500-600 GR / EXT: 70-50 GR"}, {"etiqueta": "Efecto", "valor": "Subidon Cerebral, Intenso"}, {"etiqueta": "Sabor", "valor": "Dulce, Citrico, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "70 Dias"}]}, {"titulo": "Haze Lemon", "detalles": [{"etiqueta": "GenéTica", "valor": "Jack Herer Auto"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Rendimiento", "valor": "INT: 350-550 GR / EXT: 60-330 GR"}, {"etiqueta": "Efecto", "valor": "Subidon Cerebral, Activo"}, {"etiqueta": "Sabor", "valor": "Limon, Haze, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "75 Dias"}]}, {"titulo": "London Cheese", "detalles": [{"etiqueta": "GenéTica", "valor": "Chesee Auto"}, {"etiqueta": "Thc", "valor": "20%"}, {"etiqueta": "Satividad", "valor": "70%"}, {"etiqueta": "Rendimiento", "valor": "INT: 350-500 GR / EXT: 80-200 GR"}, {"etiqueta": "Efecto", "valor": "Narcotico, Euforizante"}, {"etiqueta": "Sabor", "valor": "Queso, Dulce, Skunk"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}, {"etiqueta": "Ciclo", "valor": "70 Dias"}]}]};
 })();
 
