@@ -243,8 +243,628 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 
 
-// vZoom-6 (standalone): modal de imagen al clic en #lb-img, zoom inicial 1.872x y centrado
+// vDealer-Details: render etiqueta/valor in 2-column grid ONLY for 02Genext/01
 (function(){
+  var DATA_DEALER = [{"titulo": "Critical +2", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "40%"}, {"etiqueta": "Thc", "valor": "20%"}, {"etiqueta": "Producción INT", "valor": "300-450 GR"}, {"etiqueta": "Producción EXT", "valor": "100-300 GR"}, {"etiqueta": "Ciclo Completo", "valor": "55 Dias"}, {"etiqueta": "Efecto", "valor": "Relajante, Potente Larga Duracion"}, {"etiqueta": "Sabor", "valor": "Dulce, Limon, Citricos"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "Black Dom", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "20%"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Producción INT", "valor": "200-400 GR"}, {"etiqueta": "Producción EXT", "valor": "50-450 GR"}, {"etiqueta": "Ciclo Completo", "valor": "50-55 Dias"}, {"etiqueta": "Efecto", "valor": "Relajante, Fuerte"}, {"etiqueta": "Sabor", "valor": "Hachis, Afgano, Dulce, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "Moby-D", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Producción INT", "valor": "300-500"}, {"etiqueta": "Producción EXT", "valor": "60-250"}, {"etiqueta": "Ciclo Completo", "valor": "75 DÍAS"}, {"etiqueta": "Efecto", "valor": "Euforia, Psicodelica, Energizante"}, {"etiqueta": "Sabor", "valor": "Citrico, Pino, Haze, Madera"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "Northern", "detalles": [{"etiqueta": "Banco", "valor": "BSF Seeds"}, {"etiqueta": "Satividad", "valor": "20%"}, {"etiqueta": "Thc", "valor": "18%"}, {"etiqueta": "Producción INT", "valor": "250-450 GR"}, {"etiqueta": "Producción EXT", "valor": "60-350 GR"}, {"etiqueta": "Ciclo Completo", "valor": "50-55 Dias"}, {"etiqueta": "Efecto", "valor": "Narcotico, Sedante"}, {"etiqueta": "Sabor", "valor": "Dulce, Tierra"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}];
+  function buildGrid(items){
+    var grid = document.createElement('div');
+    grid.className = 'dealer-details-grid';
+    items.forEach(function(it){
+      var d = document.createElement('div');
+      d.className = 'dd-item';
+      d.innerHTML = '<b class="dd-label"></b><span class="dd-value"></span>';
+      d.querySelector('.dd-label').textContent = it.etiqueta;
+      d.querySelector('.dd-value').textContent = it.valor;
+      grid.appendChild(d);
+    });
+    return grid;
+  }
+  function renderDealer(lb, folder, id){
+    if(folder!=='02Genext' || id!=='01') return;
+    var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+    if(!right) return;
+    right.innerHTML = '';
+    var cont = document.createElement('div');
+    cont.className = 'lb-fichas-multi';
+    DATA_DEALER.forEach(function(card){
+      var panel = document.createElement('div');
+      panel.className = 'lb-ficha-panel dealer-only';
+      var h = document.createElement('h4');
+      h.className = 'lb-ficha-title';
+      h.textContent = card.titulo || 'Ficha';
+      panel.appendChild(h);
+      panel.appendChild(buildGrid(card.detalles||[]));
+      cont.appendChild(panel);
+    });
+    right.appendChild(cont);
+  }
+  // Patch openGallery to post-render
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try {
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/');
+      var folder = parts[1], id = parts[2];
+      renderDealer(lb, folder, id);
+    } catch(e) {}
+  };
+})();
+
+
+
+// vDealer-Details v6: pares en 2 columnas como en 1.txt, SOLO 02Genext/01
+(function(){
+  window.DEALER_V6 = {"cards": [{"titulo": "Critical +2", "detalles": [{"etiqueta": "GENÉTICA", "valor": "CRITICAL +2"}, {"etiqueta": "SATIVIDAD", "valor": "40%"}, {"etiqueta": "THC", "valor": "20%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "300-450 GR"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "100-300 GR"}, {"etiqueta": "CICLO COMPLETO", "valor": "55 Dias"}, {"etiqueta": "EFECTO", "valor": "Relajante, Potente Larga Duracion"}, {"etiqueta": "SABOR", "valor": "Dulce, Limon, Citricos"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}, {"titulo": "Black Dom", "detalles": [{"etiqueta": "GENÉTICA", "valor": "BLACK DOM"}, {"etiqueta": "SATIVIDAD", "valor": "20%"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "200-400 GR"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "50-450 GR"}, {"etiqueta": "CICLO COMPLETO", "valor": "50-55 Dias"}, {"etiqueta": "EFECTO", "valor": "Relajante, Fuerte"}, {"etiqueta": "SABOR", "valor": "Hachis, Afgano, Dulce, Pino"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}, {"titulo": "Moby-D", "detalles": [{"etiqueta": "GENÉTICA", "valor": "MOBY-D"}, {"etiqueta": "SATIVIDAD", "valor": "80%"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "300-500"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "60-250"}, {"etiqueta": "CICLO COMPLETO", "valor": "75 DÍAS"}, {"etiqueta": "EFECTO", "valor": "Euforia, Psicodelica, Energizante"}, {"etiqueta": "SABOR", "valor": "Citrico, Pino, Haze, Madera"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}, {"titulo": "Northern", "detalles": [{"etiqueta": "GENÉTICA", "valor": "NORTHERN"}, {"etiqueta": "SATIVIDAD", "valor": "20%"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "PRODUCCIÓN INT", "valor": "250-450 GR"}, {"etiqueta": "PRODUCCIÓN EXT", "valor": "60-350 GR"}, {"etiqueta": "CICLO COMPLETO", "valor": "50-55 Dias"}, {"etiqueta": "EFECTO", "valor": "Narcotico, Sedante"}, {"etiqueta": "SABOR", "valor": "Dulce, Tierra"}, {"etiqueta": "CANTIDAD", "valor": "X3 Semillas"}]}], "pairs": [["BANCO", "GENETICA"], ["SATIVIDAD", "THC"], ["PRODUCCION INT", "PRODUCCION EXT"], ["CICLO COMPLETO", "SABOR"], ["EFECTO", "CANTIDAD"]]};
+  function NORM(s){ 
+    try{ return s.normalize('NFD').replace(/\p{M}/gu,'').replace(/\./g,'').trim().toUpperCase(); }
+    catch(e){ return (s||'').toString().toUpperCase(); }
+  }
+  function renderV6(lb, folder, id){
+    if(folder!=='02Genext' || id!=='01') return;
+    var cfg = window.DEALER_V6, cards = cfg.cards||[], pairs = cfg.pairs||[];
+    var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+    if(!right) return;
+    right.innerHTML = '';
+    var cont = document.createElement('div');
+    cont.className = 'lb-fichas-multi';
+    cards.forEach(function(card){
+      var panel = document.createElement('div');
+      panel.className = 'lb-ficha-panel dealer-only';
+      var h = document.createElement('h4');
+      h.className = 'lb-ficha-title';
+      h.textContent = card.titulo || 'Ficha';
+      panel.appendChild(h);
+      var grid = document.createElement('div');
+      grid.className = 'dealer-details-grid2';
+      // index items by normalized label
+      var map = Object.create(null);
+      (card.detalles||[]).forEach(function(it){ map[NORM(it.etiqueta||'')] = it.valor||''; });
+      // build rows of two pairs per row
+      pairs.forEach(function(p){
+        var leftK = NORM(p[0]), rightK = NORM(p[1]);
+        var leftV = map[leftK]; var rightV = map[rightK];
+        if(!leftV && !rightV) return; // skip empty row
+        var pairL = document.createElement('div');
+        pairL.className = 'dd-pair';
+        var l1 = document.createElement('span'); l1.className='dd-label'; l1.textContent = p[0].replace(/INT/g,'INT').replace(/EXT/g,'EXT');
+        var lsep = document.createElement('span'); lsep.className='dd-sep'; lsep.textContent = ':';
+        var l2 = document.createElement('span'); l2.className='dd-value'; l2.textContent = leftV || '—';
+        pairL.append(l1, lsep, l2);
+        grid.appendChild(pairL);
+        var pairR = document.createElement('div');
+        pairR.className = 'dd-pair';
+        var r1 = document.createElement('span'); r1.className='dd-label'; r1.textContent = p[1].replace(/INT/g,'INT').replace(/EXT/g,'EXT');
+        var rsep = document.createElement('span'); rsep.className='dd-sep'; rsep.textContent = ':';
+        var r2 = document.createElement('span'); r2.className='dd-value'; r2.textContent = rightV || '—';
+        pairR.append(r1, rsep, r2);
+        grid.appendChild(pairR);
+      });
+      panel.appendChild(grid);
+      cont.appendChild(panel);
+    });
+    right.appendChild(cont);
+  }
+  // Hook openGallery
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try {
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/');
+      var folder = parts[1], id = parts[2];
+      renderV6(lb, folder, id);
+    } catch(e) { /* silent */ }
+  };
+})();
+
+
+
+
+// v7: override BANCO value for all cards in 02Genext/01
+(function(){
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01'){
+        // Buscar pares ya pintados y forzar BANCO a "BSF Seeds"
+        lb.querySelectorAll('.dealer-only .dealer-details-grid2').forEach(function(grid){
+          var pairs = grid.querySelectorAll('.dd-pair');
+          pairs.forEach(function(p){
+            var lab = p.querySelector('.dd-label'); var val = p.querySelector('.dd-value');
+            if(lab && /BANCO/i.test(lab.textContent)) { if(val) val.textContent = 'BSF Seeds'; }
+          });
+        });
+      }
+    }catch(e){/*silent*/}
+  };
+})();
+
+
+
+// v12: Photo-style cards ONLY for 02Genext/01 (labels above values, 2 columns). Combine Rendimiento.
+(function(){
+  function NORM(s){ try{ return (s||'').toString().normalize('NFD').replace(/\p{M}/gu,'').toUpperCase().replace(/\./g,'').trim(); }catch(e){ return (s||'').toString().toUpperCase().trim(); } }
+  function buildCard(card){
+    var panel = document.createElement('div');
+    panel.className = 'ft-card dealer-only';
+    var h = document.createElement('h4');
+    h.className = 'ft-title'; h.textContent = card.titulo || 'Ficha';
+    panel.appendChild(h);
+    var grid = document.createElement('div');
+    grid.className = 'ft-grid';
+    var items = card.detalles || [];
+    // map labels
+    var map = Object.create(null);
+    items.forEach(function(it){ map[NORM(it.etiqueta)] = (it.valor||'').trim(); });
+    var prodInt = map[NORM('PRODUCCIÓN INT')] || map[NORM('PRODUCCION INT')] || '';
+    var prodExt = map[NORM('PRODUCCIÓN EXT')] || map[NORM('PRODUCCION EXT')] || '';
+    var rendimiento = '';
+    if (prodInt || prodExt){
+      rendimiento = (prodInt?('INT: ' + prodInt):'') + (prodExt?((prodInt?' / ':'') + 'EXT: ' + prodExt):'');
+    }
+    var order = [
+      ['BANCO', map[NORM('BANCO')]||''],
+      ['GENÉTICA', map[NORM('GENÉTICA')]||map[NORM('GENETICA')]||''],
+      ['FLORACIÓN', map[NORM('FLORACIÓN')]||map[NORM('FLORACION')]||''],
+      ['THC', map[NORM('THC')]||''],
+      ['SATIVIDAD', map[NORM('SATIVIDAD')]||''],
+      ['RENDIMIENTO', rendimiento],
+      ['EFECTO', map[NORM('EFECTO')]||''],
+      ['SABOR', map[NORM('SABOR')]||''],
+      ['CANTIDAD', map[NORM('CANTIDAD')]||'']
+    ];
+    order.forEach(function(pair){
+      if(!pair[1]) return;
+      var item = document.createElement('div'); item.className='ft-item';
+      var lbl = document.createElement('div'); lbl.className='ft-label'; lbl.textContent = pair[0].replace('GENÉTICA','Genética');
+      var val = document.createElement('div'); val.className='ft-val'; val.textContent = pair[1];
+      item.append(lbl, val);
+      grid.appendChild(item);
+    });
+    panel.appendChild(grid);
+    return panel;
+  }
+  function toCardsFromDOM(lb){
+    var cards = [];
+    lb.querySelectorAll('.dealer-only').forEach(function(panel){
+      var title = panel.querySelector('.lb-ficha-title')?.textContent || 'Ficha';
+      var items = [];
+      panel.querySelectorAll('.dd-pair, .dd-item').forEach(function(p){
+        var l = p.querySelector('.dd-label')?.textContent?.replace(/:$/,'') || '';
+        var v = p.querySelector('.dd-value')?.textContent || '';
+        if(l && v) items.push({etiqueta:l, valor:v});
+      });
+      if (items.length) cards.push({titulo:title, detalles:items});
+    });
+    return cards;
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var lb = document.getElementById('lightbox');
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01'){
+        var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
+        if(!right) return;
+        // Source data: prefer previous payload if exists, else collect from current DOM
+        var src = (window.DEALER_V6 && window.DEALER_V6.cards) || toCardsFromDOM(lb);
+        right.innerHTML = '';
+        var cont = document.createElement('div'); cont.className = 'ft-wrap';
+        (src||[]).forEach(function(c){ cont.appendChild(buildCard(c)); });
+        right.appendChild(cont);
+      }
+    }catch(e){/* silent */}
+  };
+})(); 
+
+
+
+// vZoom-1: preview grande al hacer clic en la imagen principal (#lb-img)
+(function(){
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'zoom-modal';
+    m.innerHTML = [
+      '<div class="zm-backdrop"></div>',
+      '<div class="zm-content">',
+        '<button class="zm-close" type="button" aria-label="Cerrar">&times;</button>',
+        '<img class="zm-img" alt="Vista ampliada">',
+      '</div>'
+    ].join('');
+    document.body.appendChild(m);
+    // Handlers
+    var img = m.querySelector('.zm-img');
+    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+    m.querySelector('.zm-backdrop').onclick = close;
+    m.querySelector('.zm-close').onclick = close;
+    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
+    return m;
+  }
+  function getMainSrc(){
+    var c = document.getElementById('lb-img');
+    if (!c) return '';
+    var tag = c.querySelector('img');
+    if (tag && tag.src) return tag.src;
+    var bg = getComputedStyle(c).backgroundImage;
+    if (bg && bg.startsWith('url(')){
+      var u = bg.slice(4,-1).replace(/["']/g,'');
+      return u;
+    }
+    return '';
+  }
+  function bindZoom(){
+    var c = document.getElementById('lb-img');
+    if (!c) return;
+    c.style.cursor = 'zoom-in';
+    // Avoid duplicate listeners
+    if (c.dataset.zoomBound === '1') return;
+    c.dataset.zoomBound = '1';
+    c.addEventListener('click', function(ev){
+      // Sólo la imagen principal, no miniaturas
+      if (ev.target.closest('#lb-img')){
+        var src = getMainSrc();
+        if(!src) return;
+        var m = ensureModal();
+        m.querySelector('.zm-img').src = src;
+        m.classList.add('active');
+        document.body.classList.add('no-scroll');
+      }
+    });
+  }
+  // Hook: tras abrir cualquier tarjeta
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{ bindZoom(); }catch(e){}
+  };
+  // Por si ya está abierto al cargar
+  document.addEventListener('DOMContentLoaded', function(){ try{ bindZoom(); }catch(e){} });
+})();
+
+
+
+// vZoom-2: robust src discovery + rebinding
+(function(){
+  function isImgURL(u){
+    return /\.(?:jpe?g|png|webp|gif|bmp|avif)(?:\?|#|$)/i.test(u||"");
+  }
+  function pickFromImg(img){
+    if(!img) return "";
+    var ds = img.dataset||{};
+    return ds.large || ds.full || ds.src || img.currentSrc || img.src || "";
+  }
+  function pickFromAnchor(a){
+    if(!a) return "";
+    var ds = a.dataset||{};
+    var href = ds.large || ds.full || a.getAttribute("href") || "";
+    return href;
+  }
+  function pickBg(el){
+    if(!el) return "";
+    var bg = getComputedStyle(el).backgroundImage;
+    if(bg && bg !== "none"){
+      var u = bg.replace(/^url\((['"]?)(.*)\1\)$/,'$2');
+      return u;
+    }
+    return "";
+  }
+  function getMainSrc(container, clickTarget){
+    if(!container) return "";
+    // 1) if click on IMG
+    if(clickTarget && clickTarget.tagName === "IMG"){
+      var u = pickFromImg(clickTarget);
+      if(isImgURL(u)) return u;
+    }
+    // 2) IMG descendants with data-large/full then currentSrc
+    var imgs = container.querySelectorAll("img");
+    for (var i=0;i<imgs.length;i++){
+      var u2 = pickFromImg(imgs[i]);
+      if(isImgURL(u2)) return u2;
+    }
+    // 3) Anchors with image href
+    var as = container.querySelectorAll("a[href]");
+    for (var j=0;j<as.length;j++){
+      var u3 = pickFromAnchor(as[j]);
+      if(isImgURL(u3)) return u3;
+    }
+    // 4) background-image on container or descendants
+    var u4 = pickBg(container);
+    if(isImgURL(u4)) return u4;
+    var nodes = container.querySelectorAll("*");
+    for (var k=0;k<nodes.length;k++){
+      var u5 = pickBg(nodes[k]);
+      if(isImgURL(u5)) return u5;
+    }
+    // 5) fallback: any main-like selector in lightbox
+    var lb = document.getElementById('lightbox');
+    if(lb){
+      var cand = lb.querySelector('img[src*="/02/"], img[src*="main"], img[srcset]') || lb.querySelector('img');
+      var u6 = pickFromImg(cand);
+      if(isImgURL(u6)) return u6;
+    }
+    return "";
+  }
+  function ensureModal(){
+    var m = document.getElementById('zoom-modal');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = 'zoom-modal';
+    m.innerHTML = '<div class="zm-backdrop"></div><div class="zm-content"><button class="zm-close" type="button" aria-label="Cerrar">&times;</button><img class="zm-img" alt="Vista ampliada"></div>';
+    document.body.appendChild(m);
+    var img = m.querySelector('.zm-img');
+    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+    m.querySelector('.zm-backdrop').onclick = close;
+    m.querySelector('.zm-close').onclick = close;
+    document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
+    return m;
+  }
+  function bindZoomV2(){
+    var c = document.getElementById('lb-img');
+    if (!c) return;
+    c.style.cursor = 'zoom-in';
+    if (c.dataset.zoomBound === '2') return;
+    c.dataset.zoomBound = '2';
+    c.addEventListener('click', function(ev){
+      if (!ev.target.closest('#lb-img')) return;
+      var src = getMainSrc(c, ev.target);
+      if(!src) return;
+      var m = ensureModal();
+      m.querySelector('.zm-img').src = src;
+      m.classList.add('active');
+      document.body.classList.add('no-scroll');
+    });
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{ bindZoomV2(); }catch(e){}
+  };
+  document.addEventListener('DOMContentLoaded', function(){ try{ bindZoomV2(); }catch(e){} });
+})(); 
+
+
+
+// v12c: Inject new label 'CICLO' with per-card values only for 02Genext/01
+(function(){
+  var CICLO_MAP = {
+    "CRITICAL+2": "55 Dias",
+    "BLACK DOM": "50-55 Dias",
+    "MOBY-D": "75 Dias",
+    "NORTHERN": "50-55 Dias"
+  };
+  function normTitle(s){
+    return (s||"").toString().trim().toUpperCase().replace(/\s+/g,"").replace(/\+/g,"+");
+  }
+  function prettyTitle(s){
+    // keep existing title as rendered by v12; we only need matching
+    return (s||"").toString();
+  }
+  function injectCiclo(){
+    var lb = document.getElementById('lightbox');
+    if(!lb) return;
+    var wrap = lb.querySelector('.ft-wrap');
+    if(!wrap) return;
+    wrap.querySelectorAll('.ft-card.dealer-only').forEach(function(card){
+      var titleEl = card.querySelector('.ft-title');
+      var title = titleEl ? titleEl.textContent.trim() : "";
+      var key = title.toUpperCase().replace(/\s+/g,"").replace(/\+/g,"+");
+      var val = CICLO_MAP[key];
+      if(!val) return;
+      var grid = card.querySelector('.ft-grid');
+      if(!grid) return;
+      // If CICLO already exists, update and exit
+      var exists = grid.querySelector('.ft-item .ft-label') && Array.prototype.some.call(grid.querySelectorAll('.ft-item .ft-label'), function(lbl){
+        return /CICLO\s*$/i.test(lbl.textContent.trim());
+      });
+      if(exists){
+        grid.querySelectorAll('.ft-item').forEach(function(it){
+          var lbl = it.querySelector('.ft-label'); var v = it.querySelector('.ft-val');
+          if(lbl && /CICLO\s*$/i.test(lbl.textContent.trim()) && v){ v.textContent = val; }
+        });
+        return;
+      }
+      // Create item
+      var item = document.createElement('div'); item.className='ft-item';
+      var lbl = document.createElement('div'); lbl.className='ft-label'; lbl.textContent='CICLO';
+      var v = document.createElement('div'); v.className='ft-val'; v.textContent = val;
+      item.append(lbl, v);
+      // Insert after FLORACIÓN if present
+      var afterNode = null;
+      Array.prototype.forEach.call(grid.querySelectorAll('.ft-item'), function(it){
+        var l = it.querySelector('.ft-label'); 
+        if(l && /FLORACI[ÓO]N\s*$/i.test(l.textContent.trim())) afterNode = it;
+      });
+      if(afterNode && afterNode.nextSibling){
+        grid.insertBefore(item, afterNode.nextSibling);
+      }else if(afterNode){
+        grid.appendChild(item);
+      }else{
+        grid.appendChild(item);
+      }
+    });
+  }
+  // Hook openGallery to inject after v12 renders
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01'){ injectCiclo(); }
+    }catch(e){}
+  };
+  // In case the lightbox is already open
+  document.addEventListener('DOMContentLoaded', function(){ setTimeout(injectCiclo, 0); });
+})(); 
+
+
+
+// v12c-fix: garantizar 'CICLO' en la ficha 'Black Dom' (02Genext/01) sin tocar el resto
+(function(){
+  function ensureCicloBlackDom(){
+    var lb = document.getElementById('lightbox'); if(!lb) return;
+    var wrap = lb.querySelector('.ft-wrap'); if(!wrap) return;
+    wrap.querySelectorAll('.ft-card.dealer-only').forEach(function(card){
+      var titleEl = card.querySelector('.ft-title');
+      var title = titleEl ? titleEl.textContent.trim().toUpperCase() : "";
+      if(title.indexOf('BLACK DOM') === -1) return;
+      var grid = card.querySelector('.ft-grid'); if(!grid) return;
+      var updated = false;
+      grid.querySelectorAll('.ft-item').forEach(function(it){
+        var lbl = it.querySelector('.ft-label'); var val = it.querySelector('.ft-val');
+        if(lbl && /CICLO\s*$/i.test(lbl.textContent.trim())){
+          if(val) val.textContent = '50-55 Dias';
+          updated = true;
+        }
+      });
+      if(updated) return;
+      // Insertar después de FLORACIÓN si existe
+      var item = document.createElement('div'); item.className = 'ft-item';
+      var l = document.createElement('div'); l.className = 'ft-label'; l.textContent = 'CICLO';
+      var v = document.createElement('div'); v.className = 'ft-val'; v.textContent = '50-55 Dias';
+      item.append(l, v);
+      var after = null;
+      grid.querySelectorAll('.ft-item').forEach(function(it){
+        var a = it.querySelector('.ft-label');
+        if(a && /FLORACI[ÓO]N\s*$/i.test(a.textContent.trim())) after = it;
+      });
+      if(after && after.nextSibling) grid.insertBefore(item, after.nextSibling);
+      else if(after) grid.appendChild(item);
+      else grid.appendChild(item);
+    });
+  }
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
+      if(folder==='02Genext' && id==='01') ensureCicloBlackDom();
+    }catch(e){}
+  };
+  document.addEventListener('DOMContentLoaded', function(){ try{ ensureCicloBlackDom(); }catch(e){} });
+})();
+
+
+// vZoom-3: zoom inicial +30% al abrir la previsualización
+(function(){
+  var INITIAL_ZOOM = 1.3;
+  function applyInitialZoom(modal){
+    try{
+      var img = modal.querySelector('.zm-img');
+      var cont = modal.querySelector('.zm-content');
+      if(!img || !cont) return;
+      // Reset sizing to get natural fit
+      img.style.maxWidth = 'none';
+      img.style.maxHeight = 'none';
+      img.style.width = '';
+      img.style.height = '';
+      // Compute scale-to-fit within 95% viewport
+      var vw = Math.floor(window.innerWidth * 0.95);
+      var vh = Math.floor(window.innerHeight * 0.95);
+      var nw = img.naturalWidth || img.width;
+      var nh = img.naturalHeight || img.height;
+      if(!nw || !nh) return;
+      var fit = Math.min(vw / nw, vh / nh);
+      var scale = fit * INITIAL_ZOOM;
+      var targetW = Math.max(1, Math.round(nw * scale));
+      // Apply size; height auto mantiene proporción
+      img.style.width = targetW + 'px';
+      img.style.height = 'auto';
+      // Contenedor scrolleable si excede viewport
+      cont.style.maxWidth = '95vw';
+      cont.style.maxHeight = '95vh';
+      cont.style.overflow = 'auto';
+    }catch(e){ /* silent */ }
+  }
+  // Hook en la apertura del modal existente vZoom-2
+  var _og = window.openGallery;
+  window.openGallery = function(folderPath){
+    if (typeof _og === 'function') _og.apply(this, arguments);
+    try{
+      var lb = document.getElementById('lb-img');
+      if(!lb) return;
+      // inyectamos listener sobre click si no existe
+      if (!document.body.dataset.zoomV3Bound){
+        document.addEventListener('click', function(ev){
+          var m = document.getElementById('zoom-modal');
+          if(!m || !m.classList.contains('active')) return;
+          // cuando la imagen cargue, aplicar zoom inicial
+          var img = m.querySelector('.zm-img');
+          if(!img) return;
+          img.addEventListener('load', function once(){
+            img.removeEventListener('load', once);
+            applyInitialZoom(m);
+          });
+        }, true);
+        document.body.dataset.zoomV3Bound = '1';
+      }
+    }catch(e){ /* silent */ }
+  };
+})(); 
+
+
+
+// vZoom-4: zoom inicial 1.56x y centrado en el modal
+(function(){
+  var INITIAL_ZOOM_V4 = 1.56; // +20% sobre 1.3
+  if (!document.body.dataset.zoomV4Bound){
+    document.addEventListener('click', function(){
+      var m = document.getElementById('zoom-modal');
+      if(!m || !m.classList.contains('active')) return;
+      var img = m.querySelector('.zm-img');
+      var cont = m.querySelector('.zm-content');
+      if(!img || !cont) return;
+      function apply(){
+        try{
+          // reset and compute fit
+          img.style.maxWidth = 'none';
+          img.style.maxHeight = 'none';
+          img.style.width = ''; img.style.height = '';
+          var vw = Math.floor(window.innerWidth * 0.95);
+          var vh = Math.floor(window.innerHeight * 0.95);
+          var nw = img.naturalWidth || img.width;
+          var nh = img.naturalHeight || img.height;
+          if(!nw || !nh) return;
+          var fit = Math.min(vw / nw, vh / nh);
+          var scale = fit * INITIAL_ZOOM_V4;
+          var targetW = Math.max(1, Math.round(nw * scale));
+          img.style.width = targetW + 'px';
+          img.style.height = 'auto';
+          cont.style.maxWidth = '95vw';
+          cont.style.maxHeight = '95vh';
+          cont.style.overflow = 'auto';
+          // Center after layout
+          requestAnimationFrame(function(){
+            var cw = cont.clientWidth, ch = cont.clientHeight;
+            var iw = img.clientWidth, ih = img.clientHeight;
+            if (iw > cw) cont.scrollLeft = Math.max(0, Math.floor((iw - cw)/2));
+            if (ih > ch) cont.scrollTop  = Math.max(0, Math.floor((ih - ch)/2));
+          });
+        }catch(e){}
+      }
+      if (img.complete) apply();
+      else {
+        img.addEventListener('load', function once(){
+          img.removeEventListener('load', once);
+          apply();
+        });
+      }
+    }, true);
+    document.body.dataset.zoomV4Bound = '1';
+  }
+})(); 
+
+
+
+// vZoom-SEMx: modal imagen al clic en #lb-img, zoom inicial 1.2x del fit y centrado en móvil
+(function(){
+  var ZP = { SCALE: 1.2 };
   function ensureModal(){
     var m = document.getElementById('zoom-modal');
     if (m) return m;
@@ -309,7 +929,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var fit = Math.min(vw / nw, vh / nh);
       var targetW = Math.max(1, Math.round(nw * fit * scale));
       img.style.width = targetW + 'px'; img.style.height = 'auto';
-      cont.style.maxWidth = '95vw'; cont.style.maxHeight = '95vh'; cont.style.overflow='auto';
+      // centrar por scroll si excede viewport
       requestAnimationFrame(function(){
         requestAnimationFrame(function(){
           var sw = img.scrollWidth || img.clientWidth;
@@ -324,8 +944,8 @@ document.addEventListener('DOMContentLoaded', function(){
   function bindZoom(){
     var c = document.getElementById('lb-img'); if(!c) return;
     c.style.cursor = 'zoom-in';
-    if (c.dataset.zoomBound === '6') return;
-    c.dataset.zoomBound = '6';
+    if (c.dataset.zoomPlusBound === '1') return;
+    c.dataset.zoomPlusBound = '1';
     c.addEventListener('click', function(ev){
       if (!ev.target.closest('#lb-img')) return;
       var src = getMainSrc(c, ev.target);
@@ -335,68 +955,22 @@ document.addEventListener('DOMContentLoaded', function(){
       img.src = src;
       m.classList.add('active');
       document.body.classList.add('no-scroll');
-      if (img.complete) applyZoomAndCenter(1.872);
-      else img.addEventListener('load', function once(){ img.removeEventListener('load', once); applyZoomAndCenter(1.872); });
+      if (img.complete) applyZoomAndCenter(ZP.SCALE);
+      else img.addEventListener('load', function once(){ img.removeEventListener('load', once); applyZoomAndCenter(ZP.SCALE); });
     });
   }
-  // re-centrar en cambios de tamaño/orientación
-  function reCenter(){ applyZoomAndCenter(1.872); }
-  if (!document.body.dataset.zoomRecenterBound){
+  function reCenter(){ applyZoomAndCenter(ZP.SCALE); }
+  if (!document.body.dataset.zoomPlusRecenter){
     window.addEventListener('resize', reCenter);
     window.addEventListener('orientationchange', reCenter);
-    document.body.dataset.zoomRecenterBound = '1';
+    document.body.dataset.zoomPlusRecenter = '1';
   }
-  // Hook: tras abrir tarjeta
+  // Hook tras abrir tarjeta, si existe openGallery
   var _og = window.openGallery;
   window.openGallery = function(fp){
     if (typeof _og === 'function') _og.apply(this, arguments);
     try{ bindZoom(); }catch(e){}
   };
   document.addEventListener('DOMContentLoaded', function(){ try{ bindZoom(); }catch(e){} });
-})(); 
-
-
-
-// vFichas-Restore: photo-style cards + green title, only 02Genext/01
-(function(){
-  window.DEALER_RESTORE = {"cards": [{"titulo": "CRITICAL +2", "detalles": [{"etiqueta": "Genética", "valor": "CRITICAL +2"}, {"etiqueta": "THC", "valor": "20%"}, {"etiqueta": "Satividad", "valor": "40%"}, {"etiqueta": "Rendimiento", "valor": "INT: 300-450 GR / EXT: 100-300 GR"}, {"etiqueta": "Ciclo", "valor": "55 Dias"}, {"etiqueta": "Efecto", "valor": "Relajante, Potente Larga Duracion"}, {"etiqueta": "Sabor", "valor": "Dulce, Limon, Citricos"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "BLACK DOM", "detalles": [{"etiqueta": "Genética", "valor": "BLACK DOM"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "20%"}, {"etiqueta": "Rendimiento", "valor": "INT: 200-400 GR / EXT: 50-450 GR"}, {"etiqueta": "Ciclo", "valor": "50-55 Dias"}, {"etiqueta": "Efecto", "valor": "Relajante, Fuerte"}, {"etiqueta": "Sabor", "valor": "Hachis, Afgano, Dulce, Pino"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "MOBY-D", "detalles": [{"etiqueta": "Genética", "valor": "MOBY-D"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "80%"}, {"etiqueta": "Rendimiento", "valor": "INT: 300-500 / EXT: 60-250"}, {"etiqueta": "Ciclo", "valor": "75 Dias"}, {"etiqueta": "Efecto", "valor": "Euforia, Psicodelica, Energizante"}, {"etiqueta": "Sabor", "valor": "Citrico, Pino, Haze, Madera"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}, {"titulo": "NORTHERN", "detalles": [{"etiqueta": "Genética", "valor": "NORTHERN"}, {"etiqueta": "THC", "valor": "18%"}, {"etiqueta": "Satividad", "valor": "20%"}, {"etiqueta": "Rendimiento", "valor": "INT: 250-450 GR / EXT: 60-350 GR"}, {"etiqueta": "Ciclo", "valor": "50-55 Dias"}, {"etiqueta": "Efecto", "valor": "Narcotico, Sedante"}, {"etiqueta": "Sabor", "valor": "Dulce, Tierra"}, {"etiqueta": "Cantidad", "valor": "X3 Semillas"}]}]};
-  function renderRestore(lb, folder, id){
-    if(folder!=='02Genext' || id!=='01') return;
-    var right = lb.querySelector('.panel-fichas') || lb.querySelector('.lb-fichas') || lb;
-    if(!right) return;
-    right.innerHTML = '';
-    var wrap = document.createElement('div');
-    wrap.className = 'ft-wrap';
-    (window.DEALER_RESTORE.cards||[]).forEach(function(card){
-      var panel = document.createElement('div');
-      panel.className = 'ft-card dealer-only';
-      var h = document.createElement('h4');
-      h.className = 'ft-title';
-      h.textContent = card.titulo || 'Ficha';
-      panel.appendChild(h);
-      var grid = document.createElement('div');
-      grid.className = 'ft-grid';
-      (card.detalles||[]).forEach(function(it){
-        if(!it.valor) return;
-        var item = document.createElement('div'); item.className='ft-item';
-        var lbl = document.createElement('div'); lbl.className='ft-label'; lbl.textContent = (it.etiqueta||'').toUpperCase();
-        var val = document.createElement('div'); val.className='ft-val'; val.textContent = it.valor;
-        item.append(lbl, val);
-        grid.appendChild(item);
-      });
-      panel.appendChild(grid);
-      wrap.appendChild(panel);
-    });
-    right.appendChild(wrap);
-  }
-  var _og = window.openGallery;
-  window.openGallery = function(folderPath){
-    if (typeof _og === 'function') _og.apply(this, arguments);
-    try { 
-      var lb = document.getElementById('lightbox');
-      var parts = (folderPath||'').split('/'); var folder = parts[1], id = parts[2];
-      renderRestore(lb, folder, id);
-    } catch(e){}
-  };
 })();
 
