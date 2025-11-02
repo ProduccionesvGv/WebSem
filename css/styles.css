@@ -1816,3 +1816,9 @@ body.no-scroll{ overflow: hidden; }
     white-space: normal;
   }
 }
+
+/* override: header in columna para mostrar cartel debajo del logo */
+.site-header .header-inner {
+  flex-direction: column;
+  gap: 6px;
+}
