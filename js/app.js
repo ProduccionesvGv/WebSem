@@ -17,7 +17,10 @@ function buildCarousel(rootId, folder){
   if(!container) return;
   ['01','02','03'].forEach(id=>{
     const folderPath = `img/${folder}/${id}`;
-    const hero = `${folderPath}/Front.jpg`;
+    // soporte para carpetas con front.jpg en minúscula (caso 02Genext/03)
+    const hero = (folder === '02Genext' && id === '03')
+      ? `${folderPath}/front.jpg`
+      : `${folderPath}/Front.jpg`;
     const card = document.createElement('article');
     card.className = 'card';
     card.setAttribute('data-folder', folder);
@@ -40,7 +43,12 @@ function buildCarousel(rootId, folder){
 }
 
 function openGallery(folderPath){
-  const images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','Front2.jpg'].map(n=> `${folderPath}/${n}`);
+  // default set
+  let images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','Front2.jpg'].map(n=> `${folderPath}/${n}`);
+  // caso específico: img/02Genext/03 tiene nombres en minúscula
+  if (folderPath.indexOf('02Genext/03') !== -1) {
+    images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','front.jpg','front2.jpg'].map(n=> `${folderPath}/${n}`);
+  }
   const lb = document.getElementById('lightbox');
   const img = document.getElementById('lb-img');
   const thumbs = document.getElementById('lb-thumbs');
@@ -190,7 +198,7 @@ try{
 }
 
 document.addEventListener('DOMContentLoaded', function(){
-  buildCarousel('carousel','01Genint');
+  
   buildCarousel('carousel2','02Genext');
   document.getElementById('lb-close').addEventListener('click', ()=>{
     const lb = document.getElementById('lightbox');
