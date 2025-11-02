@@ -1728,3 +1728,91 @@ body.no-scroll{ overflow:hidden; }
 }
 #zoom-modal .zm-close:hover{ background: rgba(0,0,0,.75); }
 body.no-scroll{ overflow: hidden; }
+
+
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; transform: translateY(-4px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+}
+
+/* Cartel de promoción hiperanimado */
+.promo-banner {
+  display: block;
+  margin: 10px auto 0;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top, #ff4ecd 0%, #a100ff 40%, #3b185f 100%);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.02rem;
+  text-align: center;
+  letter-spacing: 0.6px;
+  text-shadow: 0 1px 2px rgba(0,0,0,.4);
+  border: 2px solid rgba(255, 248, 108, 0.5);
+  box-shadow: 0 0 12px rgba(255, 0, 200, 0.6), inset 0 0 15px rgba(255,255,255,.08);
+  backdrop-filter: blur(2px);
+  width: fit-content;
+  animation:
+    promo-flicker 2.6s infinite steps(12, end),
+    promo-tilt 3.4s infinite ease-in-out,
+    promo-pulse 5.7s infinite ease-in-out;
+  transform-origin: center;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-banner::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(120deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,.4) 100%);
+  animation: promo-sheen 4.2s infinite ease-in-out;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+@keyframes promo-flicker {
+  0% { opacity: .35; }
+  5% { opacity: 1; }
+  12% { opacity: .6; }
+  19% { opacity: 1; }
+  28% { opacity: .4; }
+  38% { opacity: 1; }
+  52% { opacity: .45; }
+  66% { opacity: 1; }
+  77% { opacity: .55; }
+  100% { opacity: 1; }
+}
+
+@keyframes promo-tilt {
+  0% { transform: translateY(0) rotate(0deg) scale(1); }
+  25% { transform: translateY(-4px) rotate(-1.8deg) scale(1.02); }
+  50% { transform: translateY(1px) rotate(1.5deg) scale(1.01); }
+  75% { transform: translateY(-2px) rotate(-1deg) scale(1.03); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+@keyframes promo-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 200, 0.4); }
+  20% { box-shadow: 0 0 22px rgba(255, 131, 0, 0.8); }
+  40% { box-shadow: 0 0 16px rgba(148, 69, 255, 0.7); }
+  60% { box-shadow: 0 0 25px rgba(255, 255, 0, 0.7); }
+  80% { box-shadow: 0 0 14px rgba(255, 0, 110, 0.8); }
+}
+
+@keyframes promo-sheen {
+  0% { transform: translateX(-120%) rotate(12deg); opacity: .7; }
+  70% { opacity: 0; }
+  100% { transform: translateX(160%) rotate(12deg); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .promo-banner {
+    font-size: .9rem;
+    padding: 8px 16px;
+    max-width: 90%;
+    white-space: normal;
+  }
+}
