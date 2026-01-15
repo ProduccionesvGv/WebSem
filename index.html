@@ -77,6 +77,13 @@
   <img class="shipping-img" src="img/andreani.png" alt="Andreani - Envíos a todo el país" loading="lazy" decoding="async" width="1500" height="292"/>
 </section>
 
+<section class="app-install-section" aria-label="Instalar app">
+  <button class="app-toast app-install-btn" type="button" aria-label="Instalar NOVA Seeds">
+    <img id="appInstallImg" src="img/app.png" alt="Instalar NOVA Seeds" loading="lazy" decoding="async">
+  </button>
+</section>
+
+
 </main>
 <noscript><div style="padding:12px;color:#fff;background:#111;border:1px solid #222;border-radius:12px;margin:12px;">Para ver el catálogo completo, activá JavaScript en tu navegador.</div></noscript>
 <!-- modal gallery -->
@@ -87,6 +94,15 @@
 <div class="lb-thumbs" id="lb-thumbs"></div>
 </div>
 </div>
+<!-- Modal: instrucciones de instalación (PWA) -->
+<div class="install-modal" id="installModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="install-modal__inner" role="document">
+    <button class="install-modal__close" id="installModalClose" type="button" aria-label="Cerrar">×</button>
+    <h4 class="install-modal__title">Instalar NOVA Seeds</h4>
+    <div class="install-modal__body" id="installModalBody"></div>
+  </div>
+</div>
+
 <script defer="" src="js/app.js"></script>
 <script defer="" src="js/pwa.js"></script>
 <!-- WhatsApp Floating Button -->
@@ -100,10 +116,6 @@
   <span class="wa-toast__text">Pedir por WhatsApp</span>
 </a>
 
-<!-- Instalación de App (PWA) -->
-<button class="app-toast" type="button" aria-label="Instalar app">
-  <img src="img/app.png" alt="Instalar app" loading="lazy" decoding="async">
-</button>
 <a aria-label="WhatsApp" class="wa-fab" href="https://wa.me/5491158768929?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n." id="wa-fab" rel="noopener" target="_blank"></a>
 </body>
 </html>
