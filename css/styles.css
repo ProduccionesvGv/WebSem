@@ -2300,22 +2300,25 @@ body.home-page{ gap:0; }
   border-radius: var(--radius);
 }
 .guide-head{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .guide-title{
+  text-align:left;
+
   margin: 0;
   font-size: 1.05rem;
   font-weight: 900;
   letter-spacing: .2px;
   color: var(--text);
 }
+.guide-link{ white-space: nowrap; }
 .guide-link:active{ transform: translateY(1px); opacity: .95; }
 .guide-text{
   margin: 10px 0 0;
@@ -2368,23 +2371,28 @@ body.home-page{ gap:0; }
 
 /* Envíos Andreani */
 .shipping-section{
-  margin: 14px 0 18px;
-  padding: 12px;
+  margin: 12px 0 16px;
+  padding: 10px;
   background: #0b0b0e;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   text-align: center;
 }
+
 .shipping-title{
-  margin: 0 0 10px;
-  font-size: 1rem;
-  line-height: 1.25;
+  margin: 0 0 8px;
+  font-size: 0.92rem;
+  line-height: 1.2;
   color: #fff;
+  font-weight: 800;
 }
+
 .shipping-img{
-  width: 100%;
+  width: min(320px, 100%);
   height: auto;
   display: block;
-  border-radius: 14px;
+  margin: 0 auto;
+  border-radius: 12px;
   border: 1px solid var(--border);
 }
+
