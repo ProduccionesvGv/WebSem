@@ -2052,21 +2052,25 @@ body.no-scroll{ overflow: hidden; }
 }
 
 
-/* Instalación App (PWA) - ubicado al final, debajo de Andreani */
+/* Instalación App (PWA) - debajo del toast "Pedir por WhatsApp" */
 .app-install-section{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding: 14px 0 28px;
+  position: fixed;
+  left: 0;
+  top: calc(56px + env(safe-area-inset-top) + 62px);
+  z-index: 9996;
+  transform: translateX(12px);
+  display: block;
+  padding: 0;
 }
 
 .app-toast{
   position: relative;
   border: 0;
-  background: transparent;
-  padding: 0;
+  background: #000;
+  padding: 8px;
   border-radius: 16px;
   cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
 }
 
 .app-toast.is-waiting{
@@ -2079,13 +2083,13 @@ body.no-scroll{ overflow: hidden; }
 
 .app-toast img{
   display: block;
-  width: clamp(120px, 26vw, 200px);
+  width: clamp(52px, 13vw, 72px);
   height: auto;
-  max-width: 240px;
+  max-width: 84px;
   object-fit: contain;
-  border-radius: 16px;
-  border: 2px solid #25D366;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.45), 0 0 0 2px rgba(37,211,102,0.18);
+  border-radius: 12px;
+  border: 0;
+  box-shadow: none;
 }
 
 .wa-toast::before{

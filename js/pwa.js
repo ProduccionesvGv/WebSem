@@ -205,14 +205,8 @@
 
           // Si no aparece el instalador, mostramos el fallback.
           openInstallModal(
-            '<p><b>No aparece el instalador automático todavía.</b></p>' +
-            '<p>En algunos dispositivos se habilita tras recargar la página o tras unos segundos de navegación.</p>' +
-            '<button id="installNowBtn" type="button" disabled style="width:100%;margin:12px 0;padding:12px 14px;border-radius:12px;border:0;background:#25D366;color:#0b0b0e;font-weight:700;cursor:pointer;opacity:0.7">Instalar ahora</button>' +
-            '<p style="margin:0 0 8px">Si no se habilita, instalá manualmente:</p>' +
-            '<ul>' +
-              '<li><b>Android (Chrome/Edge)</b>: menú (⋮) → <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.</li>' +
-              '<li><b>Escritorio</b>: ícono de instalación en la barra de direcciones o menú → <b>Instalar</b>.</li>' +
-            '</ul>'
+            '<p>Tu buscador no es compatible con la instalación. Usa otro buscador (Chrome o Brave).</p>' +
+            '<button id="installNowBtn" type="button" disabled style="width:100%;margin:12px 0 0;padding:12px 14px;border-radius:12px;border:0;background:#25D366;color:#0b0b0e;font-weight:700;cursor:pointer;opacity:0.7">Instalar ahora</button>'
           );
 
           installNowBtn = document.getElementById('installNowBtn');

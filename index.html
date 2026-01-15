@@ -78,12 +78,6 @@
   <img class="shipping-img" src="img/andreani.png" alt="Andreani - Envíos a todo el país" loading="lazy" decoding="async" width="1500" height="292"/>
 </section>
 
-<section class="app-install-section" aria-label="Instalar app">
-  <button class="app-toast app-install-btn" type="button" aria-label="Instalar NOVA Seeds">
-    <img id="appInstallImg" src="./img/app.png" alt="Instalar NOVA Seeds" loading="eager" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='img/app.png';">
-  </button>
-</section>
-
 
 </main>
 <noscript><div style="padding:12px;color:#fff;background:#111;border:1px solid #222;border-radius:12px;margin:12px;">Para ver el catálogo completo, activá JavaScript en tu navegador.</div></noscript>
@@ -116,6 +110,13 @@
   </span>
   <span class="wa-toast__text">Pedir por WhatsApp</span>
 </a>
+
+<!-- App install (PWA) - debajo del toast de WhatsApp -->
+<section class="app-install-section" aria-label="Instalar app">
+  <button class="app-toast app-install-btn" type="button" aria-label="Instalar NOVA Seeds">
+    <img id="appInstallImg" src="./img/app.png" alt="Instalar NOVA Seeds" loading="eager" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='img/app.png';">
+  </button>
+</section>
 
 <a aria-label="WhatsApp" class="wa-fab" href="https://wa.me/5491158768929?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n." id="wa-fab" rel="noopener" target="_blank"></a>
 </body>
