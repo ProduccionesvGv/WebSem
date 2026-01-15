@@ -9,6 +9,3 @@
 
 @keyframes banner-scroll{0%{transform:translateX(0);}100%{transform:translateX(-33.333%);}}
 
-body{padding-top:22px;}
-
-@media(min-width:768px){ body{ padding-top:26px; } }

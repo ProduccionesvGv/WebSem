@@ -1,5 +1,6 @@
 
 :root{
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --gap:14px;
   --card-mobile: min(44vw, 190px);
   --card-desktop:300px;
@@ -18,13 +19,13 @@
 .theme-dark{ background:#000; color:var(--text); }
 
 .site-header{ background:#000; }
-.site-header .header-inner{ display:flex; align-items:center; justify-content:center; padding:12px 0; }
-.site-logo{ max-width:95vw; height:auto; max-height:120px; margin:6px auto 10px; display:block; }
+.site-header .header-inner{ display:flex; align-items:center; justify-content:center; padding:6px 0 2px; }
+.site-logo{ max-width:95vw; height:auto; max-height:120px; margin:2px auto 2px; display:block; }
 
-main{ max-width:520px; margin:0 auto; padding: 0 12px; }
+main{ max-width:520px; margin:0 auto; padding: 0; }
 
-.carousel-section{ padding:18px 0; border-top:1px solid var(--border); }
-.section-head{ display:flex; align-items:center; justify-content:space-between; margin:0 6px 8px; }
+.carousel-section{ padding:10px 0 12px; border-top:1px solid var(--border); }
+.section-head{ display:flex; align-items:center; justify-content:space-between; margin:0 6px 6px; }
 .section-head h2{ font-size:1.1rem; font-weight:700; letter-spacing:.3px; margin:0; color:var(--text); }
 .controls button{
   padding:6px 10px; border-radius:10px; border:1px solid var(--border); background:var(--surface-2);
@@ -56,7 +57,8 @@ main{ max-width:520px; margin:0 auto; padding: 0 12px; }
   display:flex; flex-direction:column;
 }
 .card .hero{ background-size:cover; background-position:center; aspect-ratio:4/3; }
-.card .body{ padding: 12px; padding-top: calc(12px + env(safe-area-inset-top)); padding-right: calc(12px + env(safe-area-inset-right)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); padding-left: calc(12px + env(safe-area-inset-left)); display:flex; flex-direction:column; gap:6px; background:var(--surface-2);  max-width:520px; margin:0 auto; }
+.card .body{ padding: 12px; padding-top: calc(6px + env(safe-area-inset-top) + 20px); padding-right: calc(12px + env(safe-area-inset-right)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); padding-left: calc(12px + env(safe-area-inset-left)); display:flex; flex-direction:column; gap:2px; background:var(--surface-2);  max-width:520px; margin:0 auto;  font-family: var(--font-ui); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
 .card h3{ margin:0; font-size:1rem; color:var(--text); }
 .spec{ color:var(--muted); font-size:0.9rem; }
 .price{ font-weight:800; color:var(--text); }
@@ -2030,9 +2032,9 @@ body.no-scroll{ overflow: hidden; }
 .wa-toast{
   position: fixed;
   left: 0;
-  top: 50%;
+  top: calc(56px + env(safe-area-inset-top));
   z-index: 9997;
-  transform: translate(-120%, -50%);
+  transform: translateX(-120%);
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -2062,9 +2064,9 @@ body.no-scroll{ overflow: hidden; }
 .wa-toast__text{ font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 @keyframes waToastCycle{
-  0%, 12% { transform: translate(-120%, -50%); opacity: 0; }
-  18%, 58% { transform: translate(12px, -50%); opacity: 1; }
-  64%, 100% { transform: translate(-120%, -50%); opacity: 0; }
+  0%, 12% { transform: translateX(-120%); opacity: 0; }
+  18%, 58% { transform: translateX(12px); opacity: 1; }
+  64%, 100% { transform: translateX(-120%); opacity: 0; }
 }
 
 /* No mostrar la notificación sobre modales */
@@ -2072,7 +2074,7 @@ body.lb-open .wa-toast,
 body.zoomed .wa-toast{ display:none !important; }
 
 @media (prefers-reduced-motion: reduce){
-  .wa-toast{ animation: none !important; transform: translate(12px, -50%); opacity: 1; }
+  .wa-toast{ animation: none !important; transform: translateX(12px); opacity: 1; }
 }
 
 
@@ -2233,6 +2235,24 @@ body.home-page{ gap:0; }
 /* Banner superior siempre pegado arriba */
 .top-banner{ position:fixed !important; top:0; left:0; right:0; }
 
+
+/* Links de acción (misma fuente/verde en todos los navegadores) */
+.guide-link,
+.delivery-map-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: var(--font-ui) !important;
+  font-weight: 900;
+  letter-spacing: .2px;
+  background: rgba(37, 211, 102, .12);
+  color: #25D366 !important;
+  border: 1px solid rgba(37, 211, 102, .35);
+}
+
 /* Apartado de entregas (debajo del banner de germinación) */
 .delivery-section{
   margin: 12px 0 0;
@@ -2268,13 +2288,6 @@ body.home-page{ gap:0; }
   border: 0;
   display: block;
 }
-.delivery-map-link{
-  display: inline-block;
-  margin-top: 10px;
-  color: #25D366;
-  text-decoration: none;
-  font-weight: 800;
-}
 .delivery-map-link:active{ opacity: .85; }
 
 
@@ -2300,18 +2313,6 @@ body.home-page{ gap:0; }
   letter-spacing: .2px;
   color: var(--text);
 }
-.guide-link{
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 10px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 900;
-  background: rgba(37, 211, 102, .12);
-  color: #25D366;
-  border: 1px solid rgba(37, 211, 102, .35);
-}
 .guide-link:active{ transform: translateY(1px); opacity: .95; }
 .guide-text{
   margin: 10px 0 0;
@@ -2322,7 +2323,10 @@ body.home-page{ gap:0; }
 
 /* Separador visual entre secciones */
 .section-divider{
-  height: 14px;
+  height: 1px;
+  background: rgba(255,255,255,.10);
+  border-radius: 999px;
+  margin: 14px 4px;
 }
 
 /* Entregas personales: título + link juntos */
@@ -2341,15 +2345,19 @@ body.home-page{ gap:0; }
 .delivery-title{
   margin: 0;
 }
-.delivery-map-link{
-  margin: 0;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(37, 211, 102, .35);
-  background: rgba(37, 211, 102, .10);
-  color: #25D366;
-  font-weight: 900;
-  text-decoration: none;
-  white-space: nowrap;
-}
 .delivery-map-link:active{ transform: translateY(1px); opacity: .95; }
+
+
+/* Banner de envíos: siempre fijo arriba y alineado al ancho móvil */
+.top-banner{
+  position: fixed !important;
+  top: 0 !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(520px, 100%);
+  z-index: 10000 !important;
+}
+
+
+#cuadro2.carousel-section{ border-top:none; padding-top: 6px; }
