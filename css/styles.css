@@ -2010,11 +2010,13 @@ body.no-scroll{ overflow: hidden; }
 .background-banner {
   width: 100%;
   overflow: hidden;
-  margin: 32px auto 0;
+  margin: 0;
   display: flex;
   justify-content: center;
   position: relative;
+  border-radius: 16px;
 }
+
 
 .background-banner-img {
   width: 100%;
@@ -2274,3 +2276,80 @@ body.home-page{ gap:0; }
   font-weight: 800;
 }
 .delivery-map-link:active{ opacity: .85; }
+
+
+/* Sección Guía de germinación */
+.guide-section{
+  margin: 14px 0 0;
+  padding: 12px;
+  background: #0b0b0e;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.guide-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.guide-title{
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: .2px;
+  color: var(--text);
+}
+.guide-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 900;
+  background: rgba(37, 211, 102, .12);
+  color: #25D366;
+  border: 1px solid rgba(37, 211, 102, .35);
+}
+.guide-link:active{ transform: translateY(1px); opacity: .95; }
+.guide-text{
+  margin: 10px 0 0;
+  font-size: .95rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* Separador visual entre secciones */
+.section-divider{
+  height: 14px;
+}
+
+/* Entregas personales: título + link juntos */
+.delivery-section{
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.delivery-head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.delivery-title{
+  margin: 0;
+}
+.delivery-map-link{
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 211, 102, .35);
+  background: rgba(37, 211, 102, .10);
+  color: #25D366;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.delivery-map-link:active{ transform: translateY(1px); opacity: .95; }
