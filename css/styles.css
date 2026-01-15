@@ -668,7 +668,7 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 }
 .section-title.brand{
   margin: 10px 0 18px 0;
-  font-size: clamp(24px, 3.2vw, 40px);
+  font-size: clamp(18px, 4vw, 28px);
   font-weight: 900;
   line-height: 1.05;
   text-transform: uppercase;
@@ -1885,78 +1885,6 @@ body.no-scroll{ overflow: hidden; }
   100% { background-position: 200% 0; opacity: 0.6; }
 }
 
-/* Semillas secuenciales debajo del cartel */
-.seed-bonus-strip {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  margin-top: 4px;
-  height: 70px;
-}
-
-.seed-bonus {
-  width: 70px;
-  height: auto;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
-  animation: seedStep 4s linear infinite;
-  opacity: 0;
-}
-
-.seed-bonus.seed-2 { animation-delay: 1s; }
-.seed-bonus.seed-3 { animation-delay: 2s; }
-.seed-bonus.seed-4 { animation-delay: 3s; }
-
-@keyframes seedStep {
-  0%   { opacity: 0; transform: translateX(-40px) scale(.85) rotate(-6deg); }
-  5%   { opacity: 1; }
-  25%  { opacity: 1; transform: translateX(0) scale(1) rotate(0deg); }
-  45%  { opacity: 1; transform: translateX(40px) scale(.9) rotate(4deg); }
-  55%  { opacity: 0; }
-  100% { opacity: 0; transform: translateX(60px) scale(.85) rotate(0deg); }
-}
-
-@media (max-width: 600px) {
-  .seed-bonus { width: 52px; }
-  .seed-bonus-strip { height: 58px; }
-}
-
-/* Semillas estáticas debajo del cartel, solo fade secuencial */
-.seed-bonus-strip {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  height: 80px;
-}
-
-.seed-bonus {
-  width: 68px;
-  height: auto;
-  opacity: 0;
-  animation: seedFade 4s linear infinite;
-  filter: drop-shadow(0 3px 4px rgba(0,0,0,.45));
-}
-
-.seed-bonus.seed-2 { animation-delay: 1s; }
-.seed-bonus.seed-3 { animation-delay: 2s; }
-.seed-bonus.seed-4 { animation-delay: 3s; }
-
-@keyframes seedFade {
-  0%   { opacity: 0; }
-  5%   { opacity: 1; }
-  25%  { opacity: 1; }
-  35%  { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-@media (max-width: 600px) {
-  .seed-bonus-strip { height: 66px; }
-  .seed-bonus { width: 58px; }
-}
-
-
 @media (max-width: 768px) {
   .background-banner-img {
     height: 180px;
@@ -2014,3 +1942,6 @@ body.no-scroll{ overflow: hidden; }
   *, *::before, *::after{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   .top-banner__track{ animation: none !important; }
 }
+
+
+
