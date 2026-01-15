@@ -1,24 +1,36 @@
 (function(){
   // Registrar Service Worker para experiencia tipo "app" (PWA)
   if('serviceWorker' in navigator){
-    window.addEventListener('load', function(){
-      navigator.serviceWorker.register('./sw.js').catch(function(){});
-    });
+    // Registrar lo antes posible (mejora la chance de que el instalador se habilite rápido)
+    try{ navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e){}
   }
 
   // Instalación (PWA) - Android/Chromium permite prompt mediante beforeinstallprompt
   var deferredPrompt = null;
+  var installNowBtn = null;
+
+  function setInstallNowReady(ready){
+    if(!installNowBtn) return;
+    installNowBtn.disabled = !ready;
+    installNowBtn.style.opacity = ready ? '1' : '0.7';
+    installNowBtn.style.cursor = ready ? 'pointer' : 'not-allowed';
+    if(ready) installNowBtn.classList.add('is-ready');
+    else installNowBtn.classList.remove('is-ready');
+  }
 
   window.addEventListener('beforeinstallprompt', function(e){
     e.preventDefault();
     deferredPrompt = e;
     document.body.classList.add('can-install');
     updateInstallVisibility();
+    // Si el usuario ya abrió el modal, habilitar el botón apenas el navegador habilite el instalador
+    setInstallNowReady(true);
   });
 
   window.addEventListener('appinstalled', function(){
     deferredPrompt = null;
     document.body.classList.remove('can-install');
+    setInstallNowReady(false);
   });
 
   function isIOS(){
@@ -91,17 +103,23 @@
 
     syncAppSize();
 
-    btn.addEventListener('click', function(){
-      // Si el navegador soporta el prompt de instalación
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        try{
-          deferredPrompt.userChoice.then(function(){
-            deferredPrompt = null;
-          });
-        }catch(err){
+    function doPrompt(){
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      try{
+        deferredPrompt.userChoice.then(function(){
           deferredPrompt = null;
-        }
+          setInstallNowReady(false);
+        });
+      }catch(err){
+        deferredPrompt = null;
+      }
+    }
+
+    btn.addEventListener('click', function(){
+      // Si el navegador soporta el prompt de instalación, 1 click.
+      if(deferredPrompt){
+        doPrompt();
         return;
       }
 
@@ -118,14 +136,27 @@
         return;
       }
 
-      // Otros navegadores: instalación manual desde el menú
+      // Chromium/Android a veces habilita el instalador unos segundos después.
+      // Mostramos un modal con un botón que se habilita apenas llegue beforeinstallprompt.
       openInstallModal(
-        '<p>Si tu navegador no muestra el instalador automático, podés hacerlo manualmente:</p>' +
+        '<p>Si el instalador automático está disponible, se va a habilitar el botón de abajo.</p>' +
+        '<button id="installNowBtn" type="button" disabled style="width:100%;margin:12px 0;padding:12px 14px;border-radius:12px;border:0;background:#25D366;color:#0b0b0e;font-weight:700;cursor:pointer;opacity:0.7">Instalar ahora</button>' +
+        '<p style="margin:0 0 8px">Si no se habilita, podés instalar manualmente:</p>' +
         '<ul>' +
           '<li><b>Android (Chrome/Edge)</b>: menú (⋮) → <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.</li>' +
-          '<li><b>Escritorio</b>: buscá el ícono de instalación en la barra de direcciones o menú → <b>Instalar</b>.</li>' +
+          '<li><b>Escritorio</b>: ícono de instalación en la barra de direcciones o menú → <b>Instalar</b>.</li>' +
         '</ul>'
       );
+
+      // Conectar botón del modal (si existe)
+      installNowBtn = document.getElementById('installNowBtn');
+      if(installNowBtn){
+        setInstallNowReady(!!deferredPrompt);
+        installNowBtn.onclick = function(){
+          if(!deferredPrompt) return;
+          doPrompt();
+        };
+      }
     });
   }
 

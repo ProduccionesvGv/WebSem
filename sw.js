@@ -1,5 +1,5 @@
 /* NOVA Seeds - Service Worker (PWA) */
-const CACHE_NAME = 'novaseeds-shell-v12';
+const CACHE_NAME = 'novaseeds-shell-v13';
 const APP_SHELL = [
   './',
   './index.html',
