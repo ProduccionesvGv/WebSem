@@ -100,6 +100,9 @@ main{ max-width:520px; margin:0 auto; padding: 0 12px; }
 .panel-visual #lb-thumbs img{ flex:0 0 auto; height:78px; width:auto; border-radius:6px; border:1px solid #d9d9d9; }
 
 .panel-fichas{ padding:12px; gap:12px; }
+.panel-fichas.is-hidden{ display:none !important; }
+.lb-split.no-fichas{ grid-template-columns:1fr !important; }
+
 .lb-fichas-multi{ display:flex; flex-direction:column; gap:12px; }
 .lb-ficha-panel{ background:#0f0f0f; border:1px solid #242424; border-radius:12px; padding:14px; color:#eee; }
 .lb-ficha-title{ margin:0 0 8px 0; font-size:1rem; font-weight:700; color:#90ee90; }

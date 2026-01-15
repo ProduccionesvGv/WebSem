@@ -55,11 +55,11 @@ function openGallery(folderPath, fromHistory=false){
   const thumbs = document.getElementById('lb-thumbs');
   thumbs.innerHTML = '';
   img.src = images[0];
-  images.forEach(src=>{
+  images.forEach((src, idx)=>{
     const im = document.createElement('img');
     im.src = src;
     im.loading = 'lazy';
-    im.onclick = ()=> img.src = src;
+    im.dataset.idx = String(idx);
     thumbs.appendChild(im);
   });
 
@@ -88,6 +88,25 @@ if (thumbs && thumbs.parentElement !== left) left.appendChild(thumbs);
 const parts = folderPath.split('/');
 const folder = parts[1];
 const id = parts[2];
+
+
+// --- Auto Granel: solo la 1ª imagen muestra especificaciones ---
+const isAutoGranel = (folder === '02Genext' && id === '03');
+function toggleFichas(show){
+  if(!isAutoGranel) return;
+  right.classList.toggle('is-hidden', !show);
+  split.classList.toggle('no-fichas', !show);
+}
+// Estado inicial: primera imagen
+toggleFichas(true);
+
+// Reasignar clicks de miniaturas (y ocultar fichas en Auto Granel salvo la 1ª)
+Array.from(thumbs.querySelectorAll('img')).forEach((thumb, idx)=>{
+  thumb.onclick = ()=>{
+    img.src = images[idx];
+    if(isAutoGranel) toggleFichas(idx === 0);
+  };
+});
 
 // Helper to build a ficha panel
 function buildFicha(meta, titleOverride){
