@@ -42,7 +42,7 @@ function buildCarousel(rootId, folder){
   });
 }
 
-function openGallery(folderPath){
+function openGallery(folderPath, fromHistory=false){
   // default set
   let images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','Front2.jpg'].map(n=> `${folderPath}/${n}`);
   // caso específico: img/02Genext/03 tiene nombres en minúscula
@@ -195,16 +195,60 @@ try{
 }catch(e){}
 
   lb.setAttribute('aria-hidden','false');
+  // === Soporte del botón "Atrás" del móvil (historial) ===
+  try{
+    if(!fromHistory){
+      // Si ya hay un estado de lightbox, reemplazarlo (evita acumular historial)
+      if(history.state && history.state.lb){
+        history.replaceState({ lb: true, folderPath }, document.title, window.location.href);
+      }else{
+        history.pushState({ lb: true, folderPath }, document.title, window.location.href);
+      }
+    }
+  }catch(e){}
 }
+
+
+// === Cierre del lightbox (usado por botón y por historial) ===
+function closeLightbox(){
+  const lb = document.getElementById('lightbox');
+  if(!lb) return;
+  if(!lb.classList.contains('active')) return;
+
+  // Si el lightbox se abrió con pushState, volver atrás cierra sin salir del sitio
+  try{
+    if(history.state && history.state.lb){
+      history.back();
+      return;
+    }
+  }catch(e){}
+
+  lb.classList.remove('active');
+  lb.setAttribute('aria-hidden','true');
+}
+
+// Cerrar con el botón físico "Atrás" del móvil
+window.addEventListener('popstate', (e)=>{
+  const lb = document.getElementById('lightbox');
+  if(!lb) return;
+
+  // Si el estado indica lightbox, reabrir (soporta "adelante")
+  if(e && e.state && e.state.lb && e.state.folderPath){
+    openGallery(e.state.folderPath, true);
+    return;
+  }
+
+  // Si está abierto y volvimos a un estado normal, cerrar
+  if(lb.classList.contains('active')){
+    lb.classList.remove('active');
+    lb.setAttribute('aria-hidden','true');
+  }
+});
 
 document.addEventListener('DOMContentLoaded', function(){
   
   buildCarousel('carousel2','02Genext');
-  document.getElementById('lb-close').addEventListener('click', ()=>{
-    const lb = document.getElementById('lightbox');
-    lb.classList.remove('active');
-    lb.setAttribute('aria-hidden','true');
-  });
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
 });
 
 
