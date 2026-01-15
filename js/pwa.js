@@ -6,62 +6,49 @@
     });
   }
 
-  // Instalación PWA (Android/Chromium). En iPhone se muestra guía.
+  // Instalación (PWA) - Android/Chromium permite prompt mediante beforeinstallprompt
   var deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    document.body.classList.add('can-install');
+  });
+
+  window.addEventListener('appinstalled', function(){
+    deferredPrompt = null;
+    document.body.classList.remove('can-install');
+  });
 
   function isIOS(){
     return /iphone|ipad|ipod/i.test(navigator.userAgent);
   }
-  function isStandalone(){
-    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-  }
 
-  function initInstallUI(){
-    var installEl = document.getElementById('install-toast');
-    if(!installEl) return;
+  function bindInstallButton(){
+    var btn = document.querySelector('.app-toast');
+    if(!btn) return;
 
-    // Si ya está instalada, no mostrar el acceso
-    if(isStandalone()){
-      installEl.style.display = 'none';
-      return;
-    }
-
-    installEl.addEventListener('click', function(ev){
-      ev.preventDefault();
-
+    btn.addEventListener('click', function(){
+      // Si el navegador soporta el prompt de instalación
       if(deferredPrompt){
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(function(){
+        // userChoice puede no existir en algunos navegadores antiguos
+        try{
+          deferredPrompt.userChoice.then(function(){
+            deferredPrompt = null;
+          });
+        }catch(err){
           deferredPrompt = null;
-        }).catch(function(){
-          deferredPrompt = null;
-        });
+        }
         return;
       }
 
-      // Fallback (por ejemplo iPhone/Safari)
+      // iOS: no permite disparar el instalador desde un botón
       if(isIOS()){
-        alert('En iPhone: tocá "Compartir" y elegí "Agregar a pantalla de inicio".');
-      } else {
-        alert('Si tu navegador lo permite, vas a ver la opción "Instalar" en el menú del navegador.');
+        alert('En iPhone/iPad: tocá Compartir (⬆️) y elegí “Agregar a pantalla de inicio”.');
       }
     });
   }
 
-  window.addEventListener('beforeinstallprompt', function(e){
-    // Guardar el evento para poder lanzarlo desde el botón
-    e.preventDefault();
-    deferredPrompt = e;
-  });
-
-  window.addEventListener('appinstalled', function(){
-    var installEl = document.getElementById('install-toast');
-    if(installEl) installEl.style.display = 'none';
-  });
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', initInstallUI);
-  } else {
-    initInstallUI();
-  }
+  document.addEventListener('DOMContentLoaded', bindInstallButton);
 })();
