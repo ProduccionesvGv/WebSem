@@ -2024,71 +2024,59 @@ body.no-scroll{ overflow: hidden; }
   display: block;
 }
 
-
-/* Botón CTA blanco y negro sobre la imagen */
-.bg-banner-cta {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #000;
-  color: #fff;
-  border: 2px solid #fff;
-  padding: 6px 22px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border-radius: 999px;
-  text-decoration: none;
-  letter-spacing: 0.4px;
-  animation: ctaCycle 10s ease-in-out infinite;
-cursor: pointer;
-}
-
-
-/* Botón info (tutorial) */
-.bg-banner-info{
-  position: absolute;
-  top: 12px;
-  right: 12px;
+/* Notificación WhatsApp (solo inicio) */
+.wa-toast{
+  position: fixed;
+  left: 0;
+  top: 50%;
+  z-index: 9997;
+  transform: translate(-120%, -50%);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.7);
+  gap: 10px;
+  padding: 10px 14px 10px 12px;
+  background: #25D366;
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
   text-decoration: none;
-  font-weight: 700;
-  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: .2px;
   line-height: 1;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  max-width: 78vw;
+  animation: waToastCycle 10s ease-in-out infinite;
+}
+.wa-toast::before{
+  content:'';
+  position:absolute;
+  left:-10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 10px 10px 10px 0;
+  border-style: solid;
+  border-color: transparent #25D366 transparent transparent;
+}
+.wa-toast__icon{ display:inline-flex; width:22px; height:22px; flex:0 0 auto; }
+.wa-toast__text{ font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@keyframes waToastCycle{
+  0%, 12% { transform: translate(-120%, -50%); opacity: 0; }
+  18%, 58% { transform: translate(12px, -50%); opacity: 1; }
+  64%, 100% { transform: translate(-120%, -50%); opacity: 0; }
 }
 
-.bg-banner-info::before{
-  content: "ℹ";
-  font-weight: 900;
-}
+/* No mostrar la notificación sobre modales */
+body.lb-open .wa-toast,
+body.zoomed .wa-toast{ display:none !important; }
 
-.bg-banner-info:active{
-  transform: scale(0.98);
-}
-
-50% { box-shadow: 0 0 14px 2px rgba(255,255,255,0.5); }
-}
-
-.bg-banner-cta:active {
-  transform: translateX(-50%) scale(0.97);
+@media (prefers-reduced-motion: reduce){
+  .wa-toast{ animation: none !important; transform: translate(12px, -50%); opacity: 1; }
 }
 
 
 
-@keyframes ctaCycle {
-  0%, 8%   { opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(10px) scale(0.98); }
-  14%, 42% { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) scale(1); }
-  50%, 100%{ opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(10px) scale(0.98); }
-}
+/* Botón CTA blanco y negro sobre la imagen */
+
 
 /* Respeta 'reducir movimiento' en el sistema */
 @media (prefers-reduced-motion: reduce){
@@ -2215,14 +2203,6 @@ cursor: pointer;
   opacity: 0.92;
 }
 
-
-
-/* Oculta el CTA del inicio cuando se abre el visor de fotos */
-.lb-open .bg-banner-cta,
-.zoomed .bg-banner-cta {
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
 
 
 /* Botón WhatsApp (tutorial) sin animación */
