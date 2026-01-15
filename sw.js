@@ -1,5 +1,5 @@
 /* NOVA Seeds - Service Worker (PWA) */
-const CACHE_NAME = 'novaseeds-shell-v13';
+const CACHE_NAME = 'novaseeds-shell-v14';
 const APP_SHELL = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const APP_SHELL = [
   './js/app.js',
   './js/pwa.js',
   './manifest.webmanifest',
+  './manifest.json',
   './img/logo.png',
   './img/fondo-germinacion.png',
   './img/00.png',
@@ -47,20 +48,38 @@ self.addEventListener('fetch', (event) => {
   // Solo mismo origen
   if (url.origin !== self.location.origin) return;
 
-  // Navegación: devolver index desde cache si offline
-  if (req.mode === 'navigate') {
+  const isNav = req.mode === 'navigate';
+  const isJS  = req.destination === 'script' || url.pathname.includes('/js/');
+  const isCSS = req.destination === 'style'  || url.pathname.includes('/css/');
+  const isManifest = url.pathname.endsWith('manifest.webmanifest') || url.pathname.endsWith('manifest.json');
+
+  // Navegación: network-first con fallback
+  if (isNav) {
     event.respondWith(
       fetch(req).catch(() => caches.match('./index.html'))
     );
     return;
   }
 
-  // Cache-first para assets estáticos
+  // JS/CSS/manifest: network-first para evitar quedar pegado a versiones viejas
+  if (isJS || isCSS || isManifest) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(()=>{});
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  // Resto: cache-first
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
       return fetch(req).then((res) => {
-        // Guardar en cache recursos pequeños
         const copy = res.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(()=>{});
         return res;

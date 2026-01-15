@@ -1,8 +1,15 @@
 (function(){
   // Registrar Service Worker para experiencia tipo "app" (PWA)
   if('serviceWorker' in navigator){
-    // Registrar lo antes posible (mejora la chance de que el instalador se habilite rápido)
-    try{ navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e){}
+    // En GitHub Pages (project site) la ruta suele ser /WebSem/
+    // Intentamos primero con scope absoluto y, si falla, con ruta relativa.
+    try{
+      navigator.serviceWorker.register('/WebSem/sw.js', { scope: '/WebSem/' })
+        .catch(function(){ return navigator.serviceWorker.register('./sw.js'); })
+        .catch(function(){});
+    }catch(e){
+      try{ navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e2){}
+    }
   }
 
   // Instalación (PWA) - Android/Chromium permite prompt mediante beforeinstallprompt
@@ -141,7 +148,7 @@
       openInstallModal(
         '<p>Si el instalador automático está disponible, se va a habilitar el botón de abajo.</p>' +
         '<button id="installNowBtn" type="button" disabled style="width:100%;margin:12px 0;padding:12px 14px;border-radius:12px;border:0;background:#25D366;color:#0b0b0e;font-weight:700;cursor:pointer;opacity:0.7">Instalar ahora</button>' +
-        '<p style="margin:0 0 8px">Si no se habilita, podés instalar manualmente:</p>' +
+        '<p style="margin:0 0 8px">Si no se habilita, es probable que el navegador no lo soporte o todavía no lo haya habilitado. Probá recargar y volver a tocar. También podés instalar manualmente:</p>' +
         '<ul>' +
           '<li><b>Android (Chrome/Edge)</b>: menú (⋮) → <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.</li>' +
           '<li><b>Escritorio</b>: ícono de instalación en la barra de direcciones o menú → <b>Instalar</b>.</li>' +
