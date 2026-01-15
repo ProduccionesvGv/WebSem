@@ -2072,8 +2072,10 @@ body.no-scroll{ overflow: hidden; }
 
 .app-toast img{
   display: block;
-  width: 112px;
-  height: 74px;
+  /* Mantener tamaño consistente en distintos navegadores */
+  width: clamp(56px, 16vw, 80px) !important;
+  height: auto !important;
+  max-width: 80px !important;
   object-fit: contain;
   border-radius: 16px;
 }
