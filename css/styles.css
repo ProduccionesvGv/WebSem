@@ -2072,12 +2072,14 @@ body.no-scroll{ overflow: hidden; }
 
 .app-toast img{
   display: block;
-  /* Mantener tamaño consistente en distintos navegadores */
-  width: clamp(56px, 16vw, 80px) !important;
+  /* Tamaño controlado y más horizontal */
+  width: clamp(140px, 46vw, 220px) !important;
   height: auto !important;
-  max-width: 80px !important;
+  max-width: 240px !important;
   object-fit: contain;
   border-radius: 16px;
+  border: 2px solid #25D366;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45), 0 0 0 2px rgba(37,211,102,0.18);
 }
 
 .wa-toast::before{
@@ -2287,6 +2289,43 @@ body.zoomed .app-toast{ display:none !important; }
   margin: 0;
   padding-left: 18px;
 }
+
+/* Lista con viñetas tipo "º" (forzado para consistencia cross-browser) */
+.tutorial-oo{
+  list-style: none !important;
+  margin: 12px 0 0 !important;
+  padding: 0 !important;
+}
+.tutorial-oo li{
+  position: relative;
+  padding-left: 18px !important;
+  margin: 10px 0 !important;
+  line-height: 1.45;
+}
+.tutorial-oo li::before{
+  content: "º";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #25D366;
+  font-weight: 900;
+}
+
+/* Separación consistente entre secciones de la guía */
+.tutorial-card{
+  margin: 0 !important;
+}
+.tutorial-card + .tutorial-card{
+  margin-top: 14px !important;
+}
+.tutorial-card + .tutorial-card::before{
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 14px 0;
+  background: rgba(255,255,255,0.12);
+}
+
 
 .tutorial-card li{
   margin: 6px 0;
