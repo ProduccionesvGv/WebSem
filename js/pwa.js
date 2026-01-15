@@ -3,18 +3,52 @@
   if('serviceWorker' in navigator){
     // En GitHub Pages (project site) la ruta suele ser /WebSem/
     // Intentamos primero con scope absoluto y, si falla, con ruta relativa.
+    var regPromise = null;
     try{
-      navigator.serviceWorker.register('/WebSem/sw.js', { scope: '/WebSem/' })
+      regPromise = navigator.serviceWorker.register('/WebSem/sw.js', { scope: '/WebSem/' })
         .catch(function(){ return navigator.serviceWorker.register('./sw.js'); })
         .catch(function(){});
     }catch(e){
-      try{ navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e2){}
+      try{ regPromise = navigator.serviceWorker.register('./sw.js').catch(function(){}); }catch(e2){}
     }
+
+    // En algunos Android/Chromium el instalador no aparece hasta que el SW controla la página.
+    // Hacemos un "reload una sola vez" para que quede controlada sin loops.
+    try{
+      if(regPromise && navigator.serviceWorker.ready){
+        regPromise.then(function(){
+          navigator.serviceWorker.ready.then(function(reg){
+            try{ reg.update(); }catch(e){}
+            try{
+              if(!navigator.serviceWorker.controller && !sessionStorage.getItem('pwa_sw_reloaded')){
+                sessionStorage.setItem('pwa_sw_reloaded','1');
+                location.reload();
+              }
+            }catch(e){}
+          }).catch(function(){});
+        }).catch(function(){});
+      }
+    }catch(e){}
   }
 
   // Instalación (PWA) - Android/Chromium permite prompt mediante beforeinstallprompt
   var deferredPrompt = null;
   var installNowBtn = null;
+  var pendingClick = false;
+  var clickInstallTimeoutMs = 2500;
+
+  function waitForDeferredPrompt(timeoutMs){
+    timeoutMs = (typeof timeoutMs === 'number' && timeoutMs > 0) ? timeoutMs : clickInstallTimeoutMs;
+    if(deferredPrompt) return Promise.resolve(deferredPrompt);
+    return new Promise(function(resolve){
+      var start = Date.now();
+      (function tick(){
+        if(deferredPrompt) return resolve(deferredPrompt);
+        if(Date.now() - start >= timeoutMs) return resolve(null);
+        setTimeout(tick, 120);
+      })();
+    });
+  }
 
   function setInstallNowReady(ready){
     if(!installNowBtn) return;
@@ -124,6 +158,8 @@
     }
 
     btn.addEventListener('click', function(){
+      if(pendingClick) return;
+
       // Si el navegador soporta el prompt de instalación, 1 click.
       if(deferredPrompt){
         doPrompt();
@@ -143,27 +179,57 @@
         return;
       }
 
-      // Chromium/Android a veces habilita el instalador unos segundos después.
-      // Mostramos un modal con un botón que se habilita apenas llegue beforeinstallprompt.
-      openInstallModal(
-        '<p>Si el instalador automático está disponible, se va a habilitar el botón de abajo.</p>' +
-        '<button id="installNowBtn" type="button" disabled style="width:100%;margin:12px 0;padding:12px 14px;border-radius:12px;border:0;background:#25D366;color:#0b0b0e;font-weight:700;cursor:pointer;opacity:0.7">Instalar ahora</button>' +
-        '<p style="margin:0 0 8px">Si no se habilita, es probable que el navegador no lo soporte o todavía no lo haya habilitado. Probá recargar y volver a tocar. También podés instalar manualmente:</p>' +
-        '<ul>' +
-          '<li><b>Android (Chrome/Edge)</b>: menú (⋮) → <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.</li>' +
-          '<li><b>Escritorio</b>: ícono de instalación en la barra de direcciones o menú → <b>Instalar</b>.</li>' +
-        '</ul>'
-      );
+      // Android/Chromium: a veces el instalador aparece unos segundos después (SW/engagement).
+      // Esperamos un poco para que el click siga funcionando "como antes".
+      pendingClick = true;
+      btn.classList.add('is-waiting');
 
-      // Conectar botón del modal (si existe)
-      installNowBtn = document.getElementById('installNowBtn');
-      if(installNowBtn){
-        setInstallNowReady(!!deferredPrompt);
-        installNowBtn.onclick = function(){
-          if(!deferredPrompt) return;
-          doPrompt();
-        };
-      }
+      var swReady = Promise.resolve();
+      try{
+        if('serviceWorker' in navigator && navigator.serviceWorker && navigator.serviceWorker.ready){
+          swReady = navigator.serviceWorker.ready.catch(function(){ return null; });
+        }
+      }catch(e){}
+
+      swReady
+        .then(function(){
+          return waitForDeferredPrompt(clickInstallTimeoutMs);
+        })
+        .then(function(dp){
+          pendingClick = false;
+          btn.classList.remove('is-waiting');
+          if(dp){
+            doPrompt();
+            return;
+          }
+
+          // Si no aparece el instalador, mostramos el fallback.
+          openInstallModal(
+            '<p><b>No aparece el instalador automático todavía.</b></p>' +
+            '<p>En algunos dispositivos se habilita tras recargar la página o tras unos segundos de navegación.</p>' +
+            '<button id="installNowBtn" type="button" disabled style="width:100%;margin:12px 0;padding:12px 14px;border-radius:12px;border:0;background:#25D366;color:#0b0b0e;font-weight:700;cursor:pointer;opacity:0.7">Instalar ahora</button>' +
+            '<p style="margin:0 0 8px">Si no se habilita, instalá manualmente:</p>' +
+            '<ul>' +
+              '<li><b>Android (Chrome/Edge)</b>: menú (⋮) → <b>Instalar app</b> o <b>Agregar a pantalla principal</b>.</li>' +
+              '<li><b>Escritorio</b>: ícono de instalación en la barra de direcciones o menú → <b>Instalar</b>.</li>' +
+            '</ul>'
+          );
+
+          installNowBtn = document.getElementById('installNowBtn');
+          if(installNowBtn){
+            setInstallNowReady(!!deferredPrompt);
+            installNowBtn.onclick = function(){
+              if(!deferredPrompt) return;
+              doPrompt();
+            };
+          }
+        })
+        .catch(function(){
+          pendingClick = false;
+          btn.classList.remove('is-waiting');
+        });
+
+      return;
     });
   }
 

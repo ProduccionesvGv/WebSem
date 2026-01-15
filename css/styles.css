@@ -2069,6 +2069,14 @@ body.no-scroll{ overflow: hidden; }
   cursor: pointer;
 }
 
+.app-toast.is-waiting{
+  cursor: progress;
+}
+
+.app-toast.is-waiting img{
+  opacity: 0.85;
+}
+
 .app-toast img{
   display: block;
   width: clamp(120px, 26vw, 200px);
