@@ -543,8 +543,8 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 /* Asegurar que la X esté visible */
 #lb-close.lb-close{
   position: absolute;
-  top: 18px
-  right: 18px
+  top: 18px;
+  right: 18px;
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
@@ -552,10 +552,10 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
   background: rgba(0,0,0,0.6);
   color: #fff;
   border: 1px solid #222;
-  border-radius: 15px
+  border-radius: 15px;
   padding: 6px 10px;
   line-height: 1;
-  font-size: 30px
+  font-size: 30px;
   cursor: pointer;
 }
 
@@ -2102,12 +2102,11 @@ body.no-scroll{ overflow: hidden; }
 /* No mostrar la notificación sobre modales */
 body.lb-open .wa-toast,
 body.zoomed .wa-toast,
-.lb-open .app-toast,
-body.zoomed @media (prefers-reduced-motion: reduce){
-  .wa-toast{ animation: none !important; transform: translateX(12px); opacity: 1; }
+.lb-open .app-toast{
+  animation: none !important;
+  transform: translateX(12px);
+  opacity: 1;
 }
-
-
 
 /* Botón CTA blanco y negro sobre la imagen */
 

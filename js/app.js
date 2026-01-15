@@ -12,6 +12,12 @@ const DATA_OVERRIDE = {
   }
 };
 
+// Garantizar globals (evita ReferenceError al usar DATA_FICHAS en otros parches)
+window.DATA_OVERRIDE = window.DATA_OVERRIDE || DATA_OVERRIDE;
+window.DATA_FICHAS = window.DATA_FICHAS || {};
+var DATA_FICHAS = window.DATA_FICHAS;
+
+
 function buildCarousel(rootId, folder){
   const container = document.getElementById(rootId);
   if(!container) return;
@@ -90,21 +96,10 @@ const folder = parts[1];
 const id = parts[2];
 
 
-// --- Auto Granel: solo la 1ª imagen muestra especificaciones ---
-const isAutoGranel = (folder === '02Genext' && id === '03');
-function toggleFichas(show){
-  if(!isAutoGranel) return;
-  right.classList.toggle('is-hidden', !show);
-  split.classList.toggle('no-fichas', !show);
-}
-// Estado inicial: primera imagen
-toggleFichas(true);
-
-// Reasignar clicks de miniaturas (y ocultar fichas en Auto Granel salvo la 1ª)
+// Miniaturas: cambiar imagen principal
 Array.from(thumbs.querySelectorAll('img')).forEach((thumb, idx)=>{
   thumb.onclick = ()=>{
     img.src = images[idx];
-    if(isAutoGranel) toggleFichas(idx === 0);
   };
 });
 
@@ -130,19 +125,35 @@ function buildFicha(meta, titleOverride){
 // Render fichas
 try{
   let rendered = false;
-  if (folder === '02Genext' && id === '01' && window.DATA_FICHAS && DATA_FICHAS['02Genext'] && Array.isArray(DATA_FICHAS['02Genext']['01'])) {
-    const arr = DATA_FICHAS['02Genext']['01'];
-    if (arr.length){
-      const cont = document.createElement('div');
-      cont.className = 'lb-fichas-multi';
-      arr.forEach(f => {
-        const m = { title:f.titulo, banco:f.banco, genetica:f.genetica, floracion:f.floracion, thc:f.thc, rendimiento:f.rendimiento, sabor:f.sabor, notas:f.notas };
-        cont.appendChild(buildFicha(m, f.titulo || ''));
-      });
-      right.appendChild(cont);
-      rendered = true;
-    }
+
+  // Si hay fichas declaradas en window.DATA_FICHAS (para cualquier producto), renderizarlas
+  const fichasRoot = window.DATA_FICHAS || null;
+  const fichasArr =
+    (fichasRoot && fichasRoot[folder] && Array.isArray(fichasRoot[folder][id]))
+      ? fichasRoot[folder][id]
+      : null;
+
+  if (fichasArr && fichasArr.length){
+    const cont = document.createElement('div');
+    cont.className = 'lb-fichas-multi';
+    fichasArr.forEach(f => {
+      const m = {
+        title: f.titulo || f.title || '',
+        banco: f.banco,
+        genetica: f.genetica,
+        floracion: f.floracion,
+        thc: f.thc,
+        rendimiento: f.rendimiento,
+        sabor: f.sabor,
+        notas: f.notas
+      };
+      cont.appendChild(buildFicha(m, m.title || ''));
+    });
+    right.appendChild(cont);
+    rendered = true;
   }
+
+  // Fallback: usar DATA_OVERRIDE si no hay ficha
   if (!rendered){
     const meta = (window.DATA_OVERRIDE && DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {};
     right.appendChild(buildFicha(meta));
