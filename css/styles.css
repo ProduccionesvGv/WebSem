@@ -2006,14 +2006,6 @@ body.no-scroll{ overflow: hidden; }
 }
 
 
-@media (max-width: 360px) {
-  .background-banner-img { height: 140px; }
-}
-
-@media (min-width: 420px) {
-  .background-banner-img { height: 170px; }
-}
-
 /* Fondo inferior ancho, proporción extendida + CTA */
 .background-banner {
   width: 100%;
@@ -2026,10 +2018,12 @@ body.no-scroll{ overflow: hidden; }
 
 .background-banner-img {
   width: 100%;
-  height: 150px;
+  height: clamp(108px, 22vw, 148px);
   object-fit: cover;
+  object-position: center;
   display: block;
 }
+
 
 /* Botón CTA blanco y negro sobre la imagen */
 .bg-banner-cta {
@@ -2046,8 +2040,8 @@ body.no-scroll{ overflow: hidden; }
   border-radius: 999px;
   text-decoration: none;
   letter-spacing: 0.4px;
-  animation: ctaPulse 1.3s ease-in-out infinite;
-  cursor: pointer;
+  animation: ctaCycle 10s ease-in-out infinite;
+cursor: pointer;
 }
 
 
@@ -2081,15 +2075,20 @@ body.no-scroll{ overflow: hidden; }
   transform: scale(0.98);
 }
 
-@keyframes ctaPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.65); }
-  50% { box-shadow: 0 0 14px 2px rgba(255,255,255,0.5); }
+50% { box-shadow: 0 0 14px 2px rgba(255,255,255,0.5); }
 }
 
 .bg-banner-cta:active {
   transform: translateX(-50%) scale(0.97);
 }
 
+
+
+@keyframes ctaCycle {
+  0%, 8%   { opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(10px) scale(0.98); }
+  14%, 42% { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) scale(1); }
+  50%, 100%{ opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(10px) scale(0.98); }
+}
 
 /* Respeta 'reducir movimiento' en el sistema */
 @media (prefers-reduced-motion: reduce){
@@ -2216,3 +2215,26 @@ body.no-scroll{ overflow: hidden; }
   opacity: 0.92;
 }
 
+
+
+/* Oculta el CTA del inicio cuando se abre el visor de fotos */
+.lb-open .bg-banner-cta,
+.zoomed .bg-banner-cta {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+
+/* Botón WhatsApp (tutorial) sin animación */
+.tutorial-cta {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 8px 18px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 999px;
+  text-decoration: none;
+}
+.tutorial-cta:active{ transform: scale(0.98); }

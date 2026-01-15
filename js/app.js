@@ -167,15 +167,18 @@ try{
     lb.appendChild(closeBtn);
   }
   // handler
-  closeBtn.onclick = function(ev){ ev.stopPropagation(); lb.classList.remove('active'); };
+  closeBtn.onclick = function(ev){ ev.stopPropagation(); lb.classList.remove('active');
+    document.body.classList.remove('lb-open'); };
   // keyboard ESC once per open
   function onKey(ev){
-    if(ev.key === 'Escape'){ lb.classList.remove('active'); document.removeEventListener('keydown', onKey); }
+    if(ev.key === 'Escape'){ lb.classList.remove('active');
+    document.body.classList.remove('lb-open'); document.removeEventListener('keydown', onKey); }
   }
   document.addEventListener('keydown', onKey);
 })();
 
   lb.classList.add('active');
+  document.body.classList.add('lb-open');
   try{ lb.dataset.folderPath = folderPath; }catch(e){}
 
 // v34: Forzar render de 4 fichas para Dealer Deal XXL cuando aplique
@@ -245,6 +248,7 @@ function closeLightbox(){
   }catch(e){}
 
   lb.classList.remove('active');
+    document.body.classList.remove('lb-open');
   lb.setAttribute('aria-hidden','true');
 }
 
@@ -276,6 +280,7 @@ window.addEventListener('popstate', (e)=>{
   // Si está abierto y volvimos a un estado normal, cerrar
   if(lb.classList.contains('active')){
     lb.classList.remove('active');
+    document.body.classList.remove('lb-open');
     lb.setAttribute('aria-hidden','true');
   }
 });
