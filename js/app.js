@@ -39,7 +39,9 @@ function buildCarousel(rootId, folder){
     const body = document.createElement('div');
     body.className = 'body';
     const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
+    // Auto Granel: mantiene especificaciones como el resto
     body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div><div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`;
+
 
     card.appendChild(heroDiv);
     card.appendChild(body);
@@ -122,9 +124,32 @@ function buildFicha(meta, titleOverride){
   return d;
 }
 
+// Auto Granel (02Genext/03): ficha sin especificaciones, solo títulos
+function buildAutoGranelFicha(){
+  const d = document.createElement('div');
+  d.className = 'lb-ficha-panel auto-granel-ficha';
+  d.innerHTML = `    <div class="ag-title-row">
+      <h4 class="lb-ficha-title ag-title-main">Critical xxl AUTO GRANEL</h4>
+      <h4 class="lb-ficha-title ag-title-qty">x5 Semillas</h4>
+    </div>
+    <div class="ag-desc">
+      <div class="ag-desc-main">Semillas a Granel de Automáticas Criticar XXL Autofloreciente.</div>
+      <div class="ag-desc-note">*las semillas se entregan en Tubos Eppendorf de 1.5 ml.</div>
+    </div>`;
+  return d;
+}
+
+
 // Render fichas
 try{
   let rendered = false;
+
+  // Auto Granel: mostrar solo títulos (sin tabla)
+  if(folder === '02Genext' && id === '03'){
+    right.innerHTML = '';
+    right.appendChild(buildAutoGranelFicha());
+    rendered = true;
+  }
 
   // Si hay fichas declaradas en window.DATA_FICHAS (para cualquier producto), renderizarlas
   const fichasRoot = window.DATA_FICHAS || null;
@@ -132,8 +157,7 @@ try{
     (fichasRoot && fichasRoot[folder] && Array.isArray(fichasRoot[folder][id]))
       ? fichasRoot[folder][id]
       : null;
-
-  if (fichasArr && fichasArr.length){
+  if (!rendered && fichasArr && fichasArr.length){
     const cont = document.createElement('div');
     cont.className = 'lb-fichas-multi';
     fichasArr.forEach(f => {
@@ -195,6 +219,10 @@ try{
 // v34: Forzar render de 4 fichas para Dealer Deal XXL cuando aplique
 try{
   const parts = folderPath.split('/'); const folder = parts[1]; const id = parts[2];
+  // Solo aplica a Dealer Deal XXL (02Genext/01)
+  if(!(folder === '02Genext' && id === '01')){
+    throw new Error('skip');
+  }
   const right = lb.querySelector('.panel-fichas');
   // builder local por si no existe en scope
   function _buildFicha(meta, titleOverride){
@@ -360,20 +388,17 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!DATA_OVERRIDE["02Genext"]) DATA_OVERRIDE["02Genext"] = {};
     DATA_OVERRIDE["02Genext"]["03"] = Object.assign({}, DATA_OVERRIDE["02Genext"]["03"] || {}, {
       title: "Auto Granel",
-      genetica: "Autofloreciente"
+      genetica: "Autofloreciente",
+      price: "99.000"
     });
 
     window.DATA_FICHAS = window.DATA_FICHAS || {};
     if(!DATA_FICHAS["02Genext"]) DATA_FICHAS["02Genext"] = {};
     DATA_FICHAS["02Genext"]["03"] = [
       {
-        titulo: "Auto Granel",
-        banco: "NOVA Seeds",
-        genetica: "Autofloreciente (mix a granel)",
-        floracion: "8–10 semanas (según fenotipo)",
-        thc: "18–22% (aprox.)",
-        rendimiento: "400–550 g/m²",
-        sabor: "Dulce / cítrico / terroso (varía)"}
+        titulo: "Critical xxl AUTO GRANEL",
+        qty: "x5 Semillas"
+      }
     ];
   }catch(e){}
 })();
