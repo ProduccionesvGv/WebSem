@@ -2209,6 +2209,42 @@ body.zoomed .wa-toast{ display:none !important; }
 
 
 
+
+
+/* Tutorial: sección de temperatura (estilo claro para mejor lectura) */
+.tutorial-card.tutorial-light{
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.10);
+  color: #111;
+}
+
+.tutorial-card.tutorial-light h3{
+  color: #111;
+}
+
+.tutorial-card.tutorial-light p{
+  margin: 10px 0 10px;
+  color: #222;
+  line-height: 1.45;
+}
+
+.tutorial-img{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0 10px;
+  border-radius: 12px;
+}
+
+.tutorial-card.tutorial-light ul{
+  margin: 0;
+  padding-left: 18px;
+}
+
+.tutorial-card.tutorial-light li{
+  opacity: 1;
+  color: #111;
+}
 /* Botón WhatsApp (tutorial) sin animación */
 .tutorial-cta {
   display: inline-block;
