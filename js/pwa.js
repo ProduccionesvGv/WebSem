@@ -13,6 +13,7 @@
     e.preventDefault();
     deferredPrompt = e;
     document.body.classList.add('can-install');
+    updateInstallVisibility();
   });
 
   window.addEventListener('appinstalled', function(){
@@ -22,6 +23,27 @@
 
   function isIOS(){
     return /iphone|ipad|ipod/i.test(navigator.userAgent);
+  }
+
+
+  function isStandalone(){
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || (navigator.standalone === true);
+  }
+
+  function updateInstallVisibility(){
+    var btn = document.querySelector('.app-toast');
+    if(!btn) return;
+    // ocultar si ya está instalada
+    if(isStandalone()){
+      btn.style.display = 'none';
+      return;
+    }
+    // mostrar solo si el navegador disparó beforeinstallprompt
+    if(document.body.classList.contains('can-install')){
+      btn.style.display = '';
+    }else{
+      btn.style.display = 'none';
+    }
   }
 
   function bindInstallButton(){
@@ -50,5 +72,7 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', bindInstallButton);
+  document.addEventListener('DOMContentLoaded', function(){ bindInstallButton(); updateInstallVisibility(); });
+  window.addEventListener('appinstalled', updateInstallVisibility);
+  window.addEventListener('load', updateInstallVisibility);
 })();

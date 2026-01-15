@@ -144,19 +144,7 @@ try{
     }
   }
   if (!rendered){
-    let meta = (window.DATA_OVERRIDE && DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {};
-    // Completar ficha técnica para Auto Granel (Critical +2 XXL Auto) - solo se muestra en la 1ª imagen (foto1.jpg)
-    if (folder === '02Genext' && id === '03') {
-      meta = Object.assign({}, meta, {
-        banco: 'BSF Seeds',
-        genetica: 'Critical +2 XXL Auto (60% índica / 40% sativa)',
-        floracion: 'Ciclo completo: 55 días',
-        thc: '20%',
-        rendimiento: 'INT: 300–450 g/m² · EXT: 100–300 g/planta',
-        sabor: 'Dulce, limón, cítricos',
-        notas: 'Efecto relajante, potente y de larga duración'
-      });
-    }
+    const meta = (window.DATA_OVERRIDE && DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {};
     right.appendChild(buildFicha(meta));
   }
 } catch(e) {

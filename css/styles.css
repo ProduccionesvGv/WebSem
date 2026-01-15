@@ -2073,7 +2073,7 @@ body.no-scroll{ overflow: hidden; }
 .app-toast img{
   display: block;
   /* Tamaño controlado y más horizontal */
-  width: clamp(92px, 28vw, 140px) !important;
+  width: clamp(140px, 46vw, 220px) !important;
   height: auto !important;
   max-width: 240px !important;
   object-fit: contain;
@@ -2519,4 +2519,27 @@ body.home-page{ gap:0; }
   margin: 0 auto;
   border-radius: 12px;
   border: 1px solid var(--border);
+}
+
+
+
+/* Tutorial guía - imágenes full-bleed */
+.tutorial-page .guide-img{
+  display:block;
+  width:100vw;
+  max-width:100vw;
+  height:auto;
+  margin:12px calc(50% - 50vw);
+  border-radius:12px;
+  object-fit:cover;
+}
+/* forzar estructura y separación consistente */
+.tutorial-page .guide-section{
+  padding:14px 14px 18px;
+  border:1px solid rgba(37,211,102,.35);
+  border-radius:16px;
+  margin:14px 12px;
+}
+.tutorial-page .guide-section + .guide-section{
+  margin-top:18px;
 }
