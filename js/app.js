@@ -176,6 +176,7 @@ try{
 })();
 
   lb.classList.add('active');
+  try{ lb.dataset.folderPath = folderPath; }catch(e){}
 
 // v34: Forzar render de 4 fichas para Dealer Deal XXL cuando aplique
 try{
@@ -249,11 +250,25 @@ function closeLightbox(){
 
 // Cerrar con el botón físico "Atrás" del móvil
 window.addEventListener('popstate', (e)=>{
+  // 1) Si hay una imagen ampliada (zoom-modal), el botón Atrás debe cerrarla primero
+  const zm = document.getElementById('zoom-modal');
+  if(zm && zm.classList.contains('active') && !(e && e.state && e.state.zoom)){
+    zm.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+    document.body.classList.remove('zoomed');
+    const zimg = zm.querySelector('.zm-img');
+    if(zimg){ zimg.removeAttribute('src'); zimg.removeAttribute('style'); }
+  }
+
   const lb = document.getElementById('lightbox');
   if(!lb) return;
 
-  // Si el estado indica lightbox, reabrir (soporta "adelante")
+  // Si el estado indica lightbox, reabrir (soporta "adelante"), pero sin reiniciar si ya está abierto en el mismo producto
   if(e && e.state && e.state.lb && e.state.folderPath){
+    if(lb.classList.contains('active') && lb.dataset && lb.dataset.folderPath === e.state.folderPath){
+      lb.setAttribute('aria-hidden','false');
+      return;
+    }
     openGallery(e.state.folderPath, true);
     return;
   }
@@ -265,7 +280,14 @@ window.addEventListener('popstate', (e)=>{
   }
 });
 
+
 document.addEventListener('DOMContentLoaded', function(){
+  // Estado base para que el botón Atrás cierre modales sin salir del sitio
+  try{
+    if(!history.state || typeof history.state !== 'object' || (!('lb' in history.state) && !('zoom' in history.state))){
+      history.replaceState({ lb:false, zoom:false }, document.title, window.location.href);
+    }
+  }catch(e){}
   
   buildCarousel('carousel2','02Genext');
   document.getElementById('lb-close').addEventListener('click', closeLightbox);
@@ -553,7 +575,23 @@ document.addEventListener('DOMContentLoaded', function(){
     document.body.appendChild(m);
     // Handlers
     var img = m.querySelector('.zm-img');
-    var close = function(){ m.classList.remove('active'); document.body.classList.remove('no-scroll'); img.removeAttribute('src'); };
+    var close = function(){
+        // Si se abrió con historial, el botón Atrás / cerrar vuelve al estado anterior (sin salir del sitio)
+        try{
+          if(history.state && history.state.zoom){
+            m.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            document.body.classList.remove('zoomed');
+            if(img){ img.removeAttribute('src'); img.removeAttribute('style'); }
+            history.back();
+            return;
+          }
+        }catch(e){}
+        m.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        document.body.classList.remove('zoomed');
+        if(img){ img.removeAttribute('src'); img.removeAttribute('style'); }
+      };
     m.querySelector('.zm-backdrop').onclick = close;
     m.querySelector('.zm-close').onclick = close;
     document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape') close(); });
@@ -1243,6 +1281,17 @@ document.addEventListener('DOMContentLoaded', function(){
     var host = ev.target.closest('#lb-img'); if(!host) return;
     ev.preventDefault(); ev.stopPropagation();
     var src = getMainSrc(host, ev.target); if(!src) return;
+    // Historial: el botón Atrás debe cerrar la imagen ampliada
+    try{
+      if(history.state && history.state.lb){
+        var nextState = Object.assign({}, history.state, { zoom:true, zoomSrc: src });
+        if(history.state.zoom){
+          history.replaceState(nextState, document.title, window.location.href);
+        }else{
+          history.pushState(nextState, document.title, window.location.href);
+        }
+      }
+    }catch(e){}
     var m = ensureModal(); var img = m.querySelector('.zm-img');
     // reset estilos para evitar zoom previo
     img.removeAttribute('style');

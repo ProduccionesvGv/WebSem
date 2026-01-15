@@ -2065,3 +2065,55 @@ body.no-scroll{ overflow: hidden; }
 }
 
 /* --- Ajuste: semillas de regalo sin transición/animación --- */
+
+
+/* === Ajustes pedidos (v4): sin banner flotante, título legible, mobile-only === */
+#promo-banner, .promo-banner{ display:none !important; }
+
+/* Encabezado del primer bloque sin borde/espacio extra */
+.carousel-section:first-of-type{ border-top:0; padding-top:6px; }
+.carousel-section{ padding:10px 0 14px; }
+
+/* Header del carrusel en columna (mobile-first) */
+.section-head{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  margin:0 10px 8px;
+}
+.section-head .controls{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  width:100%;
+}
+
+/* Título nuevo, simple y legible (sin efectos) */
+.section-title-mobile{
+  margin:0;
+  padding:0 12px;
+  text-align:center;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight:800;
+  font-size:clamp(18px, 5.4vw, 22px);
+  line-height:1.15;
+  letter-spacing:.01em;
+  color:#f5f5f5;
+  text-shadow:none !important;
+  filter:none !important;
+}
+.theme-b .section-head h2.section-title-mobile{ color:#f5f5f5 !important; }
+
+/* Apagar cualquier efecto viejo del título (por si quedó CSS) */
+.section-title.brand::before,
+.section-title.brand::after{
+  content:none !important;
+  display:none !important;
+}
+.section-title.brand,
+.section-title--split{
+  text-shadow:none !important;
+  filter:none !important;
+}
