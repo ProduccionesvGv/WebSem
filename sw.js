@@ -1,5 +1,5 @@
 /* NOVA Seeds - Service Worker (PWA) */
-const CACHE_NAME = 'novaseeds-shell-v6';
+const CACHE_NAME = 'novaseeds-shell-v7';
 const APP_SHELL = [
   './',
   './index.html',
@@ -11,6 +11,9 @@ const APP_SHELL = [
   './img/logo.png',
   './img/fondo-germinacion.png',
   './img/00.png',
+  './img/01.jpg',
+  './img/02.jpg',
+  './img/03.png',
   './img/andreani.png',
   './img/whatsapp-icon.png',
   './img/whatsapp-icon.svg',
@@ -20,7 +23,11 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(async (cache) => {
+    for (const url of APP_SHELL) {
+      try { await cache.add(url); } catch (e) { /* ignora recursos faltantes */ }
+    }
+  }).then(() => self.skipWaiting())
   );
 });
 
