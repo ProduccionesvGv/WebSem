@@ -2006,10 +2006,12 @@ body.no-scroll{ overflow: hidden; }
 }
 
 
-@media (max-width: 768px) {
-  .background-banner-img {
-    height: 180px;
-  }
+@media (max-width: 360px) {
+  .background-banner-img { height: 140px; }
+}
+
+@media (min-width: 420px) {
+  .background-banner-img { height: 170px; }
 }
 
 /* Fondo inferior ancho, proporción extendida + CTA */
@@ -2024,8 +2026,8 @@ body.no-scroll{ overflow: hidden; }
 
 .background-banner-img {
   width: 100%;
-  height: auto;
-  transform: scaleY(0.65);
+  height: 150px;
+  object-fit: cover;
   display: block;
 }
 
@@ -2046,6 +2048,37 @@ body.no-scroll{ overflow: hidden; }
   letter-spacing: 0.4px;
   animation: ctaPulse 1.3s ease-in-out infinite;
   cursor: pointer;
+}
+
+
+/* Botón info (tutorial) */
+.bg-banner-info{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.bg-banner-info::before{
+  content: "ℹ";
+  font-weight: 900;
+}
+
+.bg-banner-info:active{
+  transform: scale(0.98);
 }
 
 @keyframes ctaPulse {
@@ -2117,3 +2150,69 @@ body.no-scroll{ overflow: hidden; }
   text-shadow:none !important;
   filter:none !important;
 }
+
+
+/* Tutorial page */
+.tutorial-wrap{
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: 18px 16px 80px;
+  color: #fff;
+}
+
+.tutorial-header{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+
+.tutorial-back{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.tutorial-back:active{ transform: scale(0.98); }
+
+.tutorial-title{
+  font-size: 1.35rem;
+  font-weight: 900;
+  margin: 10px 0 8px;
+}
+
+.tutorial-sub{
+  opacity: 0.8;
+  margin: 0 0 14px;
+}
+
+.tutorial-card{
+  border-radius: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  padding: 14px;
+  margin: 12px 0;
+}
+
+.tutorial-card h3{
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.tutorial-card ul{
+  margin: 0;
+  padding-left: 18px;
+}
+
+.tutorial-card li{
+  margin: 6px 0;
+  opacity: 0.92;
+}
+
