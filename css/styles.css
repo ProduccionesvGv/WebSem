@@ -2218,3 +2218,59 @@ body.zoomed .wa-toast{ display:none !important; }
   text-decoration: none;
 }
 .tutorial-cta:active{ transform: scale(0.98); }
+
+/* === Ajustes pedidos (v9) === */
+
+/* Menos espacio entre logo y carrusel */
+body.home-page{ gap:0; }
+.site-header .header-inner{ padding:6px 0 0; }
+.site-logo{ margin:0 auto 4px; max-height:110px; }
+.carousel-section:first-of-type{ padding-top:0 !important; }
+.section-head{ padding-top:0; }
+
+/* Banner superior siempre pegado arriba */
+.top-banner{ position:fixed !important; top:0; left:0; right:0; }
+
+/* Apartado de entregas (debajo del banner de germinación) */
+.delivery-section{
+  margin: 12px 0 0;
+  padding: 12px;
+  background: #0b0b0e;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.delivery-title{
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: left;
+}
+.delivery-text{
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.delivery-map{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+.delivery-map-frame{
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.delivery-map-link{
+  display: inline-block;
+  margin-top: 10px;
+  color: #25D366;
+  text-decoration: none;
+  font-weight: 800;
+}
+.delivery-map-link:active{ opacity: .85; }
