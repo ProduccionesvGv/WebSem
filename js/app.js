@@ -47,7 +47,8 @@ function openGallery(folderPath, fromHistory=false){
   let images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','Front2.jpg'].map(n=> `${folderPath}/${n}`);
   // caso específico: img/02Genext/03 tiene nombres en minúscula
   if (folderPath.indexOf('02Genext/03') !== -1) {
-    images = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','front.jpg','front2.jpg'].map(n=> `${folderPath}/${n}`);
+    // Auto Granel usa solo 3 fotos reales en el proyecto actualizado
+    images = ['foto1.jpg','front.jpg','front2.jpg'].map(n=> `${folderPath}/${n}`);
   }
   const lb = document.getElementById('lightbox');
   const img = document.getElementById('lb-img');

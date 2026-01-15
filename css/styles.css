@@ -664,17 +664,38 @@ main, .main, #main, .carousels, .carousels-wrap, .carousel-wrap{
 }
 .section-title.brand{
   margin: 10px 0 14px 0;
-  font-size: clamp(14px, 4.2vw, 20px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: .04em;
   color: var(--brand-accent);
-  text-shadow: 0 1px 2px rgba(0,0,0,.35);
   text-align: center;
   padding: 0 10px;
-  overflow-wrap: anywhere;
 }
+
+/* Título mobile-first, simple y legible */
+.section-title--split{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.section-title--split .title-kicker{
+  font-size: clamp(11px, 3.3vw, 13px);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.section-title--split .title-main{
+  font-size: clamp(18px, 6vw, 24px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 
 /* barra de acento */
 .section-title.brand::after{
@@ -713,17 +734,38 @@ body{ color: #eee; background: #1a1a1a; }
 }
 .section-title.brand{
   margin: 10px 0 14px 0;
-  font-size: clamp(14px, 4.2vw, 20px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: .04em;
   color: var(--brand-accent);
-  text-shadow: 0 1px 2px rgba(0,0,0,.35);
   text-align: center;
   padding: 0 10px;
-  overflow-wrap: anywhere;
 }
+
+/* Título mobile-first, simple y legible */
+.section-title--split{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.section-title--split .title-kicker{
+  font-size: clamp(11px, 3.3vw, 13px);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.section-title--split .title-main{
+  font-size: clamp(18px, 6vw, 24px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .section-title.brand::before{
   background: var(--seeds-yellow) !important;
   box-shadow: 0 0 10px var(--seeds-glow);
@@ -736,17 +778,38 @@ body{ color: #eee; background: #1a1a1a; }
 /* vTITLES-REFINE: borde amarillo más sutil en títulos de secciones */
 .section-title.brand{
   margin: 10px 0 14px 0;
-  font-size: clamp(14px, 4.2vw, 20px);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: .04em;
   color: var(--brand-accent);
-  text-shadow: 0 1px 2px rgba(0,0,0,.35);
   text-align: center;
   padding: 0 10px;
-  overflow-wrap: anywhere;
 }
+
+/* Título mobile-first, simple y legible */
+.section-title--split{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.section-title--split .title-kicker{
+  font-size: clamp(11px, 3.3vw, 13px);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .85;
+}
+
+.section-title--split .title-main{
+  font-size: clamp(18px, 6vw, 24px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 
 
 /* v-close-xl-only: aumentar tamaño del botón Cerrar sin tocar nada más */
