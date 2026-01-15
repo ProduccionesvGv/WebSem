@@ -75,22 +75,18 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
 .ag-title-row .ag-title-main{ margin:0; }
 .ag-title-row .ag-title-qty{ margin:0; color: var(--seeds-green, #90ee90); }
 
-/* Auto Granel: texto descriptivo en ficha */
+/* Texto descriptivo de Auto Granel en la ficha */
 .auto-granel-ficha .ag-desc{
-  margin-top:10px;
-  text-align:center;
-  line-height:1.35;
+  margin: 10px 0 0 0;
+  text-align: center;
+  color: #eaeaea;
+  font-size: 0.95rem;
+  line-height: 1.35;
 }
-.auto-granel-ficha .ag-desc-main{
-  color: var(--text);
-  font-size:0.95rem;
+.auto-granel-ficha .ag-desc em{
+  font-style: normal;
+  opacity: 0.95;
 }
-.auto-granel-ficha .ag-desc-note{
-  margin-top:6px;
-  color: var(--muted);
-  font-size:0.9rem;
-}
-
 
 /* lightbox minimal */
 .lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.7); z-index:9999; }

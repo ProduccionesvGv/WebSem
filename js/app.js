@@ -39,9 +39,8 @@ function buildCarousel(rootId, folder){
     const body = document.createElement('div');
     body.className = 'body';
     const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
-    // Auto Granel: mantiene especificaciones como el resto
+    // Tarjetas del carrusel: mantener el formato estándar (título + genética + precio)
     body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div><div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`;
-
 
     card.appendChild(heroDiv);
     card.appendChild(body);
@@ -128,14 +127,12 @@ function buildFicha(meta, titleOverride){
 function buildAutoGranelFicha(){
   const d = document.createElement('div');
   d.className = 'lb-ficha-panel auto-granel-ficha';
-  d.innerHTML = `    <div class="ag-title-row">
+  d.innerHTML = `
+    <div class="ag-title-row">
       <h4 class="lb-ficha-title ag-title-main">Critical xxl AUTO GRANEL</h4>
       <h4 class="lb-ficha-title ag-title-qty">x5 Semillas</h4>
     </div>
-    <div class="ag-desc">
-      <div class="ag-desc-main">Semillas a Granel de Automáticas Criticar XXL Autofloreciente.</div>
-      <div class="ag-desc-note">*las semillas se entregan en Tubos Eppendorf de 1.5 ml.</div>
-    </div>`;
+    <p class="ag-desc">Semillas a Granel de Automáticas Criticar XXL Autofloreciente.<br><em>*las semillas se entregan en Tubos Eppendorf de 1.5 ml.</em></p>`;
   return d;
 }
 
@@ -387,9 +384,8 @@ document.addEventListener('DOMContentLoaded', function(){
     window.DATA_OVERRIDE = window.DATA_OVERRIDE || DATA_OVERRIDE || {};
     if(!DATA_OVERRIDE["02Genext"]) DATA_OVERRIDE["02Genext"] = {};
     DATA_OVERRIDE["02Genext"]["03"] = Object.assign({}, DATA_OVERRIDE["02Genext"]["03"] || {}, {
-      title: "Auto Granel",
-      genetica: "Autofloreciente",
-      price: "99.000"
+      title: "Critical xxl AUTO GRANEL",
+      genetica: "Autofloreciente"
     });
 
     window.DATA_FICHAS = window.DATA_FICHAS || {};
