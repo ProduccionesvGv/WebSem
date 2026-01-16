@@ -2279,6 +2279,7 @@ body.zoomed .wa-stack .wa-fab,
 /* Tutorial page */
 .tutorial-wrap{
   width: min(520px, 100%);
+  box-sizing: border-box;
   margin: 0 auto;
   padding: 18px 16px 80px;
   color: #fff;

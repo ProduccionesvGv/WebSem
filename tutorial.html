@@ -91,6 +91,15 @@
 
 </main>
 
+  <script>
+    // Asegura que la guía abra centrada (sin desplazamiento horizontal)
+    window.addEventListener('load', () => {
+      document.documentElement.scrollLeft = 0;
+      document.body.scrollLeft = 0;
+      window.scrollTo(0, 0);
+    });
+  </script>
+
   <script src="js/pwa.js" defer></script>
 </body>
 </html>
