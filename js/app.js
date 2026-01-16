@@ -132,7 +132,7 @@ function buildAutoGranelFicha(){
       <h4 class="lb-ficha-title ag-title-main">Critical xxl AUTO GRANEL</h4>
       <h4 class="lb-ficha-title ag-title-qty">x5 Semillas</h4>
     </div>
-    <p class="ag-desc">Semillas a Granel de Automáticas Criticar XXL Autofloreciente.<br><em>*las semillas se entregan en Tubos Eppendorf de 1.5 ml.</em></p>`;
+    <p class="ag-desc">Semillas a Granel de Automáticas Critical XXL Autofloreciente.<br><em>*las semillas se entregan en Tubos Eppendorf de 1.5 ml.</em></p>`;
   return d;
 }
 
@@ -384,7 +384,8 @@ document.addEventListener('DOMContentLoaded', function(){
     window.DATA_OVERRIDE = window.DATA_OVERRIDE || DATA_OVERRIDE || {};
     if(!DATA_OVERRIDE["02Genext"]) DATA_OVERRIDE["02Genext"] = {};
     DATA_OVERRIDE["02Genext"]["03"] = Object.assign({}, DATA_OVERRIDE["02Genext"]["03"] || {}, {
-      title: "Critical xxl AUTO GRANEL",
+      // Tarjeta #3: título corto solicitado
+      title: "AUTOGRANEL",
       genetica: "Autofloreciente"
     });
 
