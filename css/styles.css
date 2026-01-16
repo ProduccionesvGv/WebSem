@@ -19,8 +19,15 @@
 .theme-dark{ background:#000; color:var(--text); }
 
 .site-header{ background:#000; }
-.site-header .header-inner{ display:flex; align-items:center; justify-content:center; padding:6px 0 2px; }
+.site-header .header-inner{ display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center; padding:6px 0 2px; }
 .site-logo{ max-width:95vw; height:auto; max-height:120px; margin:2px auto 2px; display:block; }
+.site-logo-secondary{
+  max-width: 92vw;
+  height: auto;
+  max-height: 90px;
+  margin: 0 auto 6px;
+  display: block;
+}
 
 main{ max-width:520px; margin:0 auto; padding: 0; }
 
