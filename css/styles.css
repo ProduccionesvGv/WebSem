@@ -2567,9 +2567,14 @@ body.home-page{ gap:0; }
 }
 .delivery-head{
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content: space-between;
   gap: 10px;
+}
+.delivery-titles{
+  display:flex;
+  flex-direction:column;
+  gap: 2px;
 }
 .delivery-title{
   margin: 0;
@@ -2594,8 +2599,8 @@ body.home-page{ gap:0; }
 
 /* Envíos Andreani */
 .shipping-section{
-  margin: 12px 0 16px;
-  padding: 10px;
+  margin: 10px 0 14px;
+  padding: 8px;
   background: #0b0b0e;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -2603,19 +2608,19 @@ body.home-page{ gap:0; }
 }
 
 .shipping-title{
-  margin: 0 0 8px;
-  font-size: 0.92rem;
-  line-height: 1.2;
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  line-height: 1.15;
   color: #fff;
   font-weight: 800;
 }
 
 .shipping-img{
-  width: min(320px, 100%);
+  width: min(240px, 100%);
   height: auto;
   display: block;
   margin: 0 auto;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--border);
 }
 
