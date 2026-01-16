@@ -2570,16 +2570,24 @@ body.home-page{ gap:0; }
   align-items:flex-start;
   justify-content: space-between;
   gap: 10px;
+  flex-wrap: wrap;
 }
 .delivery-titles{
   display:flex;
   flex-direction:column;
-  gap: 2px;
+  gap: 8px;
 }
 .delivery-title{
   margin: 0;
+  line-height: 1.15;
 }
+.delivery-map-link{ white-space: nowrap; }
 .delivery-map-link:active{ transform: translateY(1px); opacity: .95; }
+
+@media (max-width: 420px){
+  .delivery-head{ flex-direction: column; align-items: flex-start; }
+  .delivery-map-link{ margin-top: 6px; }
+}
 
 
 /* Banner de envíos: siempre fijo arriba y alineado al ancho móvil */
