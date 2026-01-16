@@ -2657,6 +2657,38 @@ body.home-page{ gap:0; }
 
 /* Tutorial guía - imágenes contenidas (evita zoom inicial en móviles) */
 body.tutorial-page{ overflow-x: hidden; }
+
+/* Promo strip (entre carrusel y guía) */
+.promo-strip{
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.promo-strip__img{
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: promoBlink 1.1s ease-in-out infinite;
+}
+.promo-strip::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: 0 0 28px rgba(255, 120, 0, 0.55) inset;
+  animation: promoGlow 1.1s ease-in-out infinite;
+}
+@keyframes promoBlink{
+  0%, 100%{ filter: brightness(1); }
+  50%{ filter: brightness(1.35); }
+}
+@keyframes promoGlow{
+  0%, 100%{ opacity: 0.25; }
+  50%{ opacity: 0.85; }
+}
 .tutorial-page .guide-img{
   display:block;
   width:100%;
