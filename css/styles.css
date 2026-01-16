@@ -2218,26 +2218,34 @@ body.zoomed .wa-stack .wa-fab,
 .carousel-section:first-of-type{ border-top:0; padding-top:6px; }
 .carousel-section{ padding:10px 0 14px; }
 
-/* Header del carrusel en columna (mobile-first) */
+/* Header del carrusel: flechas alineadas con el título */
 .section-head{
+  position:relative;
   display:flex;
-  flex-direction:column;
   align-items:center;
-  justify-content:flex-start;
-  gap:10px;
+  justify-content:center;
+  gap:0;
   margin:0 10px 8px;
+  padding:2px 0;
 }
 .section-head .controls{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
   display:flex;
-  gap:10px;
-  justify-content:center;
-  width:100%;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10px;
+  pointer-events:none;
 }
+.section-head .controls button{ pointer-events:auto; }
 
 /* Título nuevo, simple y legible (sin efectos) */
 .section-title-mobile{
   margin:0;
-  padding:0 12px;
+  padding:0 clamp(56px, 18vw, 92px);
   text-align:center;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   font-weight:800;
