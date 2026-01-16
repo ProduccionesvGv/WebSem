@@ -2287,11 +2287,24 @@ body.zoomed .wa-stack .wa-fab,
 .tutorial-back:active{ transform: scale(0.98); }
 
 .tutorial-title{
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   font-weight: 900;
-  margin: 10px 0 8px;
+  margin: 12px 0 16px;
   color: #ffffff;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-align: center;
+  letter-spacing: .6px;
+}
+
+.tutorial-title::after{
+  content:"";
+  display:block;
+  width: 92px;
+  height: 3px;
+  margin: 10px auto 0;
+  border-radius: 999px;
+  background: rgba(37,211,102,.95);
+  box-shadow: 0 0 18px rgba(37,211,102,.28);
 }
 
 .tutorial-sub{
@@ -2308,11 +2321,17 @@ body.zoomed .wa-stack .wa-fab,
 }
 
 .tutorial-card h3{
-  margin: 0 0 8px;
-  font-size: 1rem;
+  margin: 0 0 10px;
+  font-size: 1.05rem;
   font-weight: 900;
   color: #25D366;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  text-align: center;
+  letter-spacing: 1px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(37,211,102,.10);
+  border: 1px solid rgba(37,211,102,.30);
 }
 
 .tutorial-card p{
@@ -2602,15 +2621,21 @@ body.home-page{ gap:0; }
 
 
 
-/* Tutorial guía - imágenes full-bleed */
+/* Tutorial guía - imágenes contenidas (evita zoom inicial en móviles) */
+body.tutorial-page{ overflow-x: hidden; }
 .tutorial-page .guide-img{
   display:block;
-  width:100vw;
-  max-width:100vw;
+  width:100%;
+  max-width:100%;
   height:auto;
-  margin:12px calc(50% - 50vw);
+  margin:10px 0 12px;
   border-radius:12px;
   object-fit:cover;
+}
+/* En tutorial, no forzar "full-bleed" con márgenes negativos */
+.tutorial-page .tutorial-card .tutorial-img{
+  width: 100%;
+  margin: 10px 0 12px;
 }
 /* forzar estructura y separación consistente */
 .tutorial-page .guide-section{
