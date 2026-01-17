@@ -2828,3 +2828,27 @@ body.tutorial-page{ overflow-x: hidden; }
 .install-modal__body li{
   margin: 6px 0;
 }
+
+/* v-cart-1: icono carrito (cf1.png) en lightbox, alineado con Atras.png */
+#lb-cart,
+#lightbox #lb-cart{
+  position: fixed;
+  top: 21px;
+  left: 21px;
+  width: 108px;
+  height: 108px;
+  display: inline-block;
+  background: transparent url("../img/cf1.png") center center / contain no-repeat !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+  z-index: 10000;
+  color: transparent !important;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+#lb-cart:hover{ filter: brightness(1.05); transform: scale(1.02); transition: transform .12s ease; }
+#lb-cart:active{ transform: scale(0.98); }
+@media (max-width: 480px){
+  #lb-cart{ width: 90px; height: 90px; }
+}

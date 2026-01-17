@@ -222,6 +222,65 @@ try{
   document.body.classList.add('lb-open');
   try{ lb.dataset.folderPath = folderPath; }catch(e){}
 
+  // === Botón de compra (cf1.png) alineado con Atras.png ===
+  (function(){
+    try{
+      const parts = folderPath.split('/');
+      const folder = parts[1] || '';
+      const id = parts[2] || '';
+
+      let cart = document.getElementById('lb-cart');
+      if(!cart){
+        cart = document.createElement('a');
+        cart.id = 'lb-cart';
+        cart.className = 'lb-cart';
+        cart.setAttribute('aria-label','Comprar por WhatsApp');
+        cart.setAttribute('target','_blank');
+        cart.setAttribute('rel','noopener');
+        cart.textContent = 'Comprar';
+        lb.appendChild(cart);
+      }
+
+      const phone = '5491158768929';
+      let msg = '';
+      if(folder === '02Genext' && id === '01'){
+        msg = 'Hola NOVA Seeds, quisiera comprar Dealer Deal XXL AutoMix (x12 semillas). ¿Hay stock disponible?';
+      } else if(folder === '02Genext' && id === '02'){
+        msg = 'Hola NOVA Seeds, quisiera comprar Psycho XXL AutoMix (x12 semillas). ¿Hay stock disponible?';
+      } else if(folder === '02Genext' && id === '03'){
+        msg = 'Hola NOVA Seeds, quisiera comprar x5 AUTOGRANEL (Critical XXL Automáticas). ¿Cómo coordinamos?';
+      } else {
+        msg = 'Hola NOVA Seeds, quisiera realizar una compra. ¿Me podrían ayudar?';
+      }
+      cart.href = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
+      cart.onclick = function(ev){ ev.stopPropagation(); };
+
+      function alignCart(){
+        try{
+          const closeBtn = lb.querySelector('#lb-close');
+          if(!closeBtn) return;
+          const r = closeBtn.getBoundingClientRect();
+          const rightMargin = Math.max(8, Math.round(window.innerWidth - r.right));
+          cart.style.top = Math.round(r.top) + 'px';
+          cart.style.left = rightMargin + 'px';
+          cart.style.width = Math.round(r.width) + 'px';
+          cart.style.height = Math.round(r.height) + 'px';
+        }catch(e){}
+      }
+      alignCart();
+
+      if(!cart.dataset.bound){
+        const onResize = function(){
+          const lbox = document.getElementById('lightbox');
+          if(lbox && lbox.classList.contains('active')) alignCart();
+        };
+        window.addEventListener('resize', onResize);
+        window.addEventListener('orientationchange', onResize);
+        cart.dataset.bound = '1';
+      }
+    }catch(e){}
+  })();
+
 // v34: Forzar render de 4 fichas para Dealer Deal XXL cuando aplique
 try{
   const parts = folderPath.split('/'); const folder = parts[1]; const id = parts[2];
