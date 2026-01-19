@@ -241,7 +241,8 @@ try{
         lb.appendChild(cart);
       }
 
-      const phone = '5491158768929';
+      // WhatsApp destination (E.164 without '+')
+      const phone = '5491139151357';
       let msg = '';
       if(folder === '02Genext' && id === '01'){
         msg = 'Hola NOVA Seeds, quisiera comprar Dealer Deal XXL AutoMix (x12 semillas). ¿Hay stock disponible?';
