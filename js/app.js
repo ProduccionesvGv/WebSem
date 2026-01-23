@@ -1,9 +1,9 @@
 
 const DATA_OVERRIDE = {
   "02Genext": {
-    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","price":"99.000"},
-    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","price":"99.000"},
-    "03": {"title":"Auto Granel","genetica":"Autofloreciente","price":"99.000"}
+    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","price":"80.000"},
+    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","price":"80.000"},
+    "03": {"title":"Auto Granel","genetica":"Autofloreciente","price":"35.000"}
   },
   "01Genint": {
     "01": {"title":"Gen1","genetica":"Feminizada","price":"49.999"},
@@ -242,7 +242,7 @@ try{
       }
 
       // WhatsApp destination (E.164 without '+')
-      const phone = '5491139151357';
+      const phone = '1158768929';
       let msg = '';
       if(folder === '02Genext' && id === '01'){
         msg = 'Hola NOVA Seeds, quisiera comprar Dealer Deal XXL AutoMix (x12 semillas). ¿Hay stock disponible?';
