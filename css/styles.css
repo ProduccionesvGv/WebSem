@@ -74,7 +74,7 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
 .sale-sticker{
   position:absolute;
   /* Más arriba para no tapar tanto la imagen */
-  top:-72px;
+  top:-8px;
   left:8px;
   width:min(140px, 65%);
   height:auto;
@@ -83,7 +83,7 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
   pointer-events:none;
 }
 @media (max-width: 420px){
-  .sale-sticker{ top:-90px; left:6px; width:min(125px, 70%); }
+  .sale-sticker{ top:-10px; left:6px; width:min(125px, 70%); }
 }
 
 
