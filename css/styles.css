@@ -73,16 +73,17 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
 /* Sticker de oferta sobre la imagen */
 .sale-sticker{
   position:absolute;
-  top:10px;
-  left:10px;
-  width:min(150px, 70%);
+  /* Más arriba para no tapar tanto la imagen */
+  top:-72px;
+  left:8px;
+  width:min(140px, 65%);
   height:auto;
   z-index:2;
   transform:rotate(-10deg);
   pointer-events:none;
 }
 @media (max-width: 420px){
-  .sale-sticker{ top:8px; left:8px; width:min(135px, 75%); }
+  .sale-sticker{ top:-90px; left:6px; width:min(125px, 70%); }
 }
 
 
