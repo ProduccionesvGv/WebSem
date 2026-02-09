@@ -2876,3 +2876,24 @@ body.tutorial-page{ overflow-x: hidden; }
   92%  { opacity: 0; transform: translateY(0)  scale(1); }
   100% { opacity: 0; transform: translateY(0)  scale(1); }
 }
+
+
+/* SALE PRICE */
+.price.price--sale{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:4px;
+  line-height:1.1;
+}
+.price-old{
+  font-size:0.95em;
+  font-weight:700;
+  color:rgba(255,255,255,.55);
+  text-decoration:line-through;
+  text-decoration-thickness: 2px;
+}
+.price-new{
+  font-size:1.35em;
+  font-weight:900;
+}

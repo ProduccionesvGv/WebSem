@@ -1,8 +1,8 @@
 
 const DATA_OVERRIDE = {
   "02Genext": {
-    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","price":"80.000"},
-    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","price":"80.000"},
+    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","oldPrice":"80.000","price":"65.000"},
+    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","oldPrice":"80.000","price":"65.000"},
     "03": {"title":"Auto Granel","genetica":"Autofloreciente","price":"35.000"}
   },
   "01Genint": {
@@ -51,7 +51,11 @@ const body = document.createElement('div');
     body.className = 'body';
     const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
     // Tarjetas del carrusel: mantener el formato estándar (título + genética + precio)
-    body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div><div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`;
+    body.innerHTML = `<h3>${meta.title}</h3><div class="spec">${meta.genetica}</div>${
+      meta.oldPrice && meta.price
+        ? `<div class="price price--sale"><div class="price-old">$${meta.oldPrice}</div><div class="price-new">$${meta.price}</div></div>`
+        : `<div class="price">${meta.price ? '$'+meta.price : 'Consultar'}</div>`
+    }`;
 
     card.appendChild(heroDiv);
     card.appendChild(body);
