@@ -69,12 +69,14 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
   display:flex; flex-direction:column;
 }
 .card .hero{ background-size:cover; background-position:center; aspect-ratio:4/3; position:relative; }
+.card .hero.hero--contain{ background-size:contain; background-repeat:no-repeat; background-position:center; }
+
 
 /* Sticker de oferta sobre la imagen */
 .sale-sticker{
   position:absolute;
   /* Más arriba para no tapar tanto la imagen */
-  top:-8px;
+  top:-72px;
   left:8px;
   width:min(140px, 65%);
   height:auto;
@@ -83,8 +85,22 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
   pointer-events:none;
 }
 @media (max-width: 420px){
-  .sale-sticker{ top:-10px; left:6px; width:min(125px, 70%); }
+  .sale-sticker{ top:-90px; left:6px; width:min(125px, 70%); }
 }
+/* Fade-in del sticker: rápido al inicio y lento al final */
+.sale-sticker{
+  opacity: 0;
+  will-change: opacity;
+}
+.sale-sticker.sale-sticker--in{
+  animation: saleStickerFadeIn 900ms cubic-bezier(0.20, 0.90, 0.20, 1.00) forwards !important;
+}
+@keyframes saleStickerFadeIn{
+  0%   { opacity: 0; }
+  25%  { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+
 
 
 .card .body{ padding: 12px; padding-top: calc(6px + env(safe-area-inset-top) + 20px); padding-right: calc(12px + env(safe-area-inset-right)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); padding-left: calc(12px + env(safe-area-inset-left)); display:flex; flex-direction:column; gap:2px; background:var(--surface-2);  max-width:520px; margin:0 auto;  font-family: var(--font-ui); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }

@@ -36,16 +36,32 @@ function buildCarousel(rootId, folder){
     heroDiv.className = 'hero';
     heroDiv.style.backgroundImage = `url('${hero}')`;
 
+
+    // Ajuste: mostrar más completa la imagen en las 3 primeras tarjetas
+    const frontContain = (folder === '02Genext' && (id === '01' || id === '02' || id === '03'));
+    if (frontContain) heroDiv.classList.add('hero--contain');
     // Sticker de oferta (solo 02Genext 01 y 02)
     const showSaleSticker = (folder === '02Genext' && (id === '01' || id === '02'));
     if (showSaleSticker) {
       const badge = document.createElement('img');
       badge.className = 'sale-sticker';
       badge.alt = '20% OFF $65.000';
-      badge.loading = 'lazy';
+      badge.loading = 'eager';
       badge.decoding = 'async';
+
+      // Fade-in: rápido al inicio y lento al final (para que se lea el precio)
+      const triggerFade = () => {
+        // Doble RAF para asegurar que el navegador pinte el estado inicial (opacity:0)
+        requestAnimationFrame(() => requestAnimationFrame(() => badge.classList.add('sale-sticker--in')));
+      };
+      badge.addEventListener('load', triggerFade, { once: true });
+      badge.addEventListener('error', triggerFade, { once: true });
+
       badge.src = encodeURI('img/ChatGPT Image 7 feb 2026, 10_44_40 p.m..png');
       heroDiv.appendChild(badge);
+
+      // Si ya está en caché, puede venir "complete" sin disparar load de forma visible
+      if (badge.complete) triggerFade();
     }
 
 
