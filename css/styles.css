@@ -69,7 +69,9 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
   display:flex; flex-direction:column;
 }
 .card .hero{ background-size:cover; background-position:center; aspect-ratio:4/3; position: relative; }
-.card .body{ padding: 12px; padding-top: calc(6px + env(safe-area-inset-top) + 20px); padding-right: calc(12px + env(safe-area-inset-right)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); padding-left: calc(12px + env(safe-area-inset-left)); display:flex; flex-direction:column; gap:2px; background:var(--surface-2);  max-width:520px; margin:0 auto;  font-family: var(--font-ui); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.card .body{
+  padding: 12px; padding-top: calc(6px + env(safe-area-inset-top) + 20px); padding-right: calc(12px + env(safe-area-inset-right)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); padding-left: calc(12px + env(safe-area-inset-left)); display:flex; flex-direction:column; gap:2px; background:var(--surface-2); width:100%; box-sizing:border-box; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin:0;
+}
 
 .card h3{ margin:0; font-size:1rem; color:var(--text); }
 .spec{ color:var(--muted); font-size:0.9rem; }
