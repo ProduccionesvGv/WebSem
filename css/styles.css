@@ -2899,3 +2899,33 @@ body.tutorial-page{ overflow-x: hidden; }
   font-size:1.35em;
   font-weight:900;
 }
+
+/* === PATCH (2026-02-10): cards info panel full width on mobile === */
+.carousel .card .body,
+.carousel .card .card-body{
+  width: 100%;
+  display: block;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+/* Stretch common inner blocks (prevents shrink-to-content backgrounds) */
+.carousel .card .body > h3,
+.carousel .card .card-body > h3,
+.carousel .card .body .spec,
+.carousel .card .card-body .spec,
+.carousel .card .body .price,
+.carousel .card .card-body .price{
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Keep legacy renderer (.card-body) aligned with main styles (.body) */
+.card .card-body{
+  padding: 12px;
+  padding-top: calc(6px + env(safe-area-inset-top, 0px));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
