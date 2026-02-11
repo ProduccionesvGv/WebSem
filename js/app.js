@@ -18,6 +18,52 @@ window.DATA_FICHAS = window.DATA_FICHAS || {};
 var DATA_FICHAS = window.DATA_FICHAS;
 
 
+
+// === PATCH (2026-02-11): igualar altura de tarjetas en carrusel (móvil) ===
+function equalizeCarouselHeights(container){
+  try{
+    if(!container) return;
+    // solo en móvil/tablet: evita fijar alto en desktop
+    if(!window.matchMedia || !window.matchMedia('(max-width: 900px)').matches){
+      // reset any previous inline heights
+      container.querySelectorAll('.card').forEach(c => { c.style.height = ''; });
+      return;
+    }
+    const cards = Array.from(container.querySelectorAll('.card'));
+    if(cards.length === 0) return;
+
+    // reset heights to measure natural height
+    cards.forEach(c => { c.style.height = 'auto'; });
+
+    // medir y fijar el máximo (tomando como base la más alta, normalmente la #1)
+    let maxH = 0;
+    cards.forEach(c => {
+      const h = c.getBoundingClientRect().height;
+      if(h > maxH) maxH = h;
+    });
+    if(!maxH) return;
+
+    cards.forEach(c => { c.style.height = `${Math.ceil(maxH)}px`; });
+  }catch(e){}
+}
+
+// recalcular al redimensionar/orientación
+(function(){
+  let t;
+  function recalcAll(){
+    document.querySelectorAll('.carousel').forEach(car => equalizeCarouselHeights(car));
+  }
+  window.addEventListener('resize', ()=>{
+    clearTimeout(t);
+    t = setTimeout(recalcAll, 120);
+  }, { passive:true });
+  window.addEventListener('orientationchange', ()=>{
+    clearTimeout(t);
+    t = setTimeout(recalcAll, 120);
+  });
+  window.addEventListener('load', ()=> setTimeout(recalcAll, 50));
+})();
+
 function buildCarousel(rootId, folder){
   const container = document.getElementById(rootId);
   if(!container) return;
@@ -62,6 +108,7 @@ const body = document.createElement('div');
     card.addEventListener('click', ()=> openGallery(folderPath));
     container.appendChild(card);
   });
+  requestAnimationFrame(()=> equalizeCarouselHeights(container));
 }
 
 function openGallery(folderPath, fromHistory=false){

@@ -70,7 +70,17 @@ main{ max-width:520px; margin:0 auto; padding: 0; }
 }
 .card .hero{ background-size:cover; background-position:center; aspect-ratio:4/3; position: relative; }
 .card .body{
-  padding: 12px; padding-top: calc(6px + env(safe-area-inset-top) + 20px); padding-right: calc(12px + env(safe-area-inset-right)); padding-bottom: calc(12px + env(safe-area-inset-bottom)); padding-left: calc(12px + env(safe-area-inset-left)); display:flex; flex-direction:column; gap:2px; background:var(--surface-2); width:100%; box-sizing:border-box; font-family: var(--font-ui); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin:0;
+  padding: 12px;
+  padding-top: calc(6px + env(safe-area-inset-top, 0px));
+  background: var(--surface-2);
+  box-sizing: border-box;
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  flex: 1 1 auto;           /* llena el alto cuando las cards se estiran en móvil */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .card h3{ margin:0; font-size:1rem; color:var(--text); }
@@ -2516,6 +2526,14 @@ body.home-page{ gap:0; }
   color: var(--text);
   text-align: left;
 }
+
+.delivery-subtitle{
+  margin: -6px 0 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: var(--muted);
+}
 .delivery-text{
   margin: 0 0 10px;
   color: var(--muted);
@@ -2583,6 +2601,82 @@ body.home-page{ gap:0; }
   margin: 14px 4px;
 }
 
+
+/* Apartado WhatsApp (entre mapa y Andreani) */
+.wa-contact-section{
+  margin: 12px 0 0;
+  padding: 12px;
+  background: #0b0b0e;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.wa-contact{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.wa-contact__left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.wa-contact__icon{
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(37, 211, 102, .12);
+  border: 1px solid rgba(37, 211, 102, .35);
+}
+.wa-contact__icon svg{
+  width: 24px;
+  height: 24px;
+}
+.wa-contact__text{
+  display: grid;
+  gap: 2px;
+}
+.wa-contact__label{
+  font-weight: 900;
+  letter-spacing: .2px;
+  color: var(--text);
+  line-height: 1.1;
+}
+.wa-contact__number{
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--text);
+  letter-spacing: .4px;
+}
+.wa-contact__btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 900;
+  background: rgba(37, 211, 102, .12);
+  color: #25D366 !important;
+  border: 1px solid rgba(37, 211, 102, .35);
+  white-space: nowrap;
+}
+.wa-contact__btn:active{ transform: scale(.98); opacity: .95; }
+
+@media (max-width: 520px){
+  .wa-contact{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wa-contact__btn{
+    width: 100%;
+  }
+}
 /* Entregas personales: título + link juntos */
 .delivery-section{
   margin: 0;
@@ -2900,15 +2994,22 @@ body.tutorial-page{ overflow-x: hidden; }
   font-weight:900;
 }
 
+/* === PATCH (2026-02-11): fondo completo en móvil (evita huecos) === */
+.carousel{ align-items: stretch; }
+.carousel .card{ height: 100%; }
+
 /* === PATCH (2026-02-10): cards info panel full width on mobile === */
 .carousel .card .body,
 .carousel .card .card-body{
   width: 100%;
-  display: block;
   align-self: stretch;
   box-sizing: border-box;
+  background: var(--surface-2);
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
-
 /* Stretch common inner blocks (prevents shrink-to-content backgrounds) */
 .carousel .card .body > h3,
 .carousel .card .card-body > h3,
@@ -2921,11 +3022,121 @@ body.tutorial-page{ overflow-x: hidden; }
   box-sizing: border-box;
 }
 
+/* === PATCH (2026-02-11): alinear títulos y precios entre tarjetas (móvil) === */
+@media (max-width: 900px){
+  /* Reservar espacio para 2 líneas de título (evita desalineación cuando una card tiene 1 línea) */
+  .carousel .card .body > h3,
+  .carousel .card .card-body > h3{
+    line-height: 1.15;
+    min-height: 2.30em; /* ~2 líneas */
+  }
+  /* Mantener el bloque de precio pegado al fondo para que quede alineado */
+  .carousel .card .body .price,
+  .carousel .card .card-body .price{
+    margin-top: auto;
+  }
+}
+
 /* Keep legacy renderer (.card-body) aligned with main styles (.body) */
 .card .card-body{
   padding: 12px;
   padding-top: calc(6px + env(safe-area-inset-top, 0px));
+  background: var(--surface-2);
+  box-sizing: border-box;
+  font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Contacto - estilo plantilla (tel / web / dirección) */
+/* Contacto (entre mapa y Andreani) */
+.contact-section{
+  margin: 10px 0 14px;
+  padding: 8px;
+  background: #0b0b0e;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.contact-card{
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 2px);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.contact-row{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px;
+  text-decoration: none;
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.contact-row:hover{
+  background: rgba(255,255,255,.03);
+}
+
+.contact-row:active{
+  background: rgba(255,255,255,.05);
+}
+
+.contact-icon{
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+}
+
+.contact-row--phone .contact-icon{
+  color: #25D366;
+  background: rgba(37, 211, 102, .12);
+  border-color: rgba(37, 211, 102, .22);
+}
+
+.contact-icon img{
+  width: 24px;
+  height: 24px;
+  display: block;
+  filter: none;
+}
+
+.contact-icon svg{
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.contact-text{
+  font-family: var(--font-ui);
+  font-weight: 800;
+  letter-spacing: .2px;
+  font-size: 16px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.contact-divider{
+  height: 1px;
+  background: rgba(255,255,255,.10);
+  margin: 0 14px;
+}
+
+@media (max-width: 520px){
+  .contact-row{ padding: 12px 12px; }
+  .contact-text{ font-size: 15px; }
+  .contact-divider{ margin: 0 12px; }
 }
