@@ -1,5 +1,5 @@
 /* NOVA Seeds - Service Worker (PWA) */
-const CACHE_NAME = 'novaseeds-shell-v31';
+const CACHE_NAME = 'novaseeds-shell-v32';
 const APP_SHELL = [
   './',
   './index.html',
@@ -20,7 +20,7 @@ const APP_SHELL = [
   './img/andreani.png',
   './img/whatsapp-icon.png',
   './img/whatsapp-icon.svg',
-  './img/app.png',
+  './img/app2.png',
   './img/cf1.png',
   './img/icon-192.png',
   './img/icon-512.png'

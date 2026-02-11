@@ -2103,7 +2103,7 @@ body.no-scroll{ overflow: hidden; }
   will-change: transform, opacity;
 }
 
-/* Modo escalera: entra 1) toast, 2) app.png, 3) ícono WhatsApp; mantiene 2s; sale inverso */
+/* Modo escalera: entra 1) toast, 2) app2.png, 3) ícono WhatsApp; mantiene 2s; sale inverso */
 .wa-stack .wa-toast{ animation: waToastStep1 10s ease-in-out infinite; }
 .wa-stack .app-toast{ animation: waToastStep2 10s ease-in-out infinite; }
 .wa-stack .wa-fab{ animation: waToastStep3 10s ease-in-out infinite; }
@@ -2156,7 +2156,7 @@ body.no-scroll{ overflow: hidden; }
   box-shadow: none;
 }
 
-/* WhatsApp ícono: ahora va debajo de app.png, dentro del stack */
+/* WhatsApp ícono: ahora va debajo de app2.png, dentro del stack */
 .wa-stack .wa-fab{
   position: relative;
   right: auto;
@@ -3140,3 +3140,10 @@ body.tutorial-page{ overflow-x: hidden; }
   .contact-text{ font-size: 15px; }
   .contact-divider{ margin: 0 12px; }
 }
+
+
+/* PATCH 2026-02: app2 centrada + footer */
+.app-install-section{display:flex;justify-content:center;align-items:center;padding:18px 0 28px;}
+.app-install-section .app-toast{background:transparent;box-shadow:none;padding:0;border-radius:0;}
+.app-install-section #appInstallImg{display:block;width:min(560px,92vw);height:auto;max-width:100%;}
+.site-footer{text-align:center;padding:8px 12px 22px;color:rgba(255,255,255,.55);font-size:12px;line-height:1.2;}
