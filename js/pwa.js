@@ -128,13 +128,13 @@
 
     function syncAppSize(){
       var appImg = btn.querySelector('img');
-      var andreani = document.querySelector('.shipping-img');
-      if(!appImg || !andreani) return;
+      var shippingLogo = document.querySelector('.shipping-img');
+      if(!appImg || !shippingLogo) return;
 
       function update(){
-        var w = andreani.getBoundingClientRect().width || 0;
+        var w = shippingLogo.getBoundingClientRect().width || 0;
         if(w > 0){
-          // Nunca más grande que Andreani (y mantiene tamaño chico por CSS)
+          // Nunca más grande que el logo de envíos (y mantiene tamaño chico por CSS)
           appImg.style.maxWidth = w + 'px';
         }
       }

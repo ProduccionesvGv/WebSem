@@ -304,7 +304,7 @@ try{
       }
 
       // WhatsApp destination (E.164 without '+')
-      const phone = '5491158768929';
+      const phone = '56998118816';
       let msg = '';
       if(folder === '02Genext' && id === '01'){
         msg = 'Hola NOVA Seeds, quisiera comprar Dealer Deal XXL AutoMix (x12 semillas). ¿Hay stock disponible?';
