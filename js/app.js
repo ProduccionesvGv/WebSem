@@ -1,8 +1,8 @@
 
 const DATA_OVERRIDE = {
   "02Genext": {
-    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","oldPrice":"80.000","price":"65.000"},
-    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","oldPrice":"80.000","price":"65.000"},
+    "01": {"title":"Dealer Deal XXL","genetica":"Autofloreciente","price":"80.000"},
+    "02": {"title":"Psycho XXL","genetica":"Autofloreciente","price":"80.000"},
     "03": {"title":"Auto Granel","genetica":"Autofloreciente","price":"35.000"}
   },
   "01Genint": {
@@ -81,18 +81,6 @@ function buildCarousel(rootId, folder){
     const heroDiv = document.createElement('div');
     heroDiv.className = 'hero';
     heroDiv.style.backgroundImage = `url('${hero}')`;
-
-    
-    // Promo sticker (only cards 01 & 02)
-    if(folder === '02Genext' && (id === '01' || id === '02')){
-      const badge = document.createElement('img');
-      badge.className = 'sale-sticker';
-      badge.src = "img/ChatGPT Image 7 feb 2026, 10_44_40 p.m..png";
-      badge.alt = "20% OFF";
-      badge.loading = "eager";
-      badge.decoding = "async";
-      heroDiv.appendChild(badge);
-    }
 const body = document.createElement('div');
     body.className = 'body';
     const meta = (DATA_OVERRIDE[folder] && DATA_OVERRIDE[folder][id]) || {title:`Item ${id}`, genetica:'', price:''};
@@ -304,7 +292,7 @@ try{
       }
 
       // WhatsApp destination (E.164 without '+')
-      const phone = '56998118816';
+      const phone = '5491139151357';
       let msg = '';
       if(folder === '02Genext' && id === '01'){
         msg = 'Hola NOVA Seeds, quisiera comprar Dealer Deal XXL AutoMix (x12 semillas). ¿Hay stock disponible?';
